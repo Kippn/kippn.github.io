@@ -1,3 +1,4 @@
+
 // variables
 let countries = [];
 let dataYear = [];
@@ -30,12 +31,11 @@ function search() {
 	let input = document.getElementById('searchbar').value
 	if(input) {
 		input=input.toLowerCase();	
-		$.getJSON(jsonPath)
-   			 .done(function( data ) {
-      			 var x = JSON.parse(data);
+	readTextFile(jsonPath, function(text){
+		var x = JSON.parse(text);
 		for (let key in x) {
 			countries.push(key);
-    		});
+		}
 		temp = countries.filter(element => element.toLowerCase().startsWith(input));
 		temp = temp.map((data) => {
 			return data = `<li>${data}</li>`;
