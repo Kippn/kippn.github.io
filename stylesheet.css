@@ -1,0 +1,211 @@
+body, html {
+  height: 95%;
+  width: 99%;
+  margin: 0;
+  background-color: rgba(56, 56, 56, 0.964);
+}
+
+/*
+search bar fields
+*/
+.box{
+  max-width: 450px;
+}
+
+.container-2{
+  width: 300px;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: absolute;
+}
+
+.container-2 input#searchbar{
+  width: 50px;
+  height: 50px;
+  background: rgb(4, 86, 4);
+  border: none;
+  font-size: 10pt;
+  float: left;
+  color: rgb(186, 186, 186);
+  padding-left: 35px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  color: rgb(186, 186, 186);
+ 
+  -webkit-transition: width .55s ease;
+  -moz-transition: width .55s ease;
+  -ms-transition: width .55s ease;
+  -o-transition: width .55s ease;
+  transition: width .55s ease;
+}
+
+.container-2 input#searchbar::-webkit-input-placeholder {
+  color: rgb(4, 86, 4);;
+}
+
+.container-2 input#searchbar:-moz-placeholder { /* Firefox 18- */
+  color: rgb(4, 86, 4);;  
+}
+
+.container-2 input#searchbar::-moz-placeholder {  /* Firefox 19+ */
+  color: rgb(4, 86, 4);;  
+}
+
+.container-2 input#searchbar:-ms-input-placeholder {  
+  color: rgb(4, 86, 4);;  
+}
+
+.container-2 .icon{
+  position: absolute;
+  top: 0%;
+  margin-left: 17px;
+  margin-top: 17px;
+  color: rgba(56, 56, 56, 0.964);
+}
+
+.container-2 input#searchbar:focus, .container-2 input#searchbar:active{
+  outline:none;
+  width: 300px;
+}
+ 
+.container-2:hover input#searchbar{
+width: 300px;
+}
+ 
+.container-2:hover .icon{
+  color: rgba(56, 56, 56, 0.964);
+  position: absolute;
+}
+
+.container-2 .autocom-box{
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 300px;
+  width: 95%;
+  overflow-y:auto;
+  background-color: rgb(186, 186, 186);
+
+}
+.container-2.active .autocom-box{
+  padding: 10px 8px;
+  opacity: 1;
+  pointer-events: auto;
+}
+.autocom-box li{
+  list-style: none;
+  padding: 8px 12px;
+  display: none;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+}
+.container-2.active .autocom-box li{
+  display: block;
+}
+.autocom-box li:hover{
+  background: rgb(4, 86, 4);
+}
+
+/*
+map fields
+*/
+.mapdiv {
+  height: 100%;
+  width: 100%;
+}
+
+#svg_1 {
+  height: 100%;
+  width: 100%;
+}
+
+.mapdiv path {
+  fill: rgb(128, 128, 128);
+  stroke: rgb(4, 86, 4);
+  stroke-width: 2x;
+  transition: fill 0.3s;
+}
+.mapdiv path:hover {
+  fill: rgb(186, 186, 186);
+  opacity: 1;
+  transition: fill 0.2s
+  ease;
+}
+
+.hovertext {
+  padding: 8px;
+  position: absolute;
+  color:black;
+  background-color: rgb(4, 86, 4);
+  font-size: 15px;
+  font-weight: bolder;
+  border-radius: 10px;
+  white-space: pre-line;
+  max-width: 300px;
+  -webkit-box-shadow: 0 0 10px #aaa;
+  box-shadow: 0 0 10px #aaa;
+}
+
+/*
+chart fields
+*/
+
+#dialogBox {
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+  width: 1500;
+}
+
+#tabs {
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+
+#chartContainer1 {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+#tabs-1 {
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+
+#chartContainer2 {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+
+#tabs-2 {
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+
+#chartContainer3 {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+
+#tabs-3 {
+  background-color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
+}
+
+
+/*
+footer
+*/
+#mainFooter {
+  width: 100%;
+  background-color: rgb(53, 53, 53);
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 20px;
+}
