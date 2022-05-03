@@ -13,7 +13,7 @@ const icon = document.querySelector(".icon");
 let dataPointsCO2perPerson = [];
 let dataPointsEnergy = [];
 // json file
-let jsonPath = "../data/owid-co2-data.json";
+let jsonPath = "owid-co2-data.json";
 // windows size
 let l = -window.innerWidth*0.11;
 let r = -window.innerHeight*0.03;
