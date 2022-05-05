@@ -263,6 +263,18 @@ chart fields
   background-color: rgb(186, 186, 186);
   color: rgb(186, 186, 186);
 }
+
+#chartContainer4 {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(186, 186, 186);
+  /*color: rgb(186, 186, 186);*/
+}
+#tabs-4 {
+  background-color: rgb(186, 186, 186);
+  /*color: rgb(186, 186, 186);*/
+}
+
 .ui-tabs .ui-tabs-nav
 {
 background: rgb(186, 186, 186);
