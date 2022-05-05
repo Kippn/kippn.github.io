@@ -4,6 +4,8 @@ let countries = [];
 let dataYear = [];
 let dataPointsCO2 = [];
 let title = "";
+let	active = d3.select(null);
+
 // searchbar variables
 const searchWrapper = document.querySelector(".container-2");
 const inputBox = document.getElementById('searchbar');
@@ -14,15 +16,26 @@ const icon = document.querySelector(".icon");
 let dataPointsCO2perPerson = [];
 let dataPointsEnergy = [];
 // json file
-let jsonPath = "owid-co2-data.json";
+let jsonPath = "/owid-co2-data.json";
 // windows size
-let l = -window.innerWidth*0.11;
-let r = -window.innerHeight*0.03;
-let w = window.innerWidth*0.95;
-let h = window.innerHeight*0.95;
+let l = -window.innerWidth*0.11.toFixed(2);
+let r = -window.innerHeight*0.03.toFixed(2);
+let w = window.innerWidth*0.95.toFixed(2);
+let h = window.innerHeight*0.95.toFixed(2);
+let hString = '70%';
+let wString = '70%';
+let svg;
 // set viewbox of the map
 let viewBox = l + ' ' + r + ' ' + w + ' ' + h;
 document.querySelector('#svg_1').setAttribute('viewBox', viewBox);
+
+if(h>w) {
+	t = h;
+	h = w;
+	w = t;
+	hString = '30%';
+	wString = '60%';
+}
 
 /**
  * search function with prediction
@@ -62,7 +75,9 @@ function search() {
 function select(element){
 	let selectData = element.textContent;
 	title = selectData;
-	getData(title);
+
+	var node = document.querySelector('[title=' + title +']');
+	zoomToClick(node);
 
 	inputBox.value = selectData;
 	icon.onclick = ()=>{
@@ -78,7 +93,7 @@ function showSuggestions(list){
 	list = [...new Set(list)];
 	let listData;
 	if(!list.length){
-			userValue = inputBox.value();
+			userValue = inputBox.value;
 			listData = `<li>${userValue}</li>`;
 	}else{
 		listData = list.join('');
@@ -130,7 +145,6 @@ $(".container-2").mouseleave(function(e) {
  */
 $(".container-2").mouseenter(function(e) {
 	if(e.target.value != null && e.target.value != "") {
-		console.log(e.target.value);
 		searchWrapper.classList.add("active");
 	}
 })
@@ -138,9 +152,72 @@ $(".container-2").mouseenter(function(e) {
 /**
  * get country name if clicked on
  */
+ function reset(svg,zoom) {
+	active.classed("active", false);
+	active = d3.select(null);
+	svg.transition().duration(750).call(zoom.transform,
+		d3.zoomIdentity);
+}
+
+function zoomed() {
+	var g = d3.select("g");
+	g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
+	g.attr("transform", d3.event.transform);
+}
+
+function stopped() {
+	if (d3.event.defaultPrevented) d3.event.stopPropagation();
+}
+
+const zoom = d3.zoom()
+.scaleExtent([1, 8])
+.on("zoom", zoomed);
+
+function zoomToClick(i) {
+	let id = i.id;
+  title = $(i).attr('title');
+	var myPathBox = $("#"+id)[0].getBBox();
+	let x0 = myPathBox.x;
+	let y0 = myPathBox.y;
+	let x1 = myPathBox.width;
+	let y1 = myPathBox.height;
+
+	const d = d3.dispatch("start");
+
+	svg = d3.select("svg");
+  let path = svg.select('#'+id),
+  width = +svg.attr("width"),
+  height = +svg.attr("height");
+	svg.on("start",stopped,true);
+
+	path.attr("class","feature");
+	//path.on("click",clicked);
+	path.dispatch("start",clicked);
+	d.call("start");
+	//svg.call(svg,zoom);
+
+	function clicked() {
+		if (active.node() === this) return reset(svg,zoom);
+		active.classed("active", false);
+		active = d3.select(this).classed("active", true);
+		console.log(active);
+
+		let dx = x1,
+      	dy = y1,
+      	x = (x0 + x1+x0) / 2,
+      	y = (y0 + y1+y0) / 2,
+      	scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+      	translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+		svg.transition()
+		.duration(750)
+		.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
+		getData(title);
+	}
+}
+
 $("path").mousedown(function() {
-  title = $(this).attr('title');
-	getData(title);
+	zoomToClick(this);
 });
 
 /**
@@ -295,15 +372,13 @@ function chart () {
 		
 		$("#dialogBox").dialog({
 			open: function(event,ui) {
-				var me = this;
 				$(document).on('click',".ui-widget-overlay",function(e){
           //call dialog close function
-          //me.close();
+					reset(svg,zoom);
        });
 				$("#tabs").tabs({
 					create: function (event, ui) {
 						//Render Charts after tabs have been created.
-				
 					},
 					activate: function (event, ui) {
 						//Updates the chart to its container size if it has changed.
@@ -317,6 +392,8 @@ function chart () {
 			close: function() {
         // Remove click handler for the current .ui-widget-overlay
         $(document).off("click",".ui-widget-overlay");
+				reset(svg,zoom);
+
         // Invoke parent close method
     },
 			hide: { effect: 'drop', duration: 250 },
@@ -325,8 +402,8 @@ function chart () {
 			draggable: false,
 			resizable: false,
 			title: title + ' statistics',
-			width: 1000,
-			hight: h,
+			width: wString,
+			hight: hString,
 			modal: true,
 			closeText: '',
 			show: 500

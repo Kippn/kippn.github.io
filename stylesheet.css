@@ -2,29 +2,82 @@ body, html {
   height: 95%;
   width: 99%;
   margin: 0;
+  padding: 0;
   background-color: rgba(56, 56, 56, 0.964);
+}
+
+@media screen and (max-width: 481px){
+
+  body, html {
+    height: 95%;
+    width: 99%;
+    margin: 0;
+    background-color: rgba(56, 56, 56, 0.964);
+  }
+  .box{
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .container-2{
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: absolute;
+  }
+  .container-2 input#searchbar{
+    width: 100%;
+    height: 100%;
+    background: rgb(4, 86, 4);
+    border: none;
+    font-size: 50pt;
+    float: left;
+    color: rgb(186, 186, 186);
+    padding-left: 35px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: rgb(186, 186, 186);
+   
+    -webkit-transition: width .55s ease;
+    -moz-transition: width .55s ease;
+    -ms-transition: width .55s ease;
+    -o-transition: width .55s ease;
+    transition: width .55s ease;
+  }
+
+  .mapdiv {
+    height: 100px;
+    width: 100px;
+  }
+  #svg_1 {
+    height: 10%;
+    width: 10%;
+  }
 }
 
 /*
 search bar fields
 */
 .box{
-  max-width: 450px;
+  max-width: 20%;
+  max-height: 40%;
 }
 
 .container-2{
-  width: 300px;
+  width: 20%;
+  height: 20%;
   vertical-align: middle;
   white-space: nowrap;
   position: absolute;
 }
 
 .container-2 input#searchbar{
-  width: 50px;
-  height: 50px;
+  width: 16%;
+  height: 36%;
   background: rgb(4, 86, 4);
   border: none;
-  font-size: 10pt;
+  font-size: 15pt;
   float: left;
   color: rgb(186, 186, 186);
   padding-left: 35px;
@@ -66,11 +119,11 @@ search bar fields
 
 .container-2 input#searchbar:focus, .container-2 input#searchbar:active{
   outline:none;
-  width: 300px;
+  width: 100%;
 }
  
 .container-2:hover input#searchbar{
-width: 300px;
+  width: 100%;
 }
  
 .container-2:hover .icon{
@@ -82,7 +135,7 @@ width: 300px;
   padding: 0;
   opacity: 0;
   pointer-events: none;
-  max-height: 300px;
+  max-height: 100%;
   width: 95%;
   overflow-y:auto;
   background-color: rgb(186, 186, 186);
@@ -115,10 +168,23 @@ map fields
   height: 100%;
   width: 100%;
 }
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+.feature {
+  fill: #ccc;
+  cursor: pointer;
+}
+
+.feature.active {
+  fill: rgb(4, 86, 4);
+}
 
 #svg_1 {
-  height: 100%;
-  width: 100%;
+  height: 650px;
+  width: 1400px;
 }
 
 .mapdiv path {
@@ -155,7 +221,7 @@ chart fields
 #dialogBox {
   background-color: rgb(186, 186, 186);
   color: rgb(186, 186, 186);
-  width: 1500;
+  width: 60%;
 }
 
 #tabs {
@@ -197,15 +263,32 @@ chart fields
   background-color: rgb(186, 186, 186);
   color: rgb(186, 186, 186);
 }
+.ui-tabs .ui-tabs-nav
+{
+background: rgb(186, 186, 186);
+}
+
+#tabs .ui-tabs-active {
+  background: rgb(4, 86, 4);
+  border: rgb(4, 86, 4);
+}
 
 
 /*
 footer
 */
 #mainFooter {
+  display: flex;
   width: 100%;
   background-color: rgb(53, 53, 53);
   color: rgb(255, 255, 255);
+  padding: 10px;
   text-align: center;
-  padding: 20px;
+  content: '|';
+}
+.footerColumn {
+  width: 50%;
+  height: 100%;
+  float: left;
+  color: rgb(255, 255, 255);;
 }
