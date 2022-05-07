@@ -1,9 +1,11 @@
 body, html {
-  height: 95%;
-  width: 99%;
-  margin: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
   padding: 0;
   background-color: rgba(56, 56, 56, 0.964);
+  font-family: sans-serif;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 481px){
@@ -62,11 +64,14 @@ search bar fields
 .box{
   max-width: 20%;
   max-height: 40%;
+  margin: 0;
+  padding: 0;
 }
 
 .container-2{
   width: 20%;
   height: 20%;
+  margin: 0;
   vertical-align: middle;
   white-space: nowrap;
   position: absolute;
@@ -161,12 +166,151 @@ search bar fields
   background: rgb(4, 86, 4);
 }
 
+.scrollConent {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.topnav {
+  position: absolute;
+  top: 0;
+  background-color: rgba(56, 56, 56, 0.964);
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: rgb(186, 186, 186);
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: rgb(4, 86, 4);
+  color: black;
+}
+
+.sectionText {
+  position: relative;
+  box-sizing: border-box;
+  background-color: rgb(186, 186, 186);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Common Mouse Scroll Ele */
+.scroll-down {
+  position: absolute;
+  bottom: 1.5%;
+  left: 50%;
+  width: 75px;
+  height: 80px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transform: translateX(-50%);
+}
+.scroll-down > label {
+  pointer-events: none;
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 25px;
+  text-align: right;
+  color: rgb(4, 86, 4);
+}
+
+.scroll-down.arrow span {
+  position: absolute;
+  display: inline-block;
+  top: 20px;
+  height: 30px;
+  width: 2px;
+  left: calc(50% - 1px);
+  animation: animateArrow 1.5s infinite linear;
+}
+@keyframes animateArrow {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}
+.scroll-down.arrow span::before,
+.scroll-down.arrow span::after {
+  position: absolute;
+  content: "";
+  width: 3px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgb(4, 86, 4);
+  border-radius: 3px;
+}
+.scroll-down.arrow span::before {
+  transform-origin: bottom;
+  transform: rotate(-45deg);
+}
+.scroll-down.arrow span::after {
+  transform-origin: bottom;
+  margin-left: -1px;
+  transform: rotate(45deg);
+}
+
+#reveal1 {
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  opacity: 0;
+  -webkit-transform: scale(0.9);
+     -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+       -o-transform: scale(0.9);
+          transform: scale(0.9);
+  -webkit-transition: all 2s ease-in-out;
+     -moz-transition: all 2s ease-in-out;
+      -ms-transition: all 2s ease-in-out;
+       -o-transition: all 2s ease-in-out;
+          transition: all 2s ease-in-out;
+}
+#reveal1.visible {
+  opacity: 1;
+  -webkit-transform: none;
+     -moz-transform: none;
+      -ms-transform: none;
+       -o-transform: none;
+          transform: none;
+}
+
+
 /*
 map fields
 */
 .mapdiv {
   height: 100%;
   width: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 .background {
   fill: none;
@@ -183,14 +327,17 @@ map fields
 }
 
 #svg_1 {
-  height: 650px;
-  width: 1400px;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: block;
 }
 
 .mapdiv path {
   fill: rgb(128, 128, 128);
   stroke: rgb(4, 86, 4);
-  stroke-width: 2x;
+  stroke-width: 1.5px;
   transition: fill 0.3s;
 }
 .mapdiv path:hover {
@@ -218,89 +365,91 @@ map fields
 chart fields
 */
 
+
 #dialogBox {
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
-  width: 60%;
+  background: rgba(186, 186, 186,0.5) !important;
 }
 
 #tabs {
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
+  background: rgba(186, 186, 186,0.5) !important;
+  color: rgba(186, 186, 186,0.3) !important;
+  height: 100%;
+
+  background: transparent !important;
+  border: transparent !important;
 }
 
 #chartContainer1 {
   height: 100%;
   width: 100%;
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
 }
+
 #tabs-1 {
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186,.1);
+  background: rgba(186, 186, 186,0.1);
+  height: 100%;
 }
 
 #chartContainer2 {
   height: 100%;
   width: 100%;
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
 }
 
 #tabs-2 {
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
+  color: rgb(186, 186, 186,.1);
+  background: rgba(186, 186, 186,0.1);
+  height: 100%;
 }
 
 #chartContainer3 {
   height: 100%;
   width: 100%;
-  background-color: rgb(186, 186, 186);
-  color: rgb(186, 186, 186);
 }
 
 #tabs-3 {
-  background-color: rgb(186, 186, 186);
+  background: rgba(186, 186, 186,0.1);
   color: rgb(186, 186, 186);
 }
 
 #chartContainer4 {
   height: 100%;
   width: 100%;
-  background-color: rgb(186, 186, 186);
-  /*color: rgb(186, 186, 186);*/
 }
 #tabs-4 {
-  background-color: rgb(186, 186, 186);
-  /*color: rgb(186, 186, 186);*/
+  background: rgba(186, 186, 186,0.1);
 }
-
-.ui-tabs .ui-tabs-nav
-{
-background: rgb(186, 186, 186);
-}
-
 #tabs .ui-tabs-active {
-  background: rgb(4, 86, 4);
+  background: rgba(4, 86, 4,1);
   border: rgb(4, 86, 4);
 }
 
-
-/*
-footer
-*/
-#mainFooter {
-  display: flex;
-  width: 100%;
-  background-color: rgb(53, 53, 53);
-  color: rgb(255, 255, 255);
-  padding: 10px;
-  text-align: center;
-  content: '|';
+.ui-dialog {
+  background: transparent !important;
+  border: transparent !important;
 }
-.footerColumn {
-  width: 50%;
-  height: 100%;
-  float: left;
-  color: rgb(255, 255, 255);;
+
+.ui-dialog-content {
+  background-color: transparent !important;
+  border: transparent !important;
+}
+
+.ui-dialog-titlebar {
+  float: right;
+  border: transparent !important;
+  padding: 0;
+  background: transparent !important;
+}
+.ui-dialog-titlebar-close {
+  top: 0;
+  right: 0;
+  margin: 0;
+  background: transparent !important;
+  border: transparent !important;
+  visibility: hidden;
+}
+.ui-widget, .ui-widget-content, .ui-corner-all, .foo, .ui-draggable, .ui-resizable {
+  background: transparent !important;
+  border: transparent !important;
+  margin: 0;
+  padding: 0;
 }

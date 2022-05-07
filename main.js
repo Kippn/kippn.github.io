@@ -17,26 +17,78 @@ let dataPointsCO2perPerson = [];
 let dataPointsEnergy = [];
 // json file
 let jsonPath = "/owid-co2-data.json";
+let csvPath = '/energy-consumption-by-source-and-region.csv';
 // windows size
 let l = -window.innerWidth*0.11.toFixed(2);
 let r = -window.innerHeight*0.03.toFixed(2);
-let w = window.innerWidth*0.8.toFixed(2);
-let h = window.innerHeight*0.9.toFixed(2);
-let hString = '70%';
-let wString = '70%';
+let w = window.innerWidth.toFixed(2);
+let h = window.innerHeight.toFixed(2);
+let hString = '100%';
+let wString = '80%';
 let svg;
-// set viewbox of the map
-let viewBox = l + ' ' + r + ' ' + w + ' ' + h;
-document.querySelector('#svg_1').setAttribute('viewBox', viewBox);
-
 if(h>w) {
 	t = h;
 	h = w;
 	w = t;
-	hString = '30%';
-	wString = '60%';
+	//hString = '30%';
+	//wString = '60%';
 }
 
+/** 
+//var $header_top = $('.header-top');
+var $nav = $('nav');
+
+$('#fullpage').fullpage({
+	sectionSelector: '.vertical-scrolling',
+  sectionsColor: ['gray'],
+  navigation: true,
+	autoScrolling:false,
+  slidesNavigation: true,
+  controlArrows: false,
+  anchors: ['firstSection', 'secondSection'],
+  //menu: '#menu',
+
+  afterLoad: function(anchorLink, index) {
+    //$header_top.css('background', 'rgba(0, 47, 77, .3)');
+    //$nav.css('background', 'rgba(0, 47, 77, .25)');
+    if (index == 2) {
+        $('#fp-nav').hide();
+      }
+  },
+
+  onLeave: function(index, nextIndex, direction) {
+    if(index == 2) {
+      $('#fp-nav').show();
+    }
+  },
+});
+*/
+
+var controller = new ScrollMagic.Controller();
+
+new ScrollMagic.Scene({
+	triggerElement: "#trigger1",
+	triggerHook: 0.9, // show, when scrolled 10% into view
+	duration: "100%", // hide 10% before exiting view (80% + 10% from bottom)
+	offset: 50 // move trigger to center of element
+})
+.setClassToggle("#reveal1", "visible") // add class to reveal
+//.addIndicators() // add indicators (requires plugin)
+.addTo(controller);
+
+$(".scroll-down").click(function() {
+	document.getElementById("reveal1").scrollIntoView({behavior: 'smooth', block:'end'});
+});
+
+function findPos(obj) {
+	var curtop = 0;
+	if (obj.offsetParent) {
+			do {
+					curtop += obj.offsetTop;
+			} while (obj = obj.offsetParent);
+	return [curtop];
+	}
+}
 /**
  * search function with prediction
  */
@@ -76,7 +128,7 @@ function select(element){
 	let selectData = element.textContent;
 	title = selectData;
 
-	var node = document.querySelector('[title=' + title +']');
+	var node = document.querySelector(`[title=${CSS.escape(title)}]`);
 	zoomToClick(node);
 
 	inputBox.value = selectData;
@@ -99,17 +151,6 @@ function showSuggestions(list){
 		listData = list.join('');
 	}
 	suggBox.innerHTML = listData;
-}
-
-/**
- * get unique array
- * @param {*} value 
- * @param {*} index 
- * @param {*} self 
- * @returns 
- */
-function getUnique(value, index, self) {
-  return self.indexOf(value) === index;
 }
 
 /**
@@ -179,15 +220,17 @@ function zoomToClick(i) {
 	var myPathBox = $("#"+id)[0].getBBox();
 	let x0 = myPathBox.x;
 	let y0 = myPathBox.y;
-	let x1 = myPathBox.width;
-	let y1 = myPathBox.height;
+	let x1 = (x0 + myPathBox.width)*1.11;
+	let y1 = y0 + myPathBox.height;
 
 	const d = d3.dispatch("start");
 
 	svg = d3.select("svg");
   let path = svg.select('#'+id),
-  width = +svg.attr("width"),
-  height = +svg.attr("height");
+	//width = window.innerWidth,
+	//height = window.innerHeight;
+	width = document.querySelector("#svg_1").clientWidth,
+  height = document.querySelector("#svg_1").clientHeight;
 	svg.on("start",stopped,true);
 
 	path.attr("class","feature");
@@ -199,18 +242,17 @@ function zoomToClick(i) {
 		if (active.node() === this) return reset(svg,zoom);
 		active.classed("active", false);
 		active = d3.select(this).classed("active", true);
-		let dx = x1,
-      	dy = y1,
-      	x = (x0 + x1+x0) / 2,
-      	y = (y0 + y1+y0) / 2,
-      	scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+		let dx = x1 - x0,
+      	dy = y1 - y0,
+      	x = ((x0 + x1) / 2),
+      	y = (y0 + y1) / 2,
+      	scale = Math.max(1, Math.min(8, 0.8 / Math.max(dx / width, dy / height))),
       	translate = [width / 2 - scale * x, height / 2 - scale * y];
-
+console.log(dx);
 		svg.transition()
 		.duration(750)
-		.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) );
+		.call(zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
 		getData(title);
-
 	}
 }
 
@@ -262,7 +304,7 @@ function readCSV(file, title, _callback) {
  * @param {*} title 
  */
  function getData(title) {
-	readCSV('/energy-consumption-by-source-and-region.csv',title,()=>{
+	readCSV(csvPath,title,()=>{
 	readTextFile(jsonPath, function(text){
 		var data = JSON.parse(text);
 		for(let i = 0; i <data[title].data.length;i++) {
@@ -301,115 +343,129 @@ dataPointsEnergyMix = [];
  */
 function chart () {
 	var options1 = {
-		backgroundColor: "rgb(186, 186, 186)",
+		backgroundColor: "rgba(186, 186, 186, 0.1)",
 		markerColor: "rgba(56, 56, 56, 0.964)",
-		lineThickness: 10,
 		zoomEnabled: true,
 		animationEnabled: true,
 		title: {
 			text: title + " CO\u{2082} per year",
+			fontSize: 40
 		},
 		toolTip:{
-			fontColor: "rgba(56, 56, 56, 0.964)",
+			fontColor: "rgb(4, 86, 4)",
 			content:"{x}, CO\u{2082}: {y} t"
 		},
 		axisY: {
-			title: "CO\u{2082} Emission mil tons ",
-			suffix: "t"
+			title: "CO\u{2082} mil tons ",
+			suffix: "t",
+			minimum: 0,
+			titleFontSize: 30
 		},
 		axisX: {
 			title: "years",
-			valueFormatString: "####"
-
+			valueFormatString: "####",
+			titleFontSize: 30
 		},
 		data: [{
 			type: "line",
-			color: "rgba(56, 56, 56, 0.964)",
+			color: "rgba(56, 56, 56, 0.1)",
 			lineColor: "rgb(4, 86, 4)",
+			lineThickness: 5,
 			xValueFormatString: "Year ####",
 			dataPoints: dataPointsCO2
 		}]
 	};
 
 	var options2 = {
-		backgroundColor: "rgb(186, 186, 186)",
+		backgroundColor: "rgba(186, 186, 186, 0.1)",
 		markerColor: "rgba(56, 56, 56, 0.964)",
-		lineThickness: 10,
 		zoomEnabled: true,
 		animationEnabled: true,
 		yValueFormatString: "####",
 		title: {
 			text: title + " CO\u{2082} tonnes per person",
+			fontSize: 40
 		},
 		toolTip:{
-			fontColor: "rgba(56, 56, 56, 0.964)",
+			fontColor: "rgb(4, 86, 4)",
 			content:"{x}, CO\u{2082}: {y} t"
 		},
 		axisY: {
-			title: "CO\u{2082} in mil tons per person ",
-			suffix: "t"
+			title: "CO\u{2082} mil tons p.P",
+			suffix: "t",
+			minimum: 0,
+			titleFontSize: 24
 		},
 		axisX: {
 			title: "years",
-			valueFormatString: "####"
+			valueFormatString: "####",
+			titleFontSize: 30
 		},
 		data: [{
 			type: "line",
 			xValueFormatString: "Year ####",
-			color: "rgba(56, 56, 56, 0.964)",
+			color: "rgba(56, 56, 56, 0.1)",
 			lineColor: "rgb(4, 86, 4)",
+			lineThickness: 5,
 			dataPoints: dataPointsCO2perPerson
 		}]
 	};
 
 	var options3 = {
-		backgroundColor: "rgb(186, 186, 186)",
-		markerColor: "rgba(56, 56, 56, 0.964)",
-		lineThickness: 10,
+		backgroundColor: "rgba(186, 186, 186, 0.1)",
+		markerColor:"rgba(56, 56, 56, 0.964)",
 		zoomEnabled: true,
 		animationEnabled: true,
 		yValueFormatString: "####",
 		title: {
 			text: title + " Energy consumption in terrawatt-hours",
+			fontSize: 40
 		},
 		toolTip:{
-			fontColor: "rgba(56, 56, 56, 0.964)",
+			fontColor: "rgb(4, 86, 4)",
 			content:"{x}, tWh: {y} t"
 		},
 		axisY: {
-			title: "terrawatt hours per year ",
-			suffix: ""
+			title: "tWh per year",
+			suffix: "",
+			minimum: 0,
+			titleFontSize: 30
 		},
 		axisX: {
 			title: "years",
-			valueFormatString: "####"
+			valueFormatString: "####",
+			titleFontSize: 30
 		},
 		data: [{
 			type: "line",
 			xValueFormatString: "Year ####",
-			color: "rgba(56, 56, 56, 0.964)",
+			color: "rgba(56, 56, 56, 0.2)",
 			lineColor: "rgb(4, 86, 4)",
+			lineThickness: 5,
 			dataPoints: dataPointsEnergy
 		}]
 	};
 
 	var options4 = {
-		backgroundColor: "rgb(186, 186, 186)",
+		backgroundColor: "rgba(186, 186, 186, 0.1)",
 		//markerColor: "rgba(56, 56, 56, 0.964)",
-		lineThickness: 10,
 		zoomEnabled: true,
 		animationEnabled: true,
 		title: {
-			text: title + " Energy Mix"
+			text: title + " Energy Mix",
+			fontSize: 40
 		},
 		legend:{
 			cursor: "pointer",
-			itemclick: explodePie
+			itemclick: explodePie,
+			fontSize: 15
 		},
 		data: [{
 			type: "pie",
 			showInLegend: true,
 			radius: 200,
+			indexLabelFontSize: 20,	
+
 			toolTipContent: "{name}: <strong>{y} tWh</strong>",
 			indexLabel: "{name} - {y} tWh",
 			//color: "rgba(56, 56, 56, 0.964)",
@@ -424,7 +480,7 @@ function chart () {
 				$(document).on('click',".ui-widget-overlay",function(e){
           //call dialog close function
 					reset(svg,zoom);
-       });
+       }),
 				$("#tabs").tabs({
 					create: function (event, ui) {
 						//Render Charts after tabs have been created.
@@ -449,26 +505,26 @@ function chart () {
 			closeOnEscape: true,
 			draggable: false,
 			resizable: false,
-			title: title + ' statistics',
+			//title: title + ' statistics',
 			width: wString,
 			hight: hString,
 			modal: true,
-			closeText: '',
-			show: 500
-		});
+			//closeText: '',
+			show: 500,
+		}).dialog('widget').find(".ui-dialog-title").hide();
 		$("#chartContainer1").CanvasJSChart(options1);
 		$("#chartContainer2").CanvasJSChart(options2);
 		$("#chartContainer3").CanvasJSChart(options3);
 		$("#chartContainer4").CanvasJSChart(options4);
 	}
 
-	function explodePie (e) {
+function explodePie (e) {
 		if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
 			e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
 		} else {
 			e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
 		}
 		e.chart.render();
-	}
+}
 
 	
