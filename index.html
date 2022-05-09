@@ -18,8 +18,8 @@
 	<section class="sectionText">
 		<div class="topnav">
 			<a class="active" href="#home">Home</a>
-			<a href="#contact">Contact</a>
-			<a href="#about">About</a>
+			<a id = mapNav href="#MapNav">Map</a>
+			<a href="about.html">About</a>
 		</div>
 
 		<div><h2>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus nostrum quia accusantium nesciunt deleniti, eum laborum labore illum aperiam vero dicta iusto minus incidunt explicabo ullam harum aliquam. Dolore, quasi!</h2></div>
@@ -234,13 +234,15 @@
 		</div>
 		<!--chart-->
 		<div id="dialogBox" hidden="hidden">
+			<div id="shiny">
+				<button class="button">Compare</button>
+			</div>
 			<div id="tabs">
 				<ul>
 				<li ><a href="#tabs-1" style="font-size: 12px">CO<sub>2</sub> per year</a></li>
 				<li ><a href="#tabs-2"  style="font-size: 12px">CO<sub>2</sub> per person</a></li>
 				<li ><a href="#tabs-3"  style="font-size: 12px">Energy</a></li>
 				<li ><a href="#tabs-4"  style="font-size: 12px">Energy Mix</a></li>
-
 				</ul>
 				<div id="tabs-1" style="height: 300px">
 				<div id="chartContainer1"></div>
@@ -258,12 +260,11 @@
 		</div>
 	</section>
 </div>
-	<script src="/jquery-3.6.0.js"></script>
-	<script src="/jquery-ui.js"></script>
-	<script src="/jquery-ui.min.js"></script>
-	<script src="/jquery.canvasjs.min.js"></script>
+	<script src="jquery-3.6.0.js"></script>
+	<script src="jquery-ui.js"></script>
+	<script src="jquery.canvasjs.min.js"></script>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="/ScrollMagic.min.js"></script>
-      <script src="/main.js"></script>
+	<script src="ScrollMagic.min.js"></script>
+      <script src="main.js"></script>
 </body>
 </html>

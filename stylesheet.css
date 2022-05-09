@@ -368,13 +368,61 @@ chart fields
 
 #dialogBox {
   background: rgba(186, 186, 186,0.5) !important;
+  height: 100%;
+  width: 100%;
+}
+
+#shiny {
+  position: absolute;
+  right: 1.5%;
+  top: 3.5%;
+  align-items: center;
+  justify-content: right;
+  height: 10%;
+  width: 11%;
+  background: transparent;
+  z-index: 1;
+}
+
+button {
+  height: 100%;
+  width: 100%;
+  border: 2px solid white;
+  background: transparent;
+  text-transform: uppercase;
+  color: white;
+  padding: 10px 20px;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+}
+
+span {
+  z-index: 20;  
+}
+
+button:after {
+  content: '';
+    position: absolute;
+    top: -36px;
+    left: -100px;
+    background: white;
+    width: 50px;
+    height: 125px;
+    opacity: 20%;
+    transform: rotate(-45deg);
+}
+
+button:hover:after {
+  left: 120%;
+  transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
+   -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
 }
 
 #tabs {
   background: rgba(186, 186, 186,0.5) !important;
   color: rgba(186, 186, 186,0.3) !important;
   height: 100%;
-
   background: transparent !important;
   border: transparent !important;
 }
@@ -385,7 +433,6 @@ chart fields
 }
 
 #tabs-1 {
-  color: rgb(186, 186, 186,.1);
   background: rgba(186, 186, 186,0.1);
   height: 100%;
 }
