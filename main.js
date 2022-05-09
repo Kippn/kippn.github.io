@@ -383,6 +383,7 @@ function getUniqueListBy(arr, key) {
 			type:'line',
 			color: "rgb(4, 86, 4)",
 			name: title,
+			valueRepresents: title,
 			lineColor: "rgb(4, 86, 4)",
 			lineThickness: 5,
 			xValueFormatString: "Year: ####", 
@@ -392,6 +393,7 @@ function getUniqueListBy(arr, key) {
 		dataOption2.push({
 			name: title,
 			type: "line",
+			valueRepresents: title,
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## t",
 			color: "rgb(4, 86, 4)",
@@ -402,6 +404,7 @@ function getUniqueListBy(arr, key) {
 
 		dataOption3.push({
 			name: title,
+			valueRepresents: title,
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## tWh",
 			type: "line",
