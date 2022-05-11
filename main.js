@@ -105,20 +105,26 @@ var controller = new ScrollMagic.Controller();
 new ScrollMagic.Scene({
 	triggerElement: "#trigger1",
 	triggerHook: 0.9, // show, when scrolled 10% into view
-	duration: "100%", // hide 10% before exiting view (80% + 10% from bottom)
+	//duration: '150%', // hide 10% before exiting view (80% + 10% from bottom)
 	offset: 50 // move trigger to center of element
 })
 .setClassToggle("#reveal1", "visible") // add class to reveal
-//.addIndicators() // add indicators (requires plugin)
 .addTo(controller);
 
-$(".scroll-down").click(function() {
+function scroll() {
 	document.getElementById("reveal1").scrollIntoView({behavior: 'smooth', block:'end'});
+	setTimeout(function() {
+		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
+}
+
+$(".scroll-down").click(function() {
+	scroll();
 });
 
 $('#mapNav').click(function() {
-	document.getElementById("reveal1").scrollIntoView({behavior: 'smooth', block:'end'});
+	scroll();
 })
+
 
 $("button").click(function() {
 	compare = 1;
