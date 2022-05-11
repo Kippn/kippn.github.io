@@ -117,6 +117,7 @@ function scroll() {
 		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
 }
 
+
 $(".scroll-down").click(function() {
 	scroll();
 });
