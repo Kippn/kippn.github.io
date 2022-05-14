@@ -15,12 +15,18 @@ var options1 = {
 		title: "CO\u{2082} mil tons ",
 		suffix: "t",
 		minimum: 0,
-		titleFontSize: 30
+		//titleFontSize: 30
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		titleFontSize: 30
+		//titleFontSize: 30
+	},
+	legend: {
+		cursor: "pointer",
+		verticalAlign: "top",
+		horizontalAlign: "center",
+		dockInsidePlotArea: true,
 	}
 };
 var options2 = {
@@ -30,19 +36,24 @@ var options2 = {
 	animationEnabled: true,
 	yValueFormatString: "####",
 	toolTip:{
-		//fontColor: "rgb(4, 86, 4)",
 		shared: true
 	},
 	axisY: {
 		title: "CO\u{2082} mil tons p.P",
 		suffix: "t",
 		minimum: 0,
-		titleFontSize: 24
+		//titleFontSize: 24
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		titleFontSize: 30
+		//titleFontSize: 30
+	},
+	legend: {
+		cursor: "pointer",
+		verticalAlign: "top",
+		horizontalAlign: "center",
+		dockInsidePlotArea: true,
 	}
 };
 var options3 = {
@@ -58,16 +69,49 @@ var options3 = {
 		title: "tWh per year",
 		suffix: "",
 		minimum: 0,
-		titleFontSize: 30
+		//titleFontSize: 30
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		titleFontSize: 30
+		//titleFontSize: 30
+	},
+	legend: {
+		cursor: "pointer",
+		verticalAlign: "top",
+		horizontalAlign: "center",
+		dockInsidePlotArea: true,
+	}
+};
+var options4 = {
+	backgroundColor: "rgba(186, 186, 186, 0.1)",
+	markerColor:"rgba(56, 56, 56, 0.964)",
+	zoomEnabled: true,
+	animationEnabled: true,
+	yValueFormatString: "####",
+	toolTip:{
+		shared: true
+	},
+	axisY: {
+		title: "methane per year",
+		suffix: "",
+		minimum: 0,
+		//titleFontSize: 30
+	},
+	axisX: {
+		title: "years",
+		valueFormatString: "####",
+		//titleFontSize: 30
+	},
+	legend: {
+		cursor: "pointer",
+		verticalAlign: "top",
+		horizontalAlign: "center",
+		dockInsidePlotArea: true,
 	}
 };
 // searchbar variables
-const searchWrapper = document.querySelector(".container-2");
+const searchWrapper = document.querySelector(".container");
 const inputBox = document.getElementById('searchbar');
 const suggBox = searchWrapper.querySelector(".autocom-box");
 const icon = document.querySelector(".icon");
@@ -78,10 +122,12 @@ let dataYear = [];
 var dataOption1 = [];
 var dataOption2 = [];
 var dataOption3 = [];
+var dataOption4 = [];
 let dataPointsCO2 = [];
 let dataPointsEnergyMix = [];
 let dataPointsCO2perPerson = [];
 let dataPointsEnergy = [];
+let dataPointsMethane = [];
 // json file
 let jsonPath = "owid-co2-data.json";
 let csvPath = 'energy-consumption-by-source-and-region.csv';
@@ -108,11 +154,11 @@ new ScrollMagic.Scene({
 	//duration: '150%', // hide 10% before exiting view (80% + 10% from bottom)
 	offset: 50 // move trigger to center of element
 })
-.setClassToggle("#reveal1", "visible") // add class to reveal
+.setClassToggle("#reveal", "visible") // add class to reveal
 .addTo(controller);
 
 function scroll() {
-	document.getElementById("reveal1").scrollIntoView({behavior: 'smooth', block:'end'});
+	document.getElementById("reveal").scrollIntoView({behavior: 'smooth', block:'end'});
 	setTimeout(function() {
 		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
 }
@@ -231,14 +277,14 @@ $("path").mouseleave(function(e) {
 /**
  * hide suggestion list when leave
  */
-$(".container-2").mouseleave(function(e) {
+$(".container").mouseleave(function(e) {
 	searchWrapper.classList.remove("active");
 })
 
 /**
  * show suggestion list if not empty on hover
  */
-$(".container-2").mouseenter(function(e) {
+$(".container").mouseenter(function(e) {
 	if(e.target.value != null && e.target.value != "") {
 		searchWrapper.classList.add("active");
 	}
@@ -369,6 +415,7 @@ function getUniqueListBy(arr, key) {
 			let co2 = data[title].data[i].co2;
 			let co2PerPerson = data[title].data[i].co2_per_capita;
 			let energy = data[title].data[i].primary_energy_consumption;
+			let methane = data[title].data[i].methane;
 		
 			if(co2!=null) {
 				dataPointsCO2.push({x: year, y: co2});
@@ -381,16 +428,22 @@ function getUniqueListBy(arr, key) {
 			if(energy!=null) {
 				dataPointsEnergy.push({x: year, y: energy});
 			}
+
+			if(methane!=null) {
+				dataPointsMethane.push({x: year, y:methane});
+			}
 		}
 		dataPointsCO2.sort((a,b) => b.x - a.x);
 		dataPointsCO2perPerson.sort((a,b) => b.x - a.x);
 		dataPointsEnergy.sort((a,b) => b.x - a.x);
+		dataPointsMethane.sort((a,b) => b.x - a.x);
+
 
 		dataOption1.push({
 			type:'line',
 			color: "rgb(4, 86, 4)",
 			name: title,
-			valueRepresents: title,
+			showInLegend: true,
 			lineColor: "rgb(4, 86, 4)",
 			lineThickness: 5,
 			xValueFormatString: "Year: ####", 
@@ -400,7 +453,7 @@ function getUniqueListBy(arr, key) {
 		dataOption2.push({
 			name: title,
 			type: "line",
-			valueRepresents: title,
+			showInLegend: true,
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## t",
 			color: "rgb(4, 86, 4)",
@@ -411,7 +464,7 @@ function getUniqueListBy(arr, key) {
 
 		dataOption3.push({
 			name: title,
-			valueRepresents: title,
+			showInLegend: true,
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## tWh",
 			type: "line",
@@ -421,38 +474,69 @@ function getUniqueListBy(arr, key) {
 			dataPoints: dataPointsEnergy
 		});
 
+		dataOption4.push({
+			name: title,
+			showInLegend: true,
+			xValueFormatString:"Year: ####",
+			yValueFormatString:"#######.## t",
+			type: "line",
+			color: "rgb(4, 86, 4)",
+			lineColor: "rgb(4, 86, 4)",
+			lineThickness: 5,
+			dataPoints: dataPointsMethane
+		});
+
 		if(compare==0) {
 		options1['title'] = 	{
 			text: title + " CO\u{2082} per year",
-			fontSize: 40
+			//fontSize: 40
 		};
 		options2['title'] = 	{
-			text: title + " CO\u{2082} tonnes per person",
-			fontSize: 40
+			text: title + " CO\u{2082} tons per person",
+			//fontSize: 40
 		};
 		options3['title'] = 	{
 			text: title + " Energy consumption in terrawatt-hours",
-			fontSize: 40
+			//fontSize: 40
+		};
+		options4['title'] = 	{
+			text: title + " Methan in mil tons of carbon dioxide-equivalents",
+			//fontSize: 40
 		};
 	} else {
 		options1['title'] = 	{
 			text: title + " vs. " + title2 + " CO\u{2082} per year",
-			fontSize: 40
+			//fontSize: 40
 		};
 		options2['title'] = 	{
-			text: title + " vs. " + title2  + " CO\u{2082} tonnes per person",
-			fontSize: 40
+			text: title + " vs. " + title2  + " CO\u{2082} tons per person",
+			//fontSize: 40
 		};
 		options3['title'] = 	{
 			text: title + " vs. " + title2  + " Energy consumption in terrawatt-hours",
-			fontSize: 40
+			//fontSize: 40
+		};
+		options4['title'] = 	{
+			text: title + " vs. " + title2 + " Methan in mil tons of carbon dioxide-equivalents",
+			//fontSize: 40
 		};
 	}
 
 		options1['data'] = removeDuplicateObjectFromArray(dataOption1,'name');
 		options2['data'] = removeDuplicateObjectFromArray(dataOption2,'name');
 		options3['data'] = removeDuplicateObjectFromArray(dataOption3,'name');
+		options4['data'] = removeDuplicateObjectFromArray(dataOption4,'name');
 
+		if(compare==1) {
+			let options = [options1,options2,options3,options4];
+			options.forEach(element => {
+				element.data.forEach(data => {
+					delete data.color;
+					delete data.lineColor;
+				})
+			});
+		}
+		
 		chart();
 		document.getElementById("dialogBox").removeAttribute("hidden");
 	});
@@ -468,7 +552,7 @@ function removeDuplicateObjectFromArray(array, key) {
  */
  function chart () {
 
-	var options4 = {
+	var options5 = {
 		backgroundColor: "rgba(186, 186, 186, 0.1)",
 		zoomEnabled: true,
 		animationEnabled: true,
@@ -515,6 +599,7 @@ function removeDuplicateObjectFromArray(array, key) {
 					dataOption1 = [];
 					dataOption2 = [];
 					dataOption3 = [];
+					dataOption4 = [];
 			});
 			},
 			close: function() {
@@ -525,6 +610,7 @@ function removeDuplicateObjectFromArray(array, key) {
 				dataPointsCO2perPerson = [];
 				dataPointsEnergy = [];
 				dataPointsEnergyMix = [];
+				dataPointsMethane = [];
         // Invoke parent close method
     },
 			hide: { effect: 'drop', duration: 250 },
@@ -541,7 +627,7 @@ function removeDuplicateObjectFromArray(array, key) {
 		$("#chartContainer2").CanvasJSChart(options2);
 		$("#chartContainer3").CanvasJSChart(options3);
 		$("#chartContainer4").CanvasJSChart(options4);
-	
+		$("#chartContainer5").CanvasJSChart(options5);
 };
 function explodePie (e) {
 		if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
