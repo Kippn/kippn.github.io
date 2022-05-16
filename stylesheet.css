@@ -85,7 +85,7 @@ search bar fields
   font-size: 15pt;
   float: left;
   color: rgb(186, 186, 186);
-  padding-left: 35px;
+  padding-left: 40px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -117,9 +117,11 @@ search bar fields
 .container .icon{
   position: absolute;
   top: 0%;
-  margin-left: 17px;
-  margin-top: 17px;
-  color: rgba(56, 56, 56, 0.964);
+  margin-top: 1.3vh;
+  margin-left: 1.7vh;
+  color: rgba(56, 56, 56, 1);
+  font-size: 3vh;
+  font-weight: bolder;
 }
 
 .container input#searchbar:focus, .container input#searchbar:active{
@@ -341,6 +343,10 @@ map fields
   display: block;
 }
 
+g {
+  position: fixed;
+}
+
 .mapdiv path {
   fill: rgb(128, 128, 128);
   stroke: rgb(4, 86, 4);
@@ -377,14 +383,17 @@ chart fields
   background: rgba(186, 186, 186,0.5) !important;
   height: 100%;
   width: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
 }
 
 #shiny {
   position: absolute;
-  right: 1.5%;
-  top: 3.5%;
+  right: 0%;
+  top: 0%;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
   height: 10%;
   width: 11%;
   background: transparent;
@@ -394,10 +403,10 @@ chart fields
 button {
   height: 100%;
   width: 100%;
-  border: 2px solid white;
+  border: 3px solid rgb(4, 86, 4);
   background: transparent;
   text-transform: uppercase;
-  color: white;
+  color: rgb(4, 86, 4);
   padding: 10px 20px;
   outline: none;
   overflow: hidden;
@@ -433,52 +442,77 @@ button:hover:after {
   width: 100%;
   background: transparent !important;
   border: transparent !important;
+  margin: 0 auto;
+  padding-top: 5px;
 }
 
 #chartContainer1 {
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  padding-top: 20;
 }
 
 #tabs-1 {
   background: rgba(186, 186, 186,0.1);
   height: 100%;
+  padding: 0;
+  margin: 0 auto;
+  padding-top: 20;
+
 }
 
 #chartContainer2 {
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0 auto;
 }
 
 #tabs-2 {
   color: rgb(186, 186, 186,.1);
   background: rgba(186, 186, 186,0.1);
   height: 100%;
+  padding: 0;
+  margin: 0 auto;
 }
 
 #chartContainer3 {
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0 auto;
 }
 
 #tabs-3 {
   background: rgba(186, 186, 186,0.1);
   color: rgb(186, 186, 186);
+  padding: 0;
+  margin: 0 auto;
 }
 
 #chartContainer4 {
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0 auto;
 }
 #tabs-4 {
   background: rgba(186, 186, 186,0.1);
+  padding: 0;
+  margin: 0 auto;
 }
 #chartContainer5 {
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0 auto;
 }
 #tabs-5 {
   background: rgba(186, 186, 186,0.1);
+  padding: 0;
+  margin: 0 auto;
 }
 #tabs .ui-tabs-active {
   background: rgba(4, 86, 4,1);
@@ -512,6 +546,7 @@ button:hover:after {
 
 .ui-tabs .ui-tabs-nav li {
   height: 30px;
+  width: auto;
   padding: 0;
 }
 .ui-widget, .ui-widget-content, .ui-corner-all, .foo, .ui-draggable, .ui-resizable {
@@ -520,6 +555,26 @@ button:hover:after {
   margin: 0;
   padding: 0;
 }
+
+/* Back to top */
+.ignielToTop {
+  width:50px; 
+  height:50px; 
+  position:fixed; 
+  bottom:50px; 
+  right: 50px; 
+  z-index:99; 
+  cursor:pointer; 
+  border-radius:100px; 
+  transition:all .5s; 
+  color: rgba(56, 56, 56, 1);
+  background:rgba(4, 86, 4,1) 
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(56, 56, 56, 1)'/%3E%3C/svg%3E") no-repeat center center;}
+
+  .ignielToTop:hover {
+  background:rgb(186, 186, 186)
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(4, 86, 4,1) '/%3E%3C/svg%3E") no-repeat center center;}
+
 
 @media screen and (max-width: 650px) {
   h2 {

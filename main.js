@@ -3,10 +3,11 @@ let title = "";
 var title2 = "";
 let	active = d3.select(null);
 let compare = 0;
+// diagram objects
 var options1 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor: "rgba(56, 56, 56, 0.964)",
-	zoomEnabled: true,
+	zoomEnabled: false,
 	animationEnabled: true,
 	toolTip:{
 		shared: true
@@ -32,7 +33,7 @@ var options1 = {
 var options2 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor: "rgba(56, 56, 56, 0.964)",
-	zoomEnabled: true,
+	zoomEnabled: false,
 	animationEnabled: true,
 	yValueFormatString: "####",
 	toolTip:{
@@ -59,7 +60,7 @@ var options2 = {
 var options3 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor:"rgba(56, 56, 56, 0.964)",
-	zoomEnabled: true,
+	zoomEnabled: false,
 	animationEnabled: true,
 	yValueFormatString: "####",
 	toolTip:{
@@ -86,7 +87,7 @@ var options3 = {
 var options4 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor:"rgba(56, 56, 56, 0.964)",
-	zoomEnabled: true,
+	zoomEnabled: false,
 	animationEnabled: true,
 	yValueFormatString: "####",
 	toolTip:{
@@ -128,24 +129,27 @@ let dataPointsEnergyMix = [];
 let dataPointsCO2perPerson = [];
 let dataPointsEnergy = [];
 let dataPointsMethane = [];
-// json file
-let jsonPath = "owid-co2-data.json";
+// file paths
+let jsonPath = 'owid-co2-data.json';
 let csvPath = 'energy-consumption-by-source-and-region.csv';
-// windows size
-let l = -window.innerWidth*0.11.toFixed(2);
-let r = -window.innerHeight*0.03.toFixed(2);
-let w = window.innerWidth.toFixed(2);
-let h = window.innerHeight.toFixed(2);
+let svg;
+let w = document.querySelector("#svg_1").clientWidth;
+let h = document.querySelector("#svg_1").clientHeight;
+//check if mobile
+const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+
 let hString = '100%';
 let wString = '80%';
-let svg;
-if(h>w) {
-	t = h;
-	h = w;
-	w = t;
+
+if(isMobile) {
+	wString = '100%';
+	let wTemp = w;
+	w = h;
+	h = wTemp;
 }
 
-
+// scroll animation
 var controller = new ScrollMagic.Controller();
 
 new ScrollMagic.Scene({
@@ -163,16 +167,17 @@ function scroll() {
 		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
 }
 
-
+// scroll down button
 $(".scroll-down").click(function() {
 	scroll();
 });
 
+// navigation map button
 $('#mapNav').click(function() {
 	scroll();
 })
 
-
+// compare button
 $("button").click(function() {
 	compare = 1;
 	title2 = title;
@@ -180,6 +185,8 @@ $("button").click(function() {
 	reset(svg,zoom);
 });
 
+
+// search functions
 function findPos(obj) {
 	var curtop = 0;
 	if (obj.offsetParent) {
@@ -290,6 +297,10 @@ $(".container").mouseenter(function(e) {
 	}
 })
 
+// scroll to top
+function topFunction() {
+	window.scrollTo({top: 0, behavior: 'smooth'});
+}
 /**
  * get country name if clicked on
  */
@@ -310,9 +321,39 @@ function stopped() {
 	if (d3.event.defaultPrevented) d3.event.stopPropagation();
 }
 
+$("path").on('click',function() {
+	zoomToClick(this);
+});
+
+
 const zoom = d3.zoom()
 .scaleExtent([1, 8])
 .on("zoom", zoomed);
+
+let zoom1 = d3.zoom()
+  .scaleExtent([1, 5])
+  .translateExtent([[0, 0], [w,h]])
+	.on('zoom', handleZoom);
+
+function handleZoom() {
+  d3.select('g')
+    .attr('transform', d3.event.transform);
+}
+
+function initZoom() {
+  d3.select('#svg_1')
+    .call(zoom1);
+}
+
+initZoom();
+/**
+d3.select('g')
+  .call(zoom)
+	.on("mousedown.zoom", null)
+  .on("touchstart.zoom", null)
+  .on("touchmove.zoom", null)
+  .on("touchend.zoom", null);
+	 */
 
 function zoomToClick(i) {
 	let id = i.id;
@@ -327,8 +368,6 @@ function zoomToClick(i) {
 
 	svg = d3.select("svg");
   let path = svg.select('#'+id),
-	//width = window.innerWidth,
-	//height = window.innerHeight;
 	width = document.querySelector("#svg_1").clientWidth,
   height = document.querySelector("#svg_1").clientHeight;
 	svg.on("start",stopped,true);
@@ -336,7 +375,6 @@ function zoomToClick(i) {
 	path.attr("class","feature");
 	path.dispatch("show",clicked);
 	d.call("show");
-	//svg.call(svg,zoom);
 
 	function clicked() {
 		if (active.node() === this) return reset(svg,zoom);
@@ -355,10 +393,6 @@ function zoomToClick(i) {
 	}
 }
 
-$("path").on('click',function() {
-	zoomToClick(this);
-});
-
 /**
  * get data from json file
  * @param {*} file 
@@ -376,6 +410,7 @@ function readTextFile(file, callback) {
 	rawFile.send(null);
 }
 
+// get data from csv file 
 function readCSV(file, title, _callback) {
 	d3.csv(file, function(data) {
 		for(i = 0; i < data.length; i+=56) {
@@ -398,6 +433,7 @@ function readCSV(file, title, _callback) {
 });
 }
 
+// get unique objects from array
 function getUniqueListBy(arr, key) {
 	return [...new Map(arr.map(item => [item[key], item])).values()]
 }
@@ -547,6 +583,7 @@ function removeDuplicateObjectFromArray(array, key) {
   var check = new Set();
   return array.filter(obj => !check.has(obj[key]) && check.add(obj[key]));
 }
+
 /**
  * initilize charts and tabs
  */
@@ -618,9 +655,11 @@ function removeDuplicateObjectFromArray(array, key) {
 			closeOnEscape: true,
 			draggable: false,
 			resizable: false,
-			width: '90%',
-			hight: '100%',
+			width: wString,
+			maxWidth: hString,
 			modal: true,
+			clickOut: true,
+			responsive: true,
 			show: 500,
 		}).dialog('widget').find(".ui-dialog-title").hide();
 		$("#chartContainer1").CanvasJSChart(options1);
@@ -629,6 +668,8 @@ function removeDuplicateObjectFromArray(array, key) {
 		$("#chartContainer4").CanvasJSChart(options4);
 		$("#chartContainer5").CanvasJSChart(options5);
 };
+
+// pie chart animation
 function explodePie (e) {
 		if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
 			e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
