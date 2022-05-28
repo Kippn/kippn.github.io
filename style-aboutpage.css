@@ -13,7 +13,6 @@ body, html {
   position: relative;
   box-sizing: border-box;
   background-color: rgb(186, 186, 186);
-  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +101,7 @@ h2 {
   font-weight: bold;
   position: absolute;
   text-decoration: underline;
-  font-size: 2.5vw;
+  font-size: 3vw;
   right: 10%;
   top: 20%;
 }
@@ -111,9 +110,9 @@ h2 {
   color: rgba(56, 56, 56, 1);
   position:absolute;
   font-weight: bold;
-  font-size: 1vw;
+  font-size: 1.5vw;
   right: 10%;
-  width: 40%;
+  width: 60%;
   top: 30%;
   height: 100%;
 }
@@ -123,9 +122,9 @@ h3 {
   font-weight: bold;
   position: absolute;
   text-decoration: underline;
-  font-size: 2.5vw;
+  font-size: 2vw;
   right: 10%;
-  top: 60%;
+  top: 72%;
 }
 
 .text2 {
@@ -135,7 +134,7 @@ h3 {
   font-size: 1vw;
   right: 10%;
   width: 40%;
-  top: 73%;
+  top: 80%;
   height: 100%;
 }
 
@@ -146,7 +145,7 @@ h1 {
   color: rgb(4, 86, 4);
   font-weight: bold;
   position: absolute;
-  font-size: 3vh;
+  font-size: 3.5vh;
   right: 10%;
   top: 7%;
 }
@@ -165,9 +164,9 @@ h2 {
   color: rgba(56, 56, 56, 1);
   position:absolute;
   font-weight: bold;
-  font-size: 1vh;
+  font-size: 2vh;
   right: 10%;
-  width: 40%;
+  width: 70%;
   top: 20%;
   height: 100%;
 }
@@ -175,22 +174,22 @@ h2 {
 h3 {
   color: rgb(4, 86, 4);
   font-weight: bold;
-  position: absolute;
+  display: block;
   text-decoration: underline;
   font-size: 2.5vh;
   right: 10%;
-  top: 50%;
+  top: 80%;
 }
 
 .text2 {
   color: rgba(56, 56, 56, 1);
-  position:absolute;
+  /*position:absolute;*/
+  display: block;
   font-weight: bold;
   font-size: 1vh;
   right: 10%;
   width: 40%;
-  top: 56%;
+  top: 85%;
   height: 100%;
 }
-
 }

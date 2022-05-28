@@ -116,6 +116,8 @@ const searchWrapper = document.querySelector(".container");
 const inputBox = document.getElementById('searchbar');
 const suggBox = searchWrapper.querySelector(".autocom-box");
 const icon = document.querySelector(".icon");
+let allList = [];
+var currentLI = 0;
 
 // data arrays
 let countries = [];
@@ -136,6 +138,7 @@ let svg;
 let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
 //check if mobile
+var documentClick;
 const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
 
@@ -144,9 +147,9 @@ let wString = '80%';
 
 if(isMobile) {
 	wString = '100%';
-	let wTemp = w;
-	w = h;
-	h = wTemp;
+	//let wTemp = w;
+	//w = h;
+	//h = wTemp;
 }
 
 // scroll animation
@@ -203,29 +206,34 @@ function search() {
 	let input = document.getElementById('searchbar').value
 	if(input) {
 		input=input.toLowerCase();	
-	readTextFile(jsonPath, function(text){
-		var x = JSON.parse(text);
-		for (let key in x) {
-			countries.push(key);
-		}
-		temp = countries.filter(element => element.toLowerCase().startsWith(input));
-		temp = temp.map((data) => {
+		readTextFile(jsonPath, function(text){
+			var x = JSON.parse(text);
+			for (let key in x) {
+				countries.push(key);
+			}
+			temp = countries.filter(element => element.toLowerCase().startsWith(input));
+			temp = temp.map((data) => {
 			return data = `<li>${data}</li>`;
-		});
+			});
 
-		searchWrapper.classList.add("active"); //show autocomplete box
-		showSuggestions(temp);
-		let allList = suggBox.querySelectorAll("li");
+			searchWrapper.classList.add("active"); //show autocomplete box
+			showSuggestions(temp);
+			allList = suggBox.querySelectorAll("li");
 
-		for (let i = 0; i < allList.length; i++) {
+			for (let i = 0; i < allList.length; i++) {
 				//adding onclick attribute in all li tag
 				allList[i].setAttribute("onclick", "select(this)");
-		}
-	})
+			}
+			if(allList.length > 0) {
+				allList[currentLI].className = 'highlight';
+			}
+		})
 	} else {
 		searchWrapper.classList.remove("active");
 	}
 }
+
+
 /**
  * 
  * @param {*} element 
@@ -234,7 +242,9 @@ function search() {
 function select(element){
 	let selectData = element.textContent;
 	title = selectData;
-
+	if(title==null) {
+		title = element;
+	}
 	var node = document.querySelector(`[title=${CSS.escape(title)}]`);
 	zoomToClick(node);
 
@@ -242,6 +252,9 @@ function select(element){
 	icon.onclick = ()=>{
 	}
 	searchWrapper.classList.remove("active");
+	currentLI = 0;
+	allList =  [];
+	console.log(allList)
 }
 /**
  * 
@@ -259,6 +272,30 @@ function showSuggestions(list){
 	}
 	suggBox.innerHTML = listData;
 }
+
+/**
+ * navigation for suggestion box
+ */
+document.addEventListener('keydown',function(event) {
+	switch(event.keyCode){
+		case 38: // Up arrow    
+			// Remove the highlighting from the previous element
+			allList[currentLI].classList.remove("highlight");
+			currentLI = currentLI > 0 ? --currentLI : 0;     // Decrease the counter      
+			allList[currentLI].className = 'highlight'; // Highlight the new element
+			break;
+		case 40: // Down arrow
+			// Remove the highlighting from the previous element
+			allList[currentLI].classList.remove("highlight");
+			currentLI = currentLI < allList.length-1 ? ++currentLI : allList.length-1; // Increase counter 
+			allList[currentLI].className = 'highlight';       // Highlight the new element
+			break;
+		case 13: // Enter
+			select(allList[currentLI]);
+	}
+	if(allList.length > 0) allList[currentLI].scrollIntoViewIfNeeded();
+});
+
 
 /**
  * tipTool when hover over country
@@ -321,8 +358,23 @@ function stopped() {
 	if (d3.event.defaultPrevented) d3.event.stopPropagation();
 }
 
-$("path").on('click',function() {
-	zoomToClick(this);
+$('path').on('touchstart',function(e) {
+	documentClick = true;
+});
+$('path').on('touchmove',function(e) {
+	documentClick = false;
+});
+$('path').on('click touchend',function(e) {
+	if(e.type == 'click') {
+		documentClick = true;
+	}
+	if(documentClick) {
+		//e.preventDefault();
+		zoomToClick(this);
+		console.log('test');
+		//e.stopPropagation();
+		//return false;
+	}
 });
 
 
@@ -367,9 +419,7 @@ function zoomToClick(i) {
 	const d = d3.dispatch("show");
 
 	svg = d3.select("svg");
-  let path = svg.select('#'+id),
-	width = document.querySelector("#svg_1").clientWidth,
-  height = document.querySelector("#svg_1").clientHeight;
+  let path = svg.select('#'+id);
 	svg.on("start",stopped,true);
 
 	path.attr("class","feature");
@@ -384,8 +434,8 @@ function zoomToClick(i) {
       	dy = y1 - y0,
       	x = ((x0 + x1) / 2),
       	y = (y0 + y1) / 2,
-      	scale = Math.max(1, Math.min(8, 0.8 / Math.max(dx / width, dy / height))),
-      	translate = [width / 2 - scale * x, height / 2 - scale * y];
+      	scale = Math.max(1, Math.min(8, 0.8 / Math.max(dx / w, dy / h))),
+      	translate = [w / 2 - scale * x, h / 2 - scale * y];
 		svg.transition()
 		.duration(750)
 		.call(zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
@@ -614,19 +664,24 @@ function removeDuplicateObjectFromArray(array, key) {
 		}]
 	};
 		$("#dialogBox").dialog({
+			/**
+			create: function(event,ui) {
+				
+			},
+			 */
 			open: function(event,ui) {
 				$(document).on('click',".ui-widget-overlay",function(e){
+					e.preventDefault();
           //call dialog close function
        }),
 				$("#tabs").tabs({
-					beforeLoad: function(event,ui) {
-					},
 					create: function (event, ui) {
 						event.preventDefault();
 						//Render Charts after tabs have been created.
 					},
 					activate: function (event, ui) {
 						//Updates the chart to its container size if it has changed.
+						event.preventDefault();
 						ui.newPanel.children().first().CanvasJSChart().render();
 					}
 				});
@@ -651,16 +706,17 @@ function removeDuplicateObjectFromArray(array, key) {
         // Invoke parent close method
     },
 			hide: { effect: 'drop', duration: 250 },
-			show: { effect: 'fade', duration: 500 },
+			show: { effect: 'fade', duration: 250 },
+			updateHash: false,
 			closeOnEscape: true,
 			draggable: false,
-			resizable: false,
-			width: wString,
-			maxWidth: hString,
+			resizable: true,
+			width: $("#reveal").width()*0.8,
+			//minHeight: 300,
+			height: $("#reveal").height()*0.6,
 			modal: true,
 			clickOut: true,
 			responsive: true,
-			show: 500,
 		}).dialog('widget').find(".ui-dialog-title").hide();
 		$("#chartContainer1").CanvasJSChart(options1);
 		$("#chartContainer2").CanvasJSChart(options2);
@@ -678,5 +734,3 @@ function explodePie (e) {
 		}
 		e.chart.render();
 }
-
-	
