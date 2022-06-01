@@ -1,6 +1,6 @@
 // variables
-let title = "";
-var title2 = "";
+let titleCountry = "";
+var titleCountry2 = "";
 let	active = d3.select(null);
 let compare = 0;
 // diagram objects
@@ -118,6 +118,7 @@ const suggBox = searchWrapper.querySelector(".autocom-box");
 const icon = document.querySelector(".icon");
 let allList = [];
 var currentLI = 0;
+let countryList = [];
 
 // data arrays
 let countries = [];
@@ -183,10 +184,28 @@ $('#mapNav').click(function() {
 // compare button
 $("button").click(function() {
 	compare = 1;
-	title2 = title;
+	titleCountry2 = titleCountry;
 	$("#dialogBox").dialog('close');
 	reset(svg,zoom);
 });
+
+$(document).ready(function() {
+	let t = document.getElementsByTagName('path');
+	for(let i = 0; i < t.length; i++) {
+		countryList.push($(t[i]).attr('title'));
+	}
+})
+
+function comp(list1, list2) {
+	var newList =  [];
+	for(let t=0; t < list1.length;t++) {
+		for(let k=0; k < list2.length; k++) {
+			if(list1[t] == list2[k]) newList.push(list2[k]);
+		}
+	}
+	return newList;
+}
+
 
 
 // search functions
@@ -203,7 +222,7 @@ function findPos(obj) {
  * search function with prediction
  */
 function search() {
-	let input = document.getElementById('searchbar').value
+	let input = document.getElementById('searchbar').value;
 	if(input) {
 		input=input.toLowerCase();	
 		readTextFile(jsonPath, function(text){
@@ -211,6 +230,7 @@ function search() {
 			for (let key in x) {
 				countries.push(key);
 			}
+			countries = comp(countryList,countries);
 			temp = countries.filter(element => element.toLowerCase().startsWith(input));
 			temp = temp.map((data) => {
 			return data = `<li>${data}</li>`;
@@ -241,11 +261,11 @@ function search() {
  */
 function select(element){
 	let selectData = element.textContent;
-	title = selectData;
-	if(title==null) {
-		title = element;
+	titleCountry = selectData;
+	if(titleCountry==null) {
+		titleCountry = element;
 	}
-	var node = document.querySelector(`[title=${CSS.escape(title)}]`);
+	var node = document.querySelector(`[title=${CSS.escape(titleCountry)}]`);
 	zoomToClick(node);
 
 	inputBox.value = selectData;
@@ -254,7 +274,7 @@ function select(element){
 	searchWrapper.classList.remove("active");
 	currentLI = 0;
 	allList =  [];
-	console.log(allList)
+	inputBox.value = "";
 }
 /**
  * 
@@ -291,7 +311,8 @@ document.addEventListener('keydown',function(event) {
 			allList[currentLI].className = 'highlight';       // Highlight the new element
 			break;
 		case 13: // Enter
-			select(allList[currentLI]);
+			allList[currentLI].click();
+			//select(allList[currentLI]);
 	}
 	if(allList.length > 0) allList[currentLI].scrollIntoViewIfNeeded();
 });
@@ -301,9 +322,9 @@ document.addEventListener('keydown',function(event) {
  * tipTool when hover over country
  */
 $("path").mouseenter(function(e) {
+	initZoom();
   $(".hovertext").text($(this).attr('title'));
   $(".hovertext").css({
-		//'opacity': 1.0,
     'top': e.pageY - 20,
     'left': e.pageX
   }).fadeIn('fast');
@@ -313,6 +334,8 @@ $("path").mouseenter(function(e) {
  * hide tipTool when leave
  */
 $("path").mouseleave(function(e) {
+	stopZoom();
+	//$('.hovertext').text("");
   $(".hovertext").hide();
   $(".hovertext").css({
   })
@@ -329,6 +352,9 @@ $(".container").mouseleave(function(e) {
  * show suggestion list if not empty on hover
  */
 $(".container").mouseenter(function(e) {
+	$('.alert').css(
+		'visibility', 'hidden'
+	);
 	if(e.target.value != null && e.target.value != "") {
 		searchWrapper.classList.add("active");
 	}
@@ -369,11 +395,7 @@ $('path').on('click touchend',function(e) {
 		documentClick = true;
 	}
 	if(documentClick) {
-		//e.preventDefault();
 		zoomToClick(this);
-		console.log('test');
-		//e.stopPropagation();
-		//return false;
 	}
 });
 
@@ -397,19 +419,13 @@ function initZoom() {
     .call(zoom1);
 }
 
-initZoom();
-/**
-d3.select('g')
-  .call(zoom)
-	.on("mousedown.zoom", null)
-  .on("touchstart.zoom", null)
-  .on("touchmove.zoom", null)
-  .on("touchend.zoom", null);
-	 */
+function stopZoom() {
+	d3.select('#svg_1').on('.zoom',null);
+}
 
 function zoomToClick(i) {
 	let id = i.id;
-  title = $(i).attr('title');
+  titleCountry = $(i).attr('title');
 	var myPathBox = $("#"+id)[0].getBBox();
 	let x0 = myPathBox.x;
 	let y0 = myPathBox.y;
@@ -439,7 +455,7 @@ function zoomToClick(i) {
 		svg.transition()
 		.duration(750)
 		.call(zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
-		getData(title);
+		getData(titleCountry);
 	}
 }
 
@@ -496,7 +512,11 @@ function getUniqueListBy(arr, key) {
 	readCSV(csvPath,title,()=>{
 	readTextFile(jsonPath, function(text){
 		var data = JSON.parse(text);
-		for(let i = 0; i <data[title].data.length;i++) {
+		if(data[title]) {
+			$('.alert').css(
+				'visibility', 'hidden'
+			);
+		for(let i = 0; i < data[title].data.length;i++) {
 			let year = (data[title].data[i].year);
 			let co2 = data[title].data[i].co2;
 			let co2PerPerson = data[title].data[i].co2_per_capita;
@@ -591,21 +611,23 @@ function getUniqueListBy(arr, key) {
 		};
 	} else {
 		options1['title'] = 	{
-			text: title + " vs. " + title2 + " CO\u{2082} per year",
+			text: title + " vs. " + titleCountry2 + " CO\u{2082} per year",
 			//fontSize: 40
 		};
 		options2['title'] = 	{
-			text: title + " vs. " + title2  + " CO\u{2082} tons per person",
+			text: title + " vs. " + titleCountry2  + " CO\u{2082} tons per person",
 			//fontSize: 40
 		};
 		options3['title'] = 	{
-			text: title + " vs. " + title2  + " Energy consumption in terrawatt-hours",
+			text: title + " vs. " + titleCountry2  + " Energy consumption in terrawatt-hours",
 			//fontSize: 40
 		};
 		options4['title'] = 	{
-			text: title + " vs. " + title2 + " Methan in mil tons of carbon dioxide-equivalents",
+			text: title + " vs. " + titleCountry2 + " Methan in mil tons of carbon dioxide-equivalents",
 			//fontSize: 40
 		};
+	
+	
 	}
 
 		options1['data'] = removeDuplicateObjectFromArray(dataOption1,'name');
@@ -625,6 +647,13 @@ function getUniqueListBy(arr, key) {
 		
 		chart();
 		document.getElementById("dialogBox").removeAttribute("hidden");
+	} else {
+		$('.alert').css(
+			'visibility', 'visible'
+		);
+
+		reset(svg,zoom);
+	}
 	});
 });
 }
@@ -644,7 +673,7 @@ function removeDuplicateObjectFromArray(array, key) {
 		zoomEnabled: true,
 		animationEnabled: true,
 		title: {
-			text: title + " Energy Mix",
+			text: titleCountry + " Energy Mix",
 			fontSize: 40
 		},
 		legend:{
@@ -722,7 +751,9 @@ function removeDuplicateObjectFromArray(array, key) {
 		$("#chartContainer2").CanvasJSChart(options2);
 		$("#chartContainer3").CanvasJSChart(options3);
 		$("#chartContainer4").CanvasJSChart(options4);
-		$("#chartContainer5").CanvasJSChart(options5);
+		if(compare == 0) {
+			$("#chartContainer5").CanvasJSChart(options5);
+		}
 };
 
 // pie chart animation
