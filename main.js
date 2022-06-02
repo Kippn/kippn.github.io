@@ -138,6 +138,7 @@ let csvPath = 'energy-consumption-by-source-and-region.csv';
 let svg;
 let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
+let size = 0.6;
 //check if mobile
 var documentClick;
 const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
@@ -148,10 +149,16 @@ let wString = '80%';
 
 if(isMobile) {
 	wString = '100%';
+	size = 0.7;
 	//let wTemp = w;
 	//w = h;
 	//h = wTemp;
 }
+
+window.addEventListener('resize', function() {
+	w = document.querySelector("#svg_1").clientWidth;
+	h = document.querySelector("#svg_1").clientHeight;
+})
 
 // scroll animation
 var controller = new ScrollMagic.Controller();
@@ -317,10 +324,10 @@ document.addEventListener('keydown',function(event) {
 	if(allList.length > 0) allList[currentLI].scrollIntoViewIfNeeded();
 });
 
-
 /**
  * tipTool when hover over country
  */
+if(!isMobile) {
 $("path").mouseenter(function(e) {
 	initZoom();
   $(".hovertext").text($(this).attr('title'));
@@ -333,13 +340,34 @@ $("path").mouseenter(function(e) {
 /**
  * hide tipTool when leave
  */
-$("path").mouseleave(function(e) {
+$("path").mouseleave(function() {
 	stopZoom();
 	//$('.hovertext').text("");
   $(".hovertext").hide();
   $(".hovertext").css({
   })
 });
+}
+
+var clickedCountry = "";
+$('path').on('tap',function(e) {
+	clickedCountry = $(this).attr('title');
+	$(".hovertext").text(clickedCountry);
+  $(".hovertext").css({
+    'top': e.pageY -60,
+    'left': e.pageX
+  }).fadeIn('fast');
+});
+
+$('body').on('tap', function(e) {
+	$(".hovertext").hide();
+  $(".hovertext").css({
+  })
+	$('path').on('tap',function(e) {
+		e.stopPropagation();
+	})
+});
+
 
 /**
  * hide suggestion list when leave
@@ -394,7 +422,7 @@ $('path').on('click touchend',function(e) {
 	if(e.type == 'click') {
 		documentClick = true;
 	}
-	if(documentClick) {
+	if(documentClick&&clickedCountry==$(this).attr('title') || documentClick&&!isMobile) {
 		zoomToClick(this);
 	}
 });
@@ -422,6 +450,8 @@ function initZoom() {
 function stopZoom() {
 	d3.select('#svg_1').on('.zoom',null);
 }
+
+if(isMobile) initZoom();
 
 function zoomToClick(i) {
 	let id = i.id;
@@ -742,7 +772,7 @@ function removeDuplicateObjectFromArray(array, key) {
 			resizable: true,
 			width: $("#reveal").width()*0.8,
 			//minHeight: 300,
-			height: $("#reveal").height()*0.6,
+			height: $("#reveal").height()*size,
 			modal: true,
 			clickOut: true,
 			responsive: true,
