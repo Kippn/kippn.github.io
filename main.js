@@ -3,6 +3,8 @@ let titleCountry = "";
 var titleCountry2 = "";
 let	active = d3.select(null);
 let compare = 0;
+let hString = '100%';
+let wString = '80%';
 // diagram objects
 var options1 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
@@ -135,30 +137,123 @@ let dataPointsMethane = [];
 // file paths
 let jsonPath = 'owid-co2-data.json';
 let csvPath = 'energy-consumption-by-source-and-region.csv';
-let svg;
+const svg = d3.select('#svg_1');
 let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
 let size = 0.6;
+let lineHeight = ($(document).height() - $(window).height())*0.68;
+console.log(lineHeight);
+let lineWidth = $(document).width()*0.68;
+console.log(lineWidth);
+$('.line-container').css({
+	//height:lineHeight,
+	//width: lineWidth
+})
 //check if mobile
 var documentClick;
 const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
-
-let hString = '100%';
-let wString = '80%';
-
 if(isMobile) {
 	wString = '100%';
 	size = 0.7;
-	//let wTemp = w;
-	//w = h;
-	//h = wTemp;
 }
 
+/**
+ * change map size if window resized
+ */
 window.addEventListener('resize', function() {
 	w = document.querySelector("#svg_1").clientWidth;
 	h = document.querySelector("#svg_1").clientHeight;
+	lineHeight = $(document).height() - $(window).height();
+	lineWidth = $(document).width();
+	$('.line-container').css({
+		//height:lineHeight,
+		//width: lineWidth
+	})
 })
+
+/**
+ * set offset of countdown
+ * @param {percentage} amt 
+*/
+function setProgress(amt) {
+	earthPercentage.innerText = (amt*100).toFixed(2) + ' %';
+  amt = (amt < 0) ? 0 : (amt > 1) ? 1 : amt;
+  document.getElementById("stop1").setAttribute("offset", amt);
+  document.getElementById("stop2").setAttribute("offset", amt);
+} 
+
+var maxCO2 = 400000000000;
+var co2PerSecond = 1337;
+var timeStart = new Date('Jan 01, 2020 00:00:00');
+var first = true;
+var p2 = document.querySelectorAll('p2');
+var earthPercentage = document.querySelector('p3');
+var secondsPerYear = 31556952;
+var secondsPerMonth = secondsPerYear/12;
+var secondsPerDay = secondsPerMonth/30;
+var secondsPerHour = secondsPerDay/24;
+var secondsPerMin = secondsPerHour/60;
+var seconds;
+var times = [];
+times.push(secondsPerYear);
+times.push(secondsPerMonth);
+times.push(secondsPerDay);
+times.push(secondsPerHour);
+times.push(secondsPerMin);
+times.push(seconds);
+
+var fill =  async() => {while(true) {
+	const currTime = new Date();
+	var seconds = Math.abs(currTime - timeStart) / 1000;
+	var out = ((maxCO2 - seconds*co2PerSecond)/maxCO2);
+	var secondsLeft = (maxCO2 - seconds*co2PerSecond)/co2PerSecond;
+
+	for(var i = 0; i < p2.length; i++) {
+		var temp = 0;
+		while(secondsLeft/times[i] >= 1) {
+			temp += 1;
+			secondsLeft -= times[i];
+		}
+		if(i==5) temp = Math.round(secondsLeft,0);
+		p2[i].innerText = temp;
+	}	
+
+	if(first) {
+		for(let i = 0; i <= out; i+=0.01) {
+			setProgress(i);
+			await new Promise(resolve => setTimeout(resolve,i*50));
+		}
+		first = false;
+	} else {
+		setProgress(out);
+		await new Promise(resolve => setTimeout(resolve,1000));
+	}
+}};
+
+fill();
+
+// set height of the svg path as constant
+const svg_line = document.getElementById("svgPath");
+const length = svg_line.getTotalLength();
+
+// start positioning of svg drawing
+svg_line.style.strokeDasharray = length;
+
+// hide svg before scrolling starts
+svg_line.style.strokeDashoffset = length;
+
+window.addEventListener("scroll", function () {
+  const scrollpercent = $(window).scrollTop()/($(document).height() - $(window).height()*2);//(document.body.scrollTop + document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+  const draw = length * scrollpercent;
+  // Reverse the drawing when scroll upwards
+  svg_line.style.strokeDashoffset = length - draw;
+	if(scrollpercent > 1.32) {
+		$('#svg_line').hide();
+	} else {
+		$('#svg_line').show();
+	}
+});
 
 // scroll animation
 var controller = new ScrollMagic.Controller();
@@ -196,13 +291,15 @@ $("button").click(function() {
 	reset(svg,zoom);
 });
 
+// load country names from map
 $(document).ready(function() {
-	let t = document.getElementsByTagName('path');
+	let t = document.getElementById('svg_1').getElementsByTagName('path');
 	for(let i = 0; i < t.length; i++) {
 		countryList.push($(t[i]).attr('title'));
 	}
 })
 
+// delete all item from list2 if not also in list1
 function comp(list1, list2) {
 	var newList =  [];
 	for(let t=0; t < list1.length;t++) {
@@ -325,7 +422,7 @@ document.addEventListener('keydown',function(event) {
 });
 
 /**
- * tipTool when hover over country
+ * tipTool when hover over country if not mobile
  */
 if(!isMobile) {
 $("path").mouseenter(function(e) {
@@ -349,6 +446,10 @@ $("path").mouseleave(function() {
 });
 }
 
+
+/**
+ * tipTool with mobile on click
+ */
 var clickedCountry = "";
 $('path').on('tap',function(e) {
 	clickedCountry = $(this).attr('title');
@@ -395,6 +496,11 @@ function topFunction() {
 /**
  * get country name if clicked on
  */
+
+/**
+ * 
+ * zoom to clicked country
+ */
  function reset(svg,zoom) {
 	active.classed("active", false);
 	active = d3.select(null);
@@ -403,7 +509,7 @@ function topFunction() {
 }
 
 function zoomed() {
-	var g = d3.select("g");
+	var g = d3.select(".map_g");
 	g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
 	g.attr("transform", d3.event.transform);
 }
@@ -427,7 +533,6 @@ $('path').on('click touchend',function(e) {
 	}
 });
 
-
 const zoom = d3.zoom()
 .scaleExtent([1, 8])
 .on("zoom", zoomed);
@@ -438,17 +543,16 @@ let zoom1 = d3.zoom()
 	.on('zoom', handleZoom);
 
 function handleZoom() {
-  d3.select('g')
+  d3.select('.map_g')
     .attr('transform', d3.event.transform);
 }
 
 function initZoom() {
-  d3.select('#svg_1')
-    .call(zoom1);
+  svg.call(zoom1);
 }
 
 function stopZoom() {
-	d3.select('#svg_1').on('.zoom',null);
+	svg.on('.zoom',null);
 }
 
 if(isMobile) initZoom();
@@ -464,9 +568,9 @@ function zoomToClick(i) {
 
 	const d = d3.dispatch("show");
 
-	svg = d3.select("svg");
   let path = svg.select('#'+id);
 	svg.on("start",stopped,true);
+
 
 	path.attr("class","feature");
 	path.dispatch("show",clicked);
@@ -491,8 +595,6 @@ function zoomToClick(i) {
 
 /**
  * get data from json file
- * @param {*} file 
- * @param {*} callback 
  */
 function readTextFile(file, callback) {
 	var rawFile = new XMLHttpRequest();
@@ -536,7 +638,6 @@ function getUniqueListBy(arr, key) {
 
 /**
  * get data per country name for charts
- * @param {*} title 
  */
  function getData(title) {
 	readCSV(csvPath,title,()=>{
@@ -688,6 +789,7 @@ function getUniqueListBy(arr, key) {
 });
 }
 
+// get unique array
 function removeDuplicateObjectFromArray(array, key) {
   var check = new Set();
   return array.filter(obj => !check.has(obj[key]) && check.add(obj[key]));
@@ -783,6 +885,9 @@ function removeDuplicateObjectFromArray(array, key) {
 		$("#chartContainer4").CanvasJSChart(options4);
 		if(compare == 0) {
 			$("#chartContainer5").CanvasJSChart(options5);
+		} else{
+			$($("#tabs").find("li")[4]).hide();
+		  $($("#tabs").find('#tabs-5')).hide();
 		}
 };
 

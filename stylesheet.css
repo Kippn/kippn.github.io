@@ -3,18 +3,20 @@ body, html {
   width: 100%;
   margin: 0 auto;
   padding: 0;
-  background-color: rgba(56, 56, 56, 1);
+  background-color: rgb(186, 186, 186);
   font-family: sans-serif;
   font-weight: bold;
 }
 
+/* Design Circle */
 .circleBase {
   border-radius: 50%;
-  z-index: 0;
+  z-index: -1;
   position: absolute;
   right: 0%;
   overflow: hidden;
 }
+
 .circle1 {
   width: 60%;
   height: 200%;
@@ -22,6 +24,7 @@ body, html {
   position: absolute;
   right: -30%;
 }
+
 .circle2 {
   width: 60%;
   height: 200%;
@@ -30,11 +33,132 @@ body, html {
   background: rgb(186, 186, 186);
 }
 
+#svg_co2 {
+  position: absolute;
+  stroke-width: 0.5%;
+  height: 60%;
+  stroke: rgba(56, 56, 56, 1);
+  left: 50%;
+  text-align: center;
+  overflow: hidden;
+}
+
+#stop1 {
+  stop-color:rgba(56, 56, 56, 1);
+}
+
+#stop2 {
+  stop-color: rgb(186, 186, 186);
+}
+
+#svg_line {
+  stroke: rgb(4, 86, 4);
+  stroke-width: 0.3%;
+  width: 100%;
+  z-index: 1;
+}
+
+.line-container {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  stroke: rgb(4, 86, 4);
+  z-index: 0;
+  background-color: transparent;
+}
+
+
+/*
+First Section
+*/
+.sectionText {
+  position: relative;
+  box-sizing: border-box;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.economy {
+  position: relative;
+  box-sizing: border-box;
+  background-color: transparent;
+  display: grid;
+  place-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.food {
+  position: relative;
+  box-sizing: border-box;
+  background-color: transparent;
+  display: grid;
+  place-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.ocean {
+  position: relative;
+  box-sizing: border-box;
+  background-color: transparent;
+  display: grid;
+  place-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+.ocean p4 {
+  top: 10%;
+  left: 10%;
+}
+
+.food p4 {
+  top: 50%;
+  left: 60%;
+}
+
+.economy p4 {
+  top: 10%;
+  left: 40%;
+}
+
+p4 {
+  position: absolute;
+  z-index: -10;
+  color: rgba(241,241,241,0.5);
+  white-space: nowrap;
+  font-size: 10vw;
+}
+
+
+/* Text */
 .welcomeText {
   width: 100%;
   height: 100%;
-  z-index: 10;
   background-color: transparent;
+  z-index: 3;
 }
 
 h2 {
@@ -44,7 +168,7 @@ h2 {
   font-size: 2.5vw;
   top: 15%;
   width: 50%;
-  left: 10%;
+  left: 5%;
 }
 p {
   color: rgba(56, 56, 56, 1);
@@ -52,11 +176,77 @@ p {
   font-weight: bold;
   font-size: 2vw;
   width: 30%;
-  left: 10%;
+  left: 5%;
   top: 40%;
   height: 100%;
   border-radius: 50%;
 }
+
+.co2Infos {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-template-rows: repeat(8,1fr);
+  justify-content: center;
+  height: 100%;
+  width: 20%;
+  left: 82%;
+  top: 6%;
+}
+
+h3 {
+  font-size: 5vh;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(186, 186, 186);
+  grid-row: 1;
+  grid-column: 1/2;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  text-transform: uppercase;
+  font-size: 4vh;
+  font-weight: bold;
+  color: rgb(186, 186, 186);
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.years {
+  grid-row: 2;
+}
+.months {
+  grid-row: 3;
+}
+.days {
+  grid-row: 4;
+}
+.hours {
+  grid-row: 5;
+}
+.minutes {
+  grid-row: 6;
+}
+.seconds {
+  grid-row: 7;
+}
+.p1 {
+  grid-column: 1;
+}
+.p2 {
+  grid-column: 2;
+}
+
+.percentage {
+  position: absolute;
+  top: 82%;
+  left: 60%;
+  font-size: 6vh;
+  color: rgba(56, 56, 56, 1);
+}
+
 
 /*
 search bar fields
@@ -172,6 +362,9 @@ search bar fields
   background: rgb(4, 86, 4);
 }
 
+/*
+Main Div First Page
+*/
 .scrollContent {
   width: 100%;
   height: 100%;
@@ -179,6 +372,9 @@ search bar fields
   padding: 0;
 }
 
+/*
+Navigation Bar
+*/
 .topnav {
   position: absolute;
   top: 0;
@@ -212,22 +408,9 @@ search bar fields
   font-size: 20px;
 }
 
-.sectionText {
-  position: relative;
-  box-sizing: border-box;
-  background-color: rgb(186, 186, 186);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 50px;
-  height: 100%;
-  width: 100%;
-  z-index: 0;
-  overflow: hidden;
-}
 
-/* Common Mouse Scroll Ele */
+
+/* Scroll Down Button */
 .scroll-down {
   position: absolute;
   bottom: 1.5%;
@@ -288,12 +471,23 @@ search bar fields
   transform: rotate(45deg);
 }
 
+/*
+Second Section
+Scroll Magic
+*/
 #reveal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background-color: rgba(56, 56, 56, 1);
   height: 100%;
   width: 100%;
   margin: 0 auto;
   padding: 0;
   opacity: 0;
+  overflow: hidden;
+
   -webkit-transform: scale(1);
      -moz-transform: scale(1);
       -ms-transform: scale(1);
@@ -355,9 +549,10 @@ map fields
   width: 100%;
   margin: 0 auto;
   padding: 0;
+  z-index: 10;
 }
 .background {
-  fill: none;
+  fill: rgba(56, 56, 56, 1);
   pointer-events: all;
 }
 
@@ -376,10 +571,7 @@ map fields
   margin: 0 auto;
   padding: 0;
   display: block;
-}
-
-g {
-  /*position: fixed;*/
+  z-index: 10;
 }
 
 .mapdiv path {
@@ -409,10 +601,10 @@ g {
   box-shadow: 0 0 10px #aaa;
 }
 
+
 /*
 chart fields
 */
-
 
 #dialogBox {
   background: rgba(186, 186, 186,0.5) !important;
@@ -423,6 +615,9 @@ chart fields
   padding: 0;
 }
 
+/*
+Compare Button
+*/
 #shiny {
   position: absolute;
   right: 0%;
@@ -470,6 +665,9 @@ button:hover:after {
    -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
 }
 
+/*
+Diolog Box Tabs
+*/
 #tabs {
   background: rgba(186, 186, 186,0.5) !important;
   color: rgba(186, 186, 186,0.3) !important;
@@ -587,8 +785,8 @@ button:hover:after {
   padding: 0;
 }
 
-/* Back to top */
-.ignielToTop {
+/* Back to top Button */
+.toTopButton {
   width:50px; 
   height:50px; 
   position:fixed; 
@@ -602,11 +800,14 @@ button:hover:after {
   background:rgba(4, 86, 4,1) 
   url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(56, 56, 56, 1)'/%3E%3C/svg%3E") no-repeat center center;}
 
-  .ignielToTop:hover {
+  .toTopButton:hover {
   background:rgb(186, 186, 186)
   url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(4, 86, 4,1) '/%3E%3C/svg%3E") no-repeat center center;}
 
 
+/*
+Mobil options
+*/
 @media screen and (max-width: 650px) {
   h2 {
     color: rgb(4, 86, 4);
@@ -614,7 +815,7 @@ button:hover:after {
     position: absolute;
     font-size: 2.5vh;
     width: 60%;
-    top: 20%;
+    top: 10%;
     left: 10%;
   }
   p {
@@ -624,7 +825,7 @@ button:hover:after {
     font-size: 2vh;
     width: 50%;
     left: 10%;
-    top: 40%;
+    top: 25%;
     height: 100%;
     border-radius: 50%;
   }
@@ -640,6 +841,15 @@ button:hover:after {
     font-size: 2vh;
     background-color: rgb(186, 186, 186);
     color: rgb(4, 86, 4);
+  }
+
+  #svg_co2 {
+    position: absolute;
+    stroke-width: 0.5%;
+    height: 30%;
+    stroke: rgba(56, 56, 56, 1);
+    left: 15%;
+    top: 55%;
   }
 
   #dialogBox {
