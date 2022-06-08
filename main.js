@@ -142,9 +142,7 @@ let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
 let size = 0.6;
 let lineHeight = ($(document).height() - $(window).height())*0.68;
-console.log(lineHeight);
 let lineWidth = $(document).width()*0.68;
-console.log(lineWidth);
 $('.line-container').css({
 	//height:lineHeight,
 	//width: lineWidth
@@ -185,16 +183,24 @@ function setProgress(amt) {
 
 var maxCO2 = 400000000000;
 var co2PerSecond = 1337;
-var timeStart = new Date('Jan 01, 2020 00:00:00');
+var timeStart = new Date(2020, 0, 0, 0, 0, 0, 0);
 var first = true;
 var p2 = document.querySelectorAll('p2');
 var earthPercentage = document.querySelector('p3');
+/**
 var secondsPerYear = 31556952;
 var secondsPerMonth = secondsPerYear/12;
 var secondsPerDay = secondsPerMonth/30;
 var secondsPerHour = secondsPerDay/24;
 var secondsPerMin = secondsPerHour/60;
 var seconds;
+ */
+var seconds = 1;
+var secondsPerMin = seconds*60;
+var secondsPerHour = secondsPerMin*60;
+var secondsPerDay = secondsPerHour*24;
+var secondsPerMonth = secondsPerDay*30;
+var secondsPerYear = secondsPerMonth*12;
 var times = [];
 times.push(secondsPerYear);
 times.push(secondsPerMonth);
@@ -205,19 +211,21 @@ times.push(seconds);
 
 var fill =  async() => {while(true) {
 	const currTime = new Date();
-	var seconds = Math.abs(currTime - timeStart) / 1000;
+	var seconds = Math.floor((currTime - timeStart) / 1000);
 	var out = ((maxCO2 - seconds*co2PerSecond)/maxCO2);
-	var secondsLeft = (maxCO2 - seconds*co2PerSecond)/co2PerSecond;
+	var secondsLeft = Math.round((maxCO2 - seconds*co2PerSecond)/co2PerSecond);
 
 	for(var i = 0; i < p2.length; i++) {
 		var temp = 0;
 		while(secondsLeft/times[i] >= 1) {
 			temp += 1;
 			secondsLeft -= times[i];
+			console.log(secondsLeft/times[i] );
 		}
-		if(i==5) temp = Math.round(secondsLeft,0);
+		//if(i==5) temp = (secondsLeft).toFixed(0);
 		p2[i].innerText = temp;
 	}	
+
 
 	if(first) {
 		for(let i = 0; i <= out; i+=0.01) {

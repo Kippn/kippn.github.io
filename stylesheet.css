@@ -129,9 +129,42 @@ First Section
   z-index: 1;
   overflow: hidden;
 }
-.ocean p4 {
+
+.economy p {
+  position: absolute;
+  top: 40%;
+  left: 69%;
+  width: 30%;
+  font-size: 2vw;
+}
+
+.economy p1 {
+  position: absolute;
+  left: 5%;
+  top: 20%;
+  width: 30%;
+  font-size: 2vw;
+}
+
+.economy p4 {
   top: 10%;
-  left: 10%;
+  left: 40%;
+}
+
+.food p {
+  position: absolute;
+  top: 10%;
+  left: 69%;
+  width: 30%;
+  font-size: 2vw;
+}
+
+.food p1 {
+  position: absolute;
+  left: 20%;
+  top: 60%;
+  width: 30%;
+  font-size: 2vw;
 }
 
 .food p4 {
@@ -139,9 +172,25 @@ First Section
   left: 60%;
 }
 
-.economy p4 {
+.ocean p {
+  position: absolute;
   top: 10%;
-  left: 40%;
+  left: 69%;
+  width: 30%;
+  font-size: 2vw;
+}
+
+.ocean p1 {
+  position: absolute;
+  left: 5%;
+  top: 40%;
+  width: 30%;
+  font-size: 2vw;
+}
+
+.ocean p4 {
+  top: 10%;
+  left: 10%;
 }
 
 p4 {
