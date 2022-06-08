@@ -220,9 +220,7 @@ var fill =  async() => {while(true) {
 		while(secondsLeft/times[i] >= 1) {
 			temp += 1;
 			secondsLeft -= times[i];
-			console.log(secondsLeft/times[i] );
 		}
-		//if(i==5) temp = (secondsLeft).toFixed(0);
 		p2[i].innerText = temp;
 	}	
 
