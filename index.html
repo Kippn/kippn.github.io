@@ -103,7 +103,7 @@
 		<!--text section-->
 		<div class="welcomeText">
 			<h2>Interactive World Map with enviromental data</h2>
-			<p>Explore environmental data for each country and compare them to other countries.<br />
+			<p>Explore the environmental data for each country and compare it to other countries.<br />
 			<br />
 			Simply click or search directly for a country in the map bellow.
 		</p>
@@ -145,22 +145,40 @@
 		</section>
 
 		<section class="economy">
-			<p4>ECONOMY</p4>
-			<p1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eum ipsum sequi? Nesciunt deleniti autem, a odio totam inventore exercitationem! Praesentium ut itaque laboriosam, rem facere aperiam. Pariatur, iusto quos.</p1>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga perspiciatis illum dolorem, pariatur, quae quod cumque harum dolores facere, eligendi excepturi esse possimus fugiat quis amet mollitia! Cupiditate, libero velit.</p>
+			<p id="watermark">ECONOMY</p>
+			<p id="e_1">The climate change will be one of the biggest catastrophes of the humankind and as big will be the impact on our current economy. The worldwide GDP could wipe off up to 18 % by 2050 if the global temperature rises by 3.2°C, the Swiss Re institute warns. And even if the global temperature increases up to 2°C the impact on the GDP would also be 11 % which will also cause a significant economic crisis.</p>
+			<p id="e_2">In 2017 the private sector was responsible for about 6 % of the CO<sub>2</sub> emissions of fuel while the industry and energy sectors together made up about 65 %.</p>
+			<p id="e_3">In conclusion, the consumer has a very limited control over the produced CO<sub>2</sub>. The major changes need to come from companies and governments but currently they don't see the bigger picture.</p>
+
 		</section>
 		
 		<section class="food">
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam quas quo, quis et alias placeat. Quaerat, esse magni minima quam quia eaque, quo laborum amet nulla nostrum, at sunt totam.</p>
-			<p1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit laudantium saepe iste, inventore deserunt cum tempore, ullam ipsa dolor fugit aperiam quas consequatur ipsum enim ut adipisci libero, impedit molestiae.</p1>
-			<p4>FOOD</p4>
+			<p id="watermark">FOOD</p>
+			<p id="f_1">One of the biggest parts of the environmental impact is our food production. Here are just some quick numbers to show how many resources are used for our food:
+			</p>
+				<ul>
+					<li>If the CO<sub>2</sub> emission from other sectors like energy, waste etc. which are used for food production are considered <br> the share of greenhouse gases goes up to approximately 26 %</li>
+					<li>50 % of our world's habitable land is used for agriculture</li>
+					<li>70 % of the global freshwater withdrawals are used for agriculture</li>
+					<li>78 % of the ocean and freshwater eutrophication is caused by agriculture</li>
+					<li>94 % of the mammal biomass is livestock</li>
+				</ul>
+			<p id="f_2">
+				The largest contribution to this bad situation comes from livestock. Lamb, mutton, beef and cheese are the top three when it comes to land use per kilogram of food. Already these three products use 784 m² per kilogram of food. For comparison wheat needs 3.85 m², maize 2.94 m² and rice 2.8 m².
+			</p>
+			<div id="data_food"></div>
 		</section>
 		
 		<section class="ocean">
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex laborum ipsum quae, a assumenda velit ad quasi nobis distinctio fuga culpa minima dolore officiis provident nostrum itaque neque, non suscipit?</p>
-			<p1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium reiciendis pariatur illum harum veritatis iste quibusdam atque sit aliquid mollitia. Sit excepturi deserunt dolorum rem, quasi perferendis ad dignissimos nobis.</p1>
-			<p4>OCEAN</p4>
-		</section>
+			<p id="watermark">OCEAN</p>
+			<p id="o_1">The ocean plays a central role in regulating the Earth's climate, because it absorbed 93% of the extra energy from the enhanced greenhouse effect thus far.
+				Also, coastal ecosystems like mangroves, salt marshes and seagrasses play a vital role in carbon storage and sequestration. The ecosystem in the ocean can absorb faster and far more greenhouse gases than terrestrial forests. When these vulnerable systems are degraded and lost, they will release massive amounts of CO<sub>2</sub> into the atmosphere.
+			</p>
+			<p id="o_2">
+				Another big issue is that the atmospheric warming leads to the melting of inland glaciers and ice, causing rising sea levels with significant impacts on shorelines and coastal human settlements. The IPCC projects global mean sea level to increase by 0.40 m.
+				For the habitants in the ocean the growing share of CO<sub>2</sub> is directly harmful, because the ocean will become more acidic and that will lead to expansion of depleted oxygen zones.
+			</p>
+			</section>
 	
 
 		<!--trigger for scroll magic-->
@@ -406,7 +424,8 @@
 	<script src="jquery-ui.js"></script>
 	<script src="jquery.mobile.custom.js"></script>
 	<script src="jquery.canvasjs.min.js"></script>
-	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://d3js.org/d3.v4.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 	<script src="ScrollMagic.min.js"></script>
 	<script src="main.js"></script>
 </body>

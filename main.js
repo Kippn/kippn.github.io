@@ -187,14 +187,7 @@ var timeStart = new Date(2020, 0, 0, 0, 0, 0, 0);
 var first = true;
 var p2 = document.querySelectorAll('p2');
 var earthPercentage = document.querySelector('p3');
-/**
-var secondsPerYear = 31556952;
-var secondsPerMonth = secondsPerYear/12;
-var secondsPerDay = secondsPerMonth/30;
-var secondsPerHour = secondsPerDay/24;
-var secondsPerMin = secondsPerHour/60;
-var seconds;
- */
+
 var seconds = 1;
 var secondsPerMin = seconds*60;
 var secondsPerHour = secondsPerMin*60;
@@ -239,6 +232,49 @@ var fill =  async() => {while(true) {
 
 fill();
 
+
+window.onload = function () {
+	CanvasJS.addColorSet("greenShades",
+                [
+                "#2F4F4F",
+                "#008080",
+                "#2E8B57",
+                "#3CB371",
+                "#90EE90"                
+                ]);
+
+	var chart = new CanvasJS.Chart("data_food", {
+		animationEnabled: true,
+		backgroundColor: "transparent",
+		minwidth: '20%',
+		colorSet: "greenShades",
+		title:{
+			text: "Greenhouse Gas Emissions",
+			horizontalAlign: "center"
+		},
+		legend: {
+			cursor:"pointer",
+			itemclick: explodePie
+		},
+		data: [{
+			type: "doughnut",
+			startAngle: 60,
+			//innerRadius: 60,
+			indexLabelFontSize: 17,
+			indexLabel: "{label}  #percent%",
+			toolTipContent: "<b>{label}:</b> {y} Gt (#percent%)",
+			dataPoints: [
+				{ y: 37636, label: "Energy" },
+				{ y: 3055, label: "Industrial Processes" },
+				{ y: 5794, label: "Agriculture", exploded: true},
+				{ y: 1629, label: "Waste"},
+				{ y: 1641, label: "Land-Use Change and Forestry"},
+			]
+		}]
+	});
+	chart.render();
+	}
+
 // set height of the svg path as constant
 const svg_line = document.getElementById("svgPath");
 const length = svg_line.getTotalLength();
@@ -250,11 +286,11 @@ svg_line.style.strokeDasharray = length;
 svg_line.style.strokeDashoffset = length;
 
 window.addEventListener("scroll", function () {
-  const scrollpercent = $(window).scrollTop()/($(document).height() - $(window).height()*2);//(document.body.scrollTop + document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+  const scrollpercent = $(window).scrollTop()/($(document).height() - $(window).height()*2);
   const draw = length * scrollpercent;
   // Reverse the drawing when scroll upwards
   svg_line.style.strokeDashoffset = length - draw;
-	if(scrollpercent > 1.32) {
+	if(scrollpercent > 1.3) {
 		$('#svg_line').hide();
 	} else {
 		$('#svg_line').show();
@@ -431,7 +467,7 @@ document.addEventListener('keydown',function(event) {
  * tipTool when hover over country if not mobile
  */
 if(!isMobile) {
-$("path").mouseenter(function(e) {
+$("#svg_1").children('g').children('path').mouseenter(function(e) {
 	initZoom();
   $(".hovertext").text($(this).attr('title'));
   $(".hovertext").css({
