@@ -6,6 +6,7 @@ let compare = 0;
 let hString = '100%';
 let wString = '80%';
 var language =  document.querySelector('.check').checked;
+let foodChart = false;
 // diagram objects
 var options1 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
@@ -270,7 +271,8 @@ var fill =  async() => {while(true) {
 fill();
 
 
-window.onload = function () {
+function chartFood () {
+	foodChart = true;
 	CanvasJS.addColorSet("greenShades",
                 [
                 "#2F4F4F",
@@ -299,6 +301,7 @@ window.onload = function () {
 		data: [{
 			type: "doughnut",
 			startAngle: 60,
+			indexLabelLineThickness: 5,
 			//innerRadius: 60,
 			indexLabelFontSize: 20,
 			indexLabel: "{label}  #percent%",
@@ -314,7 +317,6 @@ window.onload = function () {
 	});
 	chart.render();
 	}
-
 // set height of the svg path as constant
 const svg_line = document.getElementById("svgPath");
 const length = svg_line.getTotalLength();
@@ -330,6 +332,10 @@ window.addEventListener("scroll", function () {
   const draw = length * scrollpercent;
   // Reverse the drawing when scroll upwards
   svg_line.style.strokeDashoffset = length - draw;
+	console.log(scrollpercent);
+	if(scrollpercent>0.3 && !foodChart){ 
+		chartFood();
+	}
 	if(scrollpercent > 1.3) {
 		$('#svg_line').hide();
 	} else {
