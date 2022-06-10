@@ -299,6 +299,7 @@ window.onload = function () {
 		data: [{
 			type: "doughnut",
 			startAngle: 60,
+			indexLabelLineThickness: 3,
 			//innerRadius: 60,
 			indexLabelFontSize: 20,
 			indexLabel: "{label}  #percent%",
