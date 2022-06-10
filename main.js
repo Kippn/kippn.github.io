@@ -213,7 +213,7 @@ window.addEventListener('resize', function() {
  * @param {percentage} amt 
 */
 function setProgress(amt) {
-	earthPercentage.innerText = 100 -(amt*100).toFixed(2) + ' %';
+	earthPercentage.innerText = (100 -(amt*100)).toFixed(2) + ' %';
   amt = (amt < 0) ? 0 : (amt > 1) ? 1 : amt;
   document.getElementById("stop1").setAttribute("offset", 1-amt);
   document.getElementById("stop2").setAttribute("offset", 1-amt);
