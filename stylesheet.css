@@ -53,11 +53,11 @@ body, html {
 
 #svg_line {
   stroke: rgb(4, 86, 4);
-  stroke-width: 0.3%;
+  stroke-width: 0.8%;
   width: 100%;
   z-index: 1;
+  opacity: 0.2;
   overflow: visible
-
 }
 
 .line-container {
@@ -168,27 +168,26 @@ First Section
 .food #f_1 {
   position: absolute;
   left: 20%;
-  top: 2%;
+  top: 5%;
   width: 70%;
-  font-size: 2vw;
+  font-size: 1.5vw;
 }
 
 .food #f_2 {
   position: absolute;
-  top: 65%;
+  top: 70%;
   left: 5%;
   width: 55%;
-  font-size: 2vw;
+  font-size: 1.5vw;
 }
 
 .food  ul {
   position: absolute;
-  list-style-type: disc;
+  list-style-type: none;
   left: 20%;
   top: 20%;
   width: 30%;
   padding-left: 40px;
-  padding-top: 10px;
   font-size: 1.2vw;
   color: rgba(56, 56, 56, 1);
   z-index: 10;
@@ -196,10 +195,13 @@ First Section
 
 .food ul li {
   display: list-item;
+  padding-top: 10px;
 }
 
 #data_food {
   position: absolute;
+  
+  
   top: 20%;
   left: 50%;
   overflow: visible;
@@ -466,6 +468,7 @@ Navigation Bar
   overflow: hidden;
   width: 100%;
   z-index: 10;
+  align-items: center;
 }
 
 /* Style the links inside the navigation bar */
@@ -490,6 +493,79 @@ Navigation Bar
   background-color: rgb(4, 86, 4);
   color: black;
   font-size: 20px;
+}
+
+.containerLanguage {
+  position: relative;
+  float: right;
+  height: 100%;
+  width: 15%;
+  margin-top: 0.5%;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 1vw;
+  font-weight: b;
+}
+
+.containerLanguage .content {
+  display: none;
+}
+
+.containerLanguage .content .contentEnglish {
+  display: block;
+}
+
+.check {
+  position: relative;
+  width: 50px;
+  height: 20px;
+}
+
+.check:before {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 25px;
+  background-color: rgb(186, 186, 186);
+  border-radius: 25px;
+}
+
+.check:checked:before {
+  background: rgb(4, 86, 4);
+}
+
+.check:after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(186, 186, 186);
+  border-radius: 25px;
+  transition: 0.25s;
+  border: 2px solid #333;
+  box-sizing: border-box;
+}
+
+.check:checked:after {
+  left: 25px;
+  background: rgb(186, 186, 186);
+  border: 2px solid rgba(56, 56, 56, 1);
+}
+
+.contentEnglish {
+  display: none;
+}
+
+.contentGerman {
+  display: none;
+}
+
+.en {
+  color: rgb(4, 86, 4);
+}
+.de {
+  color: rgb(186, 186, 186);
 }
 
 
@@ -564,7 +640,7 @@ Scroll Magic
   align-items: center;
   justify-content: center;
   z-index: 10;
-  background-color: rgba(56, 56, 56, 1);
+  background-color: rgb(186, 186, 186);;
   height: 100%;
   width: 100%;
   margin: 0 auto;
@@ -636,7 +712,7 @@ map fields
   z-index: 10;
 }
 .background {
-  fill: rgba(56, 56, 56, 1);
+  fill: rgb(186, 186, 186);
   pointer-events: all;
 }
 
@@ -656,12 +732,17 @@ map fields
   padding: 0;
   display: block;
   z-index: 10;
+  background-color: rgb(186, 186, 186);;
+}
+
+#svg_1 g {
+  filter: drop-shadow(10px 5px 2px rgb(0 0 0 / 0.4));
 }
 
 .mapdiv path {
   fill: rgb(128, 128, 128);
   stroke: rgb(4, 86, 4);
-  stroke-width: 1.5px;
+  stroke-width: 0.2%;
   transition: fill 0.3s;
 }
 .mapdiv path:hover {

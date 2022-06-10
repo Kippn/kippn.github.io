@@ -5,6 +5,7 @@ let	active = d3.select(null);
 let compare = 0;
 let hString = '100%';
 let wString = '80%';
+var language =  document.querySelector('.check').checked;
 // diagram objects
 var options1 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
@@ -156,6 +157,42 @@ if(isMobile) {
 	size = 0.7;
 }
 
+$('.check').on('click', function() {
+	language = document.querySelector('.check').checked;
+	changeLanguage(language);
+})
+
+function changeLanguage(language) {
+	if(language) {
+		$('.de').css({
+			color: 'rgb(4, 86, 4)'
+		})
+		$('.en').css({
+			color: 'rgb(186, 186, 186)'
+		})
+		$('.contentGerman').css({
+			display: 'block'
+		})
+		$('.contentEnglish').css({
+			display: 'none'
+		})
+	} else {
+		$('.en').css({
+			color: 'rgb(4, 86, 4)'
+		})
+		$('.de').css({
+			color: 'rgb(186, 186, 186)'
+		})
+		$('.contentEnglish').css({
+			display: 'block'
+		})
+		$('.contentGerman').css({
+			display: 'none'
+		})
+}
+}
+
+
 /**
  * change map size if window resized
  */
@@ -175,10 +212,10 @@ window.addEventListener('resize', function() {
  * @param {percentage} amt 
 */
 function setProgress(amt) {
-	earthPercentage.innerText = (amt*100).toFixed(2) + ' %';
+	earthPercentage.innerText = 100 -(amt*100).toFixed(2) + ' %';
   amt = (amt < 0) ? 0 : (amt > 1) ? 1 : amt;
-  document.getElementById("stop1").setAttribute("offset", amt);
-  document.getElementById("stop2").setAttribute("offset", amt);
+  document.getElementById("stop1").setAttribute("offset", 1-amt);
+  document.getElementById("stop2").setAttribute("offset", 1-amt);
 } 
 
 var maxCO2 = 400000000000;
@@ -221,7 +258,7 @@ var fill =  async() => {while(true) {
 	if(first) {
 		for(let i = 0; i <= out; i+=0.01) {
 			setProgress(i);
-			await new Promise(resolve => setTimeout(resolve,i*50));
+			await new Promise(resolve => setTimeout(resolve,i*100));
 		}
 		first = false;
 	} else {
@@ -250,7 +287,10 @@ window.onload = function () {
 		colorSet: "greenShades",
 		title:{
 			text: "Greenhouse Gas Emissions",
-			horizontalAlign: "center"
+			horizontalAlign: "center",
+			fontSize: 30,
+			fontFamily: 'sans-serif',
+			fontWeight: "bold",
 		},
 		legend: {
 			cursor:"pointer",
@@ -260,7 +300,7 @@ window.onload = function () {
 			type: "doughnut",
 			startAngle: 60,
 			//innerRadius: 60,
-			indexLabelFontSize: 17,
+			indexLabelFontSize: 20,
 			indexLabel: "{label}  #percent%",
 			toolTipContent: "<b>{label}:</b> {y} Gt (#percent%)",
 			dataPoints: [
@@ -333,8 +373,10 @@ $("button").click(function() {
 	reset(svg,zoom);
 });
 
+
 // load country names from map
 $(document).ready(function() {
+	changeLanguage(language);	
 	let t = document.getElementById('svg_1').getElementsByTagName('path');
 	for(let i = 0; i < t.length; i++) {
 		countryList.push($(t[i]).attr('title'));
