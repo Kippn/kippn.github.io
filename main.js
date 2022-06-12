@@ -13,30 +13,41 @@ var options1 = {
 	markerColor: "rgba(56, 56, 56, 0.964)",
 	zoomEnabled: false,
 	animationEnabled: true,
+	colorSet: "greenShades",
 	toolTip:{
+		fontColor: "rgb(4,86,4)",
 		shared: true
 	},
 	axisY: {
 		title: "CO\u{2082} mil tons ",
 		suffix: "t",
 		minimum: 0,
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	legend: {
 		cursor: "pointer",
 		verticalAlign: "top",
 		horizontalAlign: "center",
 		dockInsidePlotArea: true,
+		fontColor: "rgb(186, 186, 186)",
+		fontSize: 20,
 	}
 };
 var options2 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor: "rgba(56, 56, 56, 0.964)",
+	colorSet: "greenShades",
 	zoomEnabled: false,
 	animationEnabled: true,
 	yValueFormatString: "####",
@@ -47,23 +58,32 @@ var options2 = {
 		title: "CO\u{2082} mil tons p.P",
 		suffix: "t",
 		minimum: 0,
-		//titleFontSize: 24
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	legend: {
 		cursor: "pointer",
 		verticalAlign: "top",
 		horizontalAlign: "center",
 		dockInsidePlotArea: true,
+		fontColor: "rgb(186, 186, 186)",
+		fontSize: 20,
 	}
 };
 var options3 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor:"rgba(56, 56, 56, 0.964)",
+	colorSet: "greenShades",
 	zoomEnabled: false,
 	animationEnabled: true,
 	yValueFormatString: "####",
@@ -74,23 +94,32 @@ var options3 = {
 		title: "tWh per year",
 		suffix: "",
 		minimum: 0,
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	legend: {
 		cursor: "pointer",
 		verticalAlign: "top",
 		horizontalAlign: "center",
 		dockInsidePlotArea: true,
+		fontColor: "rgb(186, 186, 186)",
+		fontSize: 20,
 	}
 };
 var options4 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
 	markerColor:"rgba(56, 56, 56, 0.964)",
+	colorSet: "greenShades",
 	zoomEnabled: false,
 	animationEnabled: true,
 	yValueFormatString: "####",
@@ -101,18 +130,26 @@ var options4 = {
 		title: "methane per year",
 		suffix: "",
 		minimum: 0,
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	axisX: {
 		title: "years",
 		valueFormatString: "####",
-		//titleFontSize: 30
+		titleFontSize: 30,
+		titleFontColor: 'rgb(186, 186, 186)',
+		labelFontSize: 20,
+		labelFontColor: 'rgb(186, 186, 186)'
 	},
 	legend: {
 		cursor: "pointer",
 		verticalAlign: "top",
 		horizontalAlign: "center",
 		dockInsidePlotArea: true,
+		fontColor: "rgb(186, 186, 186)",
+		fontSize: 20,
 	}
 };
 // searchbar variables
@@ -143,6 +180,8 @@ const svg = d3.select('#svg_1');
 let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
 let size = 0.6;
+let foodChartFontTitle = 30;
+let foodChartFontData = 20;
 let lineHeight = ($(document).height() - $(window).height())*0.68;
 let lineWidth = $(document).width()*0.68;
 $('.line-container').css({
@@ -156,6 +195,8 @@ const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
 if(isMobile) {
 	wString = '100%';
 	size = 0.7;
+	foodChartFontData = 10;
+	foodChartFontTitle = 15;
 }
 
 $('.check').on('click', function() {
@@ -213,7 +254,7 @@ window.addEventListener('resize', function() {
  * @param {percentage} amt 
 */
 function setProgress(amt) {
-	earthPercentage.innerText = 100 -(amt*100).toFixed(2) + ' %';
+	earthPercentage.innerText = (100 -(amt*100)).toFixed(2) + ' %';
   amt = (amt < 0) ? 0 : (amt > 1) ? 1 : amt;
   document.getElementById("stop1").setAttribute("offset", 1-amt);
   document.getElementById("stop2").setAttribute("offset", 1-amt);
@@ -266,6 +307,7 @@ var fill =  async() => {while(true) {
 		setProgress(out);
 		await new Promise(resolve => setTimeout(resolve,1000));
 	}
+
 }};
 
 fill();
@@ -275,22 +317,26 @@ function chartFood () {
 	foodChart = true;
 	CanvasJS.addColorSet("greenShades",
                 [
-                "#2F4F4F",
                 "#008080",
                 "#2E8B57",
                 "#3CB371",
-                "#90EE90"                
+                "#90EE90",
+								"#539d53",
+								"#219521",
+								"#0b420b",
+								"#2F4F4F",
                 ]);
 
 	var chart = new CanvasJS.Chart("data_food", {
 		animationEnabled: true,
+		animationDuration: 2000,
 		backgroundColor: "transparent",
 		minwidth: '20%',
 		colorSet: "greenShades",
 		title:{
 			text: "Greenhouse Gas Emissions",
 			horizontalAlign: "center",
-			fontSize: 30,
+			fontSize: foodChartFontTitle,
 			fontFamily: 'sans-serif',
 			fontWeight: "bold",
 		},
@@ -303,7 +349,7 @@ function chartFood () {
 			startAngle: 60,
 			indexLabelLineThickness: 5,
 			//innerRadius: 60,
-			indexLabelFontSize: 20,
+			indexLabelFontSize: foodChartFontData,
 			indexLabel: "{label}  #percent%",
 			toolTipContent: "<b>{label}:</b> {y} Gt (#percent%)",
 			dataPoints: [
@@ -327,20 +373,65 @@ svg_line.style.strokeDasharray = length;
 // hide svg before scrolling starts
 svg_line.style.strokeDashoffset = length;
 
-window.addEventListener("scroll", function () {
-  const scrollpercent = $(window).scrollTop()/($(document).height() - $(window).height()*2);
-  const draw = length * scrollpercent;
+window.addEventListener("scroll", function() {
+	drawLine();
+});
+
+function drawLine() {
+	const scrollPercentage = $(window).scrollTop()/($(document).height() - $(window).height()*2);
+  const draw = length * scrollPercentage;
   // Reverse the drawing when scroll upwards
   svg_line.style.strokeDashoffset = length - draw;
-	console.log(scrollpercent);
-	if(scrollpercent>0.3 && !foodChart){ 
+	if(scrollPercentage>0.33 && !foodChart){ 
 		chartFood();
 	}
-	if(scrollpercent > 1.3) {
+	if(scrollPercentage < 0.05) foodChart=0;
+	if(scrollPercentage > 1.3) {
 		$('#svg_line').hide();
 	} else {
 		$('#svg_line').show();
 	}
+}
+
+var scrollDirection = 1;
+// ## function declaration
+function scrollEventThrottle(fn) {
+  let last_known_scroll_position = 0;
+  let ticking = false;
+  window.addEventListener("scroll", function () {
+    let previous_known_scroll_position = last_known_scroll_position;
+    last_known_scroll_position = window.scrollY;
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        fn(last_known_scroll_position, previous_known_scroll_position);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+}
+
+// ## function invocation
+scrollEventThrottle((scrollPos, previousScrollPos) => {
+    if (previousScrollPos > scrollPos) {
+      scrollDirection = -1;
+    } else {
+      scrollDirection = 1;
+    }
+});
+
+var sections = [];
+$('section').each(function() {
+	sections.push($(this).attr('class'))
+});
+var currSection;
+
+$(document).scroll(function() {
+	$('section').each(function() {
+		if($(this).position().top <= $(document).scrollTop() && ($(this).position().top + $(this).outerHeight()) > $(document).scrollTop()) {
+			currSection = $(this);
+		}
+	})
 });
 
 // scroll animation
@@ -352,11 +443,11 @@ new ScrollMagic.Scene({
 	//duration: '150%', // hide 10% before exiting view (80% + 10% from bottom)
 	offset: 50 // move trigger to center of element
 })
-.setClassToggle("#reveal", "visible") // add class to reveal
+.setClassToggle(".reveal", "visible") // add class to reveal
 .addTo(controller);
 
 function scroll() {
-	document.getElementById("reveal").scrollIntoView({behavior: 'smooth', block:'end'});
+	document.getElementsByClassName("reveal").scrollIntoView({behavior: 'smooth', block:'end'});
 	setTimeout(function() {
 		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
 }
@@ -382,7 +473,8 @@ $("button").click(function() {
 
 // load country names from map
 $(document).ready(function() {
-	changeLanguage(language);	
+	changeLanguage(language);
+	drawLine();
 	let t = document.getElementById('svg_1').getElementsByTagName('path');
 	for(let i = 0; i < t.length; i++) {
 		countryList.push($(t[i]).attr('title'));
@@ -399,8 +491,6 @@ function comp(list1, list2) {
 	}
 	return newList;
 }
-
-
 
 // search functions
 function findPos(obj) {
@@ -446,7 +536,6 @@ function search() {
 		searchWrapper.classList.remove("active");
 	}
 }
-
 
 /**
  * 
@@ -527,21 +616,19 @@ $("#svg_1").children('g').children('path').mouseenter(function(e) {
 /**
  * hide tipTool when leave
  */
-$("path").mouseleave(function() {
+ $("#svg_1").children('g').children('path').mouseleave(function() {
 	stopZoom();
 	//$('.hovertext').text("");
   $(".hovertext").hide();
   $(".hovertext").css({
   })
 });
-}
-
-
+} else {
 /**
  * tipTool with mobile on click
  */
 var clickedCountry = "";
-$('path').on('tap',function(e) {
+$("#svg_1").children('g').children('path').on('tap',function(e) {
 	clickedCountry = $(this).attr('title');
 	$(".hovertext").text(clickedCountry);
   $(".hovertext").css({
@@ -558,6 +645,7 @@ $('body').on('tap', function(e) {
 		e.stopPropagation();
 	})
 });
+}
 
 
 /**
@@ -768,10 +856,10 @@ function getUniqueListBy(arr, key) {
 
 		dataOption1.push({
 			type:'line',
-			color: "rgb(4, 86, 4)",
+			color: "rgb(186, 186, 186)",
 			name: title,
 			showInLegend: true,
-			lineColor: "rgb(4, 86, 4)",
+			lineColor: "rgb(186, 186, 186)",
 			lineThickness: 5,
 			xValueFormatString: "Year: ####", 
 			yValueFormatString: "######.## t", 
@@ -783,8 +871,8 @@ function getUniqueListBy(arr, key) {
 			showInLegend: true,
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## t",
-			color: "rgb(4, 86, 4)",
-			lineColor: "rgb(4, 86, 4)",
+			color: "rgb(186, 186, 186)",
+			lineColor: "rgb(186, 186, 186)",
 			lineThickness: 5,
 			dataPoints: dataPointsCO2perPerson
 		});
@@ -795,8 +883,8 @@ function getUniqueListBy(arr, key) {
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## tWh",
 			type: "line",
-			color: "rgb(4, 86, 4)",
-			lineColor: "rgb(4, 86, 4)",
+			color: "rgb(186, 186, 186)",
+			lineColor: "rgb(186, 186, 186)",
 			lineThickness: 5,
 			dataPoints: dataPointsEnergy
 		});
@@ -807,8 +895,8 @@ function getUniqueListBy(arr, key) {
 			xValueFormatString:"Year: ####",
 			yValueFormatString:"#######.## t",
 			type: "line",
-			color: "rgb(4, 86, 4)",
-			lineColor: "rgb(4, 86, 4)",
+			color: "rgb(186, 186, 186)",
+			lineColor: "rgb(186, 186, 186)",
 			lineThickness: 5,
 			dataPoints: dataPointsMethane
 		});
@@ -816,35 +904,43 @@ function getUniqueListBy(arr, key) {
 		if(compare==0) {
 		options1['title'] = 	{
 			text: title + " CO\u{2082} per year",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 		options2['title'] = 	{
 			text: title + " CO\u{2082} tons per person",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 		options3['title'] = 	{
 			text: title + " Energy consumption in terrawatt-hours",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 		options4['title'] = 	{
 			text: title + " Methan in mil tons of carbon dioxide-equivalents",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 	} else {
 		options1['title'] = 	{
 			text: title + " vs. " + titleCountry2 + " CO\u{2082} per year",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 		options2['title'] = 	{
 			text: title + " vs. " + titleCountry2  + " CO\u{2082} tons per person",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 		options3['title'] = 	{
 			text: title + " vs. " + titleCountry2  + " Energy consumption in terrawatt-hours",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 		options4['title'] = 	{
 			text: title + " vs. " + titleCountry2 + " Methan in mil tons of carbon dioxide-equivalents",
+			fontColor: "rgb(186, 186, 186)",
 			//fontSize: 40
 		};
 	
@@ -894,9 +990,11 @@ function removeDuplicateObjectFromArray(array, key) {
 		backgroundColor: "rgba(186, 186, 186, 0.1)",
 		zoomEnabled: true,
 		animationEnabled: true,
+		colorSet: "greenShades",
 		title: {
 			text: titleCountry + " Energy Mix",
-			fontSize: 40
+			fontSize: 40,
+			fontColor: "rgb(186, 186, 186)",
 		},
 		legend:{
 			cursor: "pointer",
@@ -908,7 +1006,8 @@ function removeDuplicateObjectFromArray(array, key) {
 			showInLegend: true,
 			radius: 200,
 			indexLabelFontSize: 20,	
-
+			indexLabelLineThickness: 4,
+			indexLabelFontColor: 'rgb(186, 186, 186)',
 			toolTipContent: "{name}: <strong>{y} tWh</strong>",
 			indexLabel: "{name} - {y} tWh",
 			dataPoints: dataPointsEnergyMix,
@@ -962,9 +1061,9 @@ function removeDuplicateObjectFromArray(array, key) {
 			closeOnEscape: true,
 			draggable: false,
 			resizable: true,
-			width: $("#reveal").width()*0.8,
+			width: $(".reveal").width()*0.8,
 			//minHeight: 300,
-			height: $("#reveal").height()*size,
+			height: $(".reveal").height()*size,
 			modal: true,
 			clickOut: true,
 			responsive: true,
@@ -975,6 +1074,7 @@ function removeDuplicateObjectFromArray(array, key) {
 		$("#chartContainer4").CanvasJSChart(options4);
 		if(compare == 0) {
 			$("#chartContainer5").CanvasJSChart(options5);
+			$($("#tabs").find("li")[4]).show();
 		} else{
 			$($("#tabs").find("li")[4]).hide();
 		  $($("#tabs").find('#tabs-5')).hide();

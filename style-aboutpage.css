@@ -16,7 +16,6 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 50px;
   height: 100%;
   width: 100%;
   margin: 0 auto;
@@ -82,7 +81,7 @@ body, html {
   width: 100%;
   text-align: right;
   height: 100%;
-  z-index: 10;
+  z-index: 0;
   top: 20%;
   background-color: transparent;
 }
@@ -128,27 +127,37 @@ h3 {
 }
 
 ul {
+  display: inline-block;
   color: rgba(56, 56, 56, 1);
   position:absolute;
   font-weight: bold;
-  font-size: 1vw;
   right: 10%;
   width: 40%;
   top: 72%;
   height: 100%;
-  list-style-type: disc;
+  list-style-type: none;
   padding-left: 40px;
   font-size: 1.2vw;
   color: rgba(56, 56, 56, 1);
-  text-align: left;
+  text-align: center;
 }
 
 ul li {
-  display: list-item;
+  text-align: right;
+  padding-top: 1%;
 }
 
 
 @media screen and (max-width: 650px) {
+  
+  .topnav a {
+    font-size: 4vw;
+  }
+  
+  /* Add a color to the active/current link */
+  .topnav a.active {
+    font-size: 4vw;
+  }
   
 h1 {
   color: rgb(4, 86, 4);
@@ -156,7 +165,7 @@ h1 {
   position: absolute;
   font-size: 3.5vh;
   right: 10%;
-  top: 7%;
+  top: 5%;
 }
 
 h2 {
@@ -166,7 +175,7 @@ h2 {
   text-decoration: underline;
   font-size: 2.5vh;
   right: 10%;
-  top: 15%;
+  top: 10%;
 }
 
 .text1 {
@@ -176,7 +185,7 @@ h2 {
   font-size: 2vh;
   right: 10%;
   width: 70%;
-  top: 20%;
+  top: 15%;
   height: 100%;
 }
 
@@ -187,18 +196,12 @@ h3 {
   text-decoration: underline;
   font-size: 2.5vh;
   right: 10%;
-  top: 80%;
+  top: 72%;
 }
-
-.text2 {
-  color: rgba(56, 56, 56, 1);
-  /*position:absolute;*/
-  display: block;
-  font-weight: bold;
-  font-size: 1vh;
-  right: 10%;
-  width: 40%;
-  top: 85%;
-  height: 100%;
+ul {
+  font-size: 2.5vw;
+  width: 65%;
+  top: 77%;
+  text-align: right;
 }
 }
