@@ -334,7 +334,7 @@ function chartFood () {
 
 	var chart = new CanvasJS.Chart("data_food", {
 		animationEnabled: true,
-		animationDuration: 2000,
+		animationDuration: 1500,
 		backgroundColor: "transparent",
 		minwidth: '20%',
 		colorSet: "greenShades",
@@ -388,9 +388,6 @@ function drawLine() {
   const draw = length * scrollPercentage;
   // Reverse the drawing when scroll upwards
   svg_line.style.strokeDashoffset = length - draw;
-	if(scrollPercentage>0.33 && !foodChart){ 
-		chartFood();
-	}
 	if(scrollPercentage < 0.05) foodChart=0;
 	if(scrollPercentage > 1.3) {
 		$('#svg_line').hide();
@@ -410,6 +407,7 @@ var timer;
 
 function scrollToElement(element) {
 	isScrolling = true;
+	if(element.attr('class') == 'food' && !foodChart) chartFood();
 	$('html, body').animate({
 		scrollTop: $(element).offset().top
 	}, 200, function() {
