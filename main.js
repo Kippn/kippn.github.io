@@ -180,14 +180,12 @@ const svg = d3.select('#svg_1');
 let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
 let size = 0.6;
+let dialogWidth = 0.8;
 let foodChartFontTitle = 30;
 let foodChartFontData = 20;
 let lineHeight = ($(document).height() - $(window).height())*0.68;
 let lineWidth = $(document).width()*0.68;
-$('.line-container').css({
-	//height:lineHeight,
-	//width: lineWidth
-})
+
 //check if mobile
 var documentClick;
 const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
@@ -195,15 +193,23 @@ const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
 if(isMobile) {
 	wString = '100%';
 	size = 0.7;
+	dialogWidth = 1;
 	foodChartFontData = 10;
 	foodChartFontTitle = 15;
 }
 
+/**
+ * language change button
+ */
 $('.check').on('click', function() {
 	language = document.querySelector('.check').checked;
 	changeLanguage(language);
 })
 
+/**
+ * change the language
+ * @param {c} language 
+ */
 function changeLanguage(language) {
 	if(language) {
 		$('.de').css({
@@ -243,10 +249,6 @@ window.addEventListener('resize', function() {
 	h = document.querySelector("#svg_1").clientHeight;
 	lineHeight = $(document).height() - $(window).height();
 	lineWidth = $(document).width();
-	$('.line-container').css({
-		//height:lineHeight,
-		//width: lineWidth
-	})
 })
 
 /**
@@ -313,6 +315,9 @@ var fill =  async() => {while(true) {
 fill();
 
 
+/**
+ * show chart in food section
+ */
 function chartFood () {
 	foodChart = true;
 	CanvasJS.addColorSet("greenShades",
@@ -365,7 +370,7 @@ function chartFood () {
 	}
 // set height of the svg path as constant
 const svg_line = document.getElementById("svgPath");
-const length = svg_line.getTotalLength();
+const length = svg_line.getTotalLength()*1.02;
 
 // start positioning of svg drawing
 svg_line.style.strokeDasharray = length;
@@ -373,6 +378,7 @@ svg_line.style.strokeDasharray = length;
 // hide svg before scrolling starts
 svg_line.style.strokeDashoffset = length;
 
+//draw line throw window on scroll
 window.addEventListener("scroll", function() {
 	drawLine();
 });
@@ -393,46 +399,61 @@ function drawLine() {
 	}
 }
 
-var scrollDirection = 1;
-// ## function declaration
-function scrollEventThrottle(fn) {
-  let last_known_scroll_position = 0;
-  let ticking = false;
-  window.addEventListener("scroll", function () {
-    let previous_known_scroll_position = last_known_scroll_position;
-    last_known_scroll_position = window.scrollY;
-    if (!ticking) {
-      window.requestAnimationFrame(function () {
-        fn(last_known_scroll_position, previous_known_scroll_position);
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
+/**
+ * scroll to snap
+ */
+var isScrolling = false;
+var currSection;
+var oldSection;
+var scrolled = false;
+var timer;
+
+function scrollToElement(element) {
+	isScrolling = true;
+	$('html, body').animate({
+		scrollTop: $(element).offset().top
+	}, 200, function() {
+		isScrolling = false;
+	});
 }
 
-// ## function invocation
-scrollEventThrottle((scrollPos, previousScrollPos) => {
-    if (previousScrollPos > scrollPos) {
-      scrollDirection = -1;
-    } else {
-      scrollDirection = 1;
-    }
-});
-
-var sections = [];
-$('section').each(function() {
-	sections.push($(this).attr('class'))
-});
-var currSection;
-
-$(document).scroll(function() {
-	$('section').each(function() {
-		if($(this).position().top <= $(document).scrollTop() && ($(this).position().top + $(this).outerHeight()) > $(document).scrollTop()) {
-			currSection = $(this);
+// check if scoll stopped
+window.onscroll = function() {
+	if(typeof this.scrollY !=='undefined' && typeof this.oldScroll !=='undefined') {
+		if(Math.abs(this.oldScroll.toFixed(0) - this.scrollY.toFixed(0)) <= 2 ) {
+			scrolled = true;
+		}  else {
+			scrolled = false;
 		}
-	})
+	}
+  this.oldScroll = this.scrollY;
+}
+
+// get current section in window
+$(document).scroll(function() {
+	currSection = $('section').filter(function() {
+    var $this = $(this);
+    var offset = $this.offset().top;
+    var view = $(window).height() / 2;
+
+    return $(window).scrollTop() >= offset - view && offset + ($this.outerHeight() - view) >= $(window).scrollTop();
 });
+	oldSection = currSection;
+});
+
+// scroll to element in sight if scroll stopped
+$(document).scroll(function() {
+    if(timer) {
+        window.clearTimeout(timer);
+    }
+    timer = window.setTimeout(function() {
+			if(scrolled && !isScrolling) {
+				scrolled = false;
+				scrollToElement(currSection);
+			}
+    }, 100);
+});
+
 
 // scroll animation
 var controller = new ScrollMagic.Controller();
@@ -447,7 +468,7 @@ new ScrollMagic.Scene({
 .addTo(controller);
 
 function scroll() {
-	document.getElementsByClassName("reveal").scrollIntoView({behavior: 'smooth', block:'end'});
+	document.querySelector(".reveal").scrollIntoView({behavior: 'smooth', block:'end'});
 	setTimeout(function() {
 		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
 }
@@ -1061,7 +1082,7 @@ function removeDuplicateObjectFromArray(array, key) {
 			closeOnEscape: true,
 			draggable: false,
 			resizable: true,
-			width: $(".reveal").width()*0.8,
+			width: $(".reveal").width()*dialogWidth,
 			//minHeight: 300,
 			height: $(".reveal").height()*size,
 			modal: true,

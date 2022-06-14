@@ -188,7 +188,7 @@ First Section
 
 .food #f_2 {
   position: absolute;
-  top: 67%;
+  top: 60%;
   left: 5%;
   width: 55%;
 }
@@ -839,7 +839,7 @@ button:hover:after {
 Diolog Box Tabs
 */
 #tabs {
-  color: white !important;
+  color: rgb(186, 186, 186) !important;
   background: rgba(56, 56, 56, 0.7) !important;
   border: none !important;
   margin: 0 auto;
@@ -909,7 +909,7 @@ Diolog Box Tabs
 }
 #tabs .ui-tabs-active {
   background: rgba(4, 86, 4,1);
-  border: rgb(4, 86, 4);
+  border: none !important;
 }
 
 .ui-dialog {
@@ -1236,21 +1236,21 @@ p2 {
     padding-top: 10%;
   }
 
-  #dialogBox {
-    height: 1400px;
-    width: 1500px;
-    margin: 0 auto;
-    padding: 0;
-  }
+
 
   #tabs {
-    background: rgba(186, 186, 186,0.5) !important;
-    color: rgba(186, 186, 186,0.3) !important;
-    background: transparent !important;
-    border: transparent !important;
+    min-height: 95%;
+    min-height: 95%;
     position: relative;
     margin: 0 auto;
     top: -10%;
+  }
+
+  .ui-tabs .ui-tabs-nav li {
+    height: 30px;
+    width: auto;
+    margin: 0 auto;
+    padding: 0;
   }
 
   #shiny {
