@@ -198,6 +198,8 @@ if(isMobile) {
 	dialogWidth = 1;
 	foodChartFontData = 10;
 	foodChartFontTitle = 15;
+	checkScroll = true;
+	document.querySelector('#checkScroll').checked = true;
 }
 
 /**

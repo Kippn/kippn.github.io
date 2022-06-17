@@ -515,7 +515,6 @@ Navigation Bar
   text-align: center;
 }
 
-
 .dropdown .dropbtn {
   cursor: pointer;
   font-size: 1.5vw;
@@ -1067,13 +1066,6 @@ Mobil options
 */
 @media screen and (max-width: 650px) {
 
-  .dropdown {
-    float: right;
-    overflow: hidden;
-    width: 30%;
-    text-align: center;
-  }
-
   #svg_line {
     stroke-width: 0.8%;
     width: 97%;
@@ -1302,106 +1294,68 @@ p2 {
     font-size: 4vw;
   }
 
-  .containerLanguage {
-    height: 100%;
-    width: 40%;
-    font-size: 3vw;
-    vertical-align: middle;
+  .dropdown {
+    width: 30%;
   }
-  .check {
-    width: 25%;
-    height: 5vw;
-    margin-top: 7.5%;
+  .dropdown .dropbtn {
+    font-size: 4vw;
+  }
+  .dropdown-content {
+    max-height: 15%;
+    width: 30%;
+    text-align: center;
   }
 
+  .check {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 0%;
+    height: 35%;
+  }
   .check:before {
-    height: 100%;
-    width: 100%;
-    border-radius: 25px;
+    width: 30px;
+    height: 15px;
   }
   
   .check:after {
     left: 0px;
-    width: 50%;
-    height: 100%;
-    border-radius: 25px;
-    border: 2px solid #333;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #333;
   }
   
   .check:checked:after {
-    left: 51%;
-    border: 2px solid rgba(56, 56, 56, 1);
+    left: 15px;
+    border: 1px solid rgba(56, 56, 56, 1);
+  }
+  .dropDownOptions {
+    font-size: 3vw;
+  }
+
+  .container{
+    height: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
   .de {
-    padding-top: 10%;
+    font-size: 2.5vw;
+    text-align: center;
+    width: 80%;
   }
-
   .en {
-    padding-top: 10%;
-  }
-
-
-
-  #tabs {
-    min-height: 95%;
-    min-height: 95%;
-    position: relative;
-    margin: 0 auto;
-    top: -10%;
-  }
-
-  .ui-tabs .ui-tabs-nav li {
-    height: 30px;
-    width: auto;
-    margin: 0 auto;
-    padding: 0;
-  }
-
-  #shiny {
-    position: relative;
-    top: 85%;
-    left: 30%;
-    align-items: center;
-    justify-content: center;
-    height: 9%;
-    width: 40%;
-    background: transparent;
-    z-index: 1;
-    overflow: hidden;
-  }
-  
-  button {
-    height: 100%;
+    font-size: 2.5vw;
     width: 100%;
-    border: 3px solid rgb(4, 86, 4);
-    background: transparent;
-    text-transform: uppercase;
-    color: rgb(4, 86, 4);
-    padding: 10px;
-    outline: none;
-    position: relative;
   }
-  
-  span {
-    z-index: 20;  
+  .snapScroll {
+    font-size: 2.5vw;
+    width: 100%;
   }
-  
-  button:after {
-    content: '';
-      position: absolute;
-      top: -36px;
-      left: -100px;
-      background: white;
-      width: 50px;
-      height: 125px;
-      opacity: 20%;
-      transform: rotate(-45deg);
-  }
-  
-  button:hover:after {
-    left: 140%;
-    transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
-     -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
+  .normalScroll {
+    font-size: 2.5vw;
+    width: 80%;
   }
 }
