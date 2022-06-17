@@ -62,7 +62,7 @@ body, html {
 
 .line-container {
   position: absolute;
-  top: 0;
+  top: 6%;
   text-align: center;
   stroke: rgb(4, 86, 4);
   z-index: 0;
@@ -345,7 +345,7 @@ search bar fields
   z-index: 0;
 }
 
-.container{
+.containerSearch{
   width: 20%;
   height: 20%;
   margin: 0;
@@ -354,7 +354,7 @@ search bar fields
   position: absolute;
 }
 
-.container input#searchbar{
+.containerSearch input#searchbar{
   width: 16%;
   height: 36%;
   background: rgb(4, 86, 4);
@@ -375,23 +375,23 @@ search bar fields
   transition: width .55s ease;
 }
 
-.container input#searchbar::-webkit-input-placeholder {
+.containerSearch input#searchbar::-webkit-input-placeholder {
   color: rgb(4, 86, 4);;
 }
 
-.container input#searchbar:-moz-placeholder { /* Firefox 18- */
+.containerSearch input#searchbar:-moz-placeholder { /* Firefox 18- */
   color: rgb(4, 86, 4);;  
 }
 
-.container input#searchbar::-moz-placeholder {  /* Firefox 19+ */
+.containerSearch input#searchbar::-moz-placeholder {  /* Firefox 19+ */
   color: rgb(4, 86, 4);;  
 }
 
-.container input#searchbar:-ms-input-placeholder {  
+.containerSearch input#searchbar:-ms-input-placeholder {  
   color: rgb(4, 86, 4);;  
 }
 
-.container .icon{
+.containerSearch .icon{
   position: absolute;
   top: 0%;
   margin-top: 1.3vh;
@@ -401,21 +401,21 @@ search bar fields
   font-weight: bolder;
 }
 
-.container input#searchbar:focus, .container input#searchbar:active{
+.containerSearch input#searchbar:focus, .containerSearch input#searchbar:active{
   outline:none;
   width: 100%;
 }
  
-.container:hover input#searchbar{
+.containerSearch:hover input#searchbar{
   width: 100%;
 }
  
-.container:hover .icon{
+.containerSearch:hover .icon{
   color: rgba(56, 56, 56, 0.964);
   position: absolute;
 }
 
-.container .autocom-box{
+.containerSearch .autocom-box{
   padding: 0;
   opacity: 0;
   pointer-events: none;
@@ -425,7 +425,7 @@ search bar fields
   background-color: rgb(186, 186, 186);
 
 }
-.container.active .autocom-box{
+.containerSearch.active .autocom-box{
   padding: 10px 8px;
   opacity: 1;
   pointer-events: auto;
@@ -438,7 +438,7 @@ search bar fields
   cursor: default;
   border-radius: 3px;
 }
-.container.active .autocom-box li{
+.containerSearch.active .autocom-box li{
   display: block;
 }
 .autocom-box li:hover{
@@ -447,8 +447,6 @@ search bar fields
 .highlight{
   background: rgb(4, 86, 4);
 }
-
-
 
 /*
 Navigation Bar
@@ -459,62 +457,122 @@ Navigation Bar
   background-color: rgba(56, 56, 56,1);
   overflow: hidden;
   width: 100%;
-  z-index: 10;
+  z-index: 4;
   align-items: center;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color: white;
+  color: rgb(186, 186, 186);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 1.5vw;
-  z-index: 2;
+  transform: skewX(-20deg);
+}
+
+.topnav a span {
+  display: block;
+  text-transform: uppercase;
+  transform: skewX(20deg);
+}
+
+#navText {
+  margin-left: .7%;
 }
 
 /* Change the color of links on hover */
-.topnav a:hover {
-  background-color: rgb(186, 186, 186);
+.topnav a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background: -webkit-linear-gradient(45deg, rgb(186,186,186),rgb(56, 56, 56));
+  background: linear-gradient(45deg, rgb(186,186,186),rgb(56, 56, 56));
   color: rgb(4, 86, 4);
 }
 
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  grid-gap: 2%;
+  height: 25%;
+  margin: 0 auto;
+}
+
+
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: rgb(4, 86, 4);
-  color: black;
+  background: -webkit-linear-gradient(45deg, rgb(4,86,4),rgb(56, 56, 56));
+  background: linear-gradient(45deg, rgb(4,86,4),rgb(56, 56, 56));
+  color: rgb(186, 186, 186);
   font-size: 1.5vw;
 }
 
-.containerLanguage {
-  position: relative;
+.dropdown {
   float: right;
-  height: 100%;
-  width: 15%;
-  margin-top: 0.5%;
-  align-items: center;
-  vertical-align: middle;
+  overflow: hidden;
+  width: 20%;
+  text-align: center;
+}
+
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 1.5vw;
+  border: none;
+  outline: none;
+  color: rgb(186, 186, 186);
+  background-color: inherit;
+  font-family: inherit;
+  padding: 14px 16px;
+  margin: 0 auto;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.dropdown-content {
+  display: none;
+  position: fixed;
+  width: 20%;
+  background-color: rgba(56, 56, 56, 1);
+}
+
+.container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  grid-template-rows: 20% 50%;
   text-align: center;
   justify-content: center;
-  font-size: 1vw;
+  align-items: center;
+  align-self: center;
+  height: 100%;
+  width: 100%;
+  font-size: 1.5vw;
   font-weight: bold;
 }
 
-.containerLanguage .content {
+.content {
   display: none;
 }
 
-.containerLanguage .content .contentEnglish {
+.content .contentEnglish {
   display: block;
 }
 
 .check {
   position: relative;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  grid-column: 2;
+  grid-row: 2;
   width: 25%;
-  height: 2.5vh;
-  margin-top: 3%;
+  height: 0vh;
+  margin-bottom: 2vw;
 }
+
 
 .check:before {
   content: '';
@@ -532,7 +590,7 @@ Navigation Bar
 .check:after {
   content: '';
   position: absolute;
-  left: 0px;
+  left: 10px;
   width: 25px;
   height: 25px;
   background-color: rgb(186, 186, 186);
@@ -543,7 +601,7 @@ Navigation Bar
 }
 
 .check:checked:after {
-  left: 25px;
+  left: 40px;
   background: rgb(186, 186, 186);
   border: 2px solid rgba(56, 56, 56, 1);
 }
@@ -556,22 +614,60 @@ Navigation Bar
   display: none;
 }
 
+.Language {
+  grid-row: 1;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.Scroll {
+  grid-row: 2;
+}
+
+.dropDownOptions {
+  color: rgb(186, 186, 186);
+  grid-row: 1;
+  grid-column: 1/4;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  font-size: 1.5vw;
+}
+
 .en {
   color: rgb(4, 86, 4);
-  display: table;
+  grid-column: 1;
+  grid-row: 2;
   margin: 0 auto;
-  float: left;
-  padding-top: 5%;
+  width: 100%;
+  text-align: center;
 }
 .de {
   color: rgb(186, 186, 186);
-  display: table;
+  grid-column: 3;
+  grid-row: 2;
   margin: 0 auto;
-  padding-top: 5%;
-  padding-right: 5%;
-  float: right;
+  width: 100%;
+  text-align: center;
 }
-
+.snapScroll {
+  color: rgb(4, 86, 4);
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.normalScroll {
+  color: rgb(186, 186, 186);
+  grid-column: 3;
+  grid-row: 2;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
 
 
 /* Scroll Down Button */
@@ -801,7 +897,7 @@ Compare Button
   overflow: hidden;
 }
 
-button {
+.buttonCompare {
   height: 100%;
   width: 100%;
   border: 3px solid rgb(186, 186, 186);
@@ -817,7 +913,7 @@ span {
   z-index: 20;  
 }
 
-button:after {
+.buttonCompare:after {
   content: '';
     position: absolute;
     top: -36px;
@@ -829,7 +925,7 @@ button:after {
     transform: rotate(-45deg);
 }
 
-button:hover:after {
+.buttonCompare:hover:after {
   left: 140%;
   transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
    -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
@@ -961,13 +1057,22 @@ Diolog Box Tabs
 
   .toTopButton:hover {
   background:rgb(186, 186, 186)
-  url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(4, 86, 4,1) '/%3E%3C/svg%3E") no-repeat center center;}
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(4, 86, 4,1) '/%3E%3C/svg%3E") no-repeat center center;
+  border: solid 3px rgb(4, 86, 4);
+}
 
 
 /*
 Mobil options
 */
 @media screen and (max-width: 650px) {
+
+  .dropdown {
+    float: right;
+    overflow: hidden;
+    width: 30%;
+    text-align: center;
+  }
 
   #svg_line {
     stroke-width: 0.8%;

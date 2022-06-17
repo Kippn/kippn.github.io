@@ -5,7 +5,9 @@ let	active = d3.select(null);
 let compare = 0;
 let hString = '100%';
 let wString = '80%';
-var language =  document.querySelector('.check').checked;
+var language =  document.querySelector('#checkLanguage').checked;
+var checkScroll =  document.querySelector('#checkScroll').checked;
+
 let foodChart = false;
 // diagram objects
 var options1 = {
@@ -153,7 +155,7 @@ var options4 = {
 	}
 };
 // searchbar variables
-const searchWrapper = document.querySelector(".container");
+const searchWrapper = document.querySelector(".containerSearch");
 const inputBox = document.getElementById('searchbar');
 const suggBox = searchWrapper.querySelector(".autocom-box");
 const icon = document.querySelector(".icon");
@@ -201,10 +203,15 @@ if(isMobile) {
 /**
  * language change button
  */
-$('.check').on('click', function() {
-	language = document.querySelector('.check').checked;
+$('#checkLanguage').on('click', function() {
+	language = document.querySelector('#checkLanguage').checked;
 	changeLanguage(language);
-})
+});
+
+$('#checkScroll').on('click', function() {
+	checkScroll = document.querySelector('#checkScroll').checked;
+	changeScroll(checkScroll);
+});
 
 /**
  * change the language
@@ -240,6 +247,23 @@ function changeLanguage(language) {
 }
 }
 
+function changeScroll(scroll) {
+	if(scroll) {
+		$('.normalScroll').css({
+			color: 'rgb(4, 86, 4)'
+		})
+		$('.snapScroll').css({
+			color: 'rgb(186, 186, 186)'
+		})
+	} else {
+		$('.snapScroll').css({
+			color: 'rgb(4, 86, 4)'
+		})
+		$('.normalScroll').css({
+			color: 'rgb(186, 186, 186)'
+		})
+}
+}
 
 /**
  * change map size if window resized
@@ -276,6 +300,7 @@ var secondsPerDay = secondsPerHour*24;
 var secondsPerMonth = secondsPerDay*30;
 var secondsPerYear = secondsPerMonth*12;
 var times = [];
+var out;
 times.push(secondsPerYear);
 times.push(secondsPerMonth);
 times.push(secondsPerDay);
@@ -283,10 +308,10 @@ times.push(secondsPerHour);
 times.push(secondsPerMin);
 times.push(seconds);
 
-var fill =  async() => {while(true) {
+var fillTime =  async() => {while(true) {
 	const currTime = new Date();
 	var seconds = Math.floor((currTime - timeStart) / 1000);
-	var out = ((maxCO2 - seconds*co2PerSecond)/maxCO2);
+	out = ((maxCO2 - seconds*co2PerSecond)/maxCO2);
 	var secondsLeft = Math.round((maxCO2 - seconds*co2PerSecond)/co2PerSecond);
 
 	for(var i = 0; i < p2.length; i++) {
@@ -296,23 +321,26 @@ var fill =  async() => {while(true) {
 			secondsLeft -= times[i];
 		}
 		p2[i].innerText = temp;
-	}	
-
-
-	if(first) {
-		for(let i = 0; i <= out; i+=0.01) {
-			setProgress(i);
-			await new Promise(resolve => setTimeout(resolve,i*100));
-		}
-		first = false;
-	} else {
-		setProgress(out);
-		await new Promise(resolve => setTimeout(resolve,1000));
 	}
 
+	if(!first) {
+		setProgress(out);
+		await new Promise(resolve => setTimeout(resolve,1000));
+	} else {
+		await new Promise(resolve => setTimeout(resolve,1000));
+	}
 }};
 
-fill();
+var fillImage = async(out) => {while(first) {
+		for(let i = 0; i <= out; i+=0.001) {
+			setProgress(i);
+			await new Promise(resolve => setTimeout(resolve,i*30));
+		}
+		first = false;
+}};
+
+fillTime();
+fillImage(out);
 
 
 /**
@@ -389,15 +417,10 @@ function drawLine() {
   // Reverse the drawing when scroll upwards
   svg_line.style.strokeDashoffset = length - draw;
 	if(scrollPercentage < 0.05) foodChart=0;
-	if(scrollPercentage > 1.3) {
-		$('#svg_line').hide();
-	} else {
-		$('#svg_line').show();
-	}
 }
 
 /**
- * scroll to snap
+ * snap scroll
  */
 var isScrolling = false;
 var currSection;
@@ -445,7 +468,7 @@ $(document).scroll(function() {
         window.clearTimeout(timer);
     }
     timer = window.setTimeout(function() {
-			if(scrolled && !isScrolling) {
+			if(scrolled && !isScrolling && !checkScroll) {
 				scrolled = false;
 				scrollToElement(currSection);
 			}
@@ -453,11 +476,12 @@ $(document).scroll(function() {
 });
 
 
+
 // scroll animation
 var controller = new ScrollMagic.Controller();
 
 new ScrollMagic.Scene({
-	triggerElement: "#trigger1",
+	triggerElement: "#trigger",
 	triggerHook: 0.9, // show, when scrolled 10% into view
 	//duration: '150%', // hide 10% before exiting view (80% + 10% from bottom)
 	offset: 50 // move trigger to center of element
@@ -479,10 +503,21 @@ $(".scroll-down").click(function() {
 // navigation map button
 $('#mapNav').click(function() {
 	scroll();
-})
+});
+
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var dropdown = document.querySelector(".dropdown-content");
+    if (dropdown.classList.contains('show')) {
+      dropdown.classList.remove('show');
+    }
+  }
+};
 
 // compare button
-$("button").click(function() {
+$(".buttonCompare").click(function() {
 	compare = 1;
 	titleCountry2 = titleCountry;
 	$("#dialogBox").dialog('close');
@@ -493,12 +528,13 @@ $("button").click(function() {
 // load country names from map
 $(document).ready(function() {
 	changeLanguage(language);
+	changeScroll(checkScroll);
 	drawLine();
 	let t = document.getElementById('svg_1').getElementsByTagName('path');
 	for(let i = 0; i < t.length; i++) {
 		countryList.push($(t[i]).attr('title'));
 	}
-})
+});
 
 // delete all item from list2 if not also in list1
 function comp(list1, list2) {
@@ -670,14 +706,14 @@ $('body').on('tap', function(e) {
 /**
  * hide suggestion list when leave
  */
-$(".container").mouseleave(function(e) {
+$(".containerSearch").mouseleave(function(e) {
 	searchWrapper.classList.remove("active");
 })
 
 /**
  * show suggestion list if not empty on hover
  */
-$(".container").mouseenter(function(e) {
+$(".containerSearch").mouseenter(function(e) {
 	$('.alert').css(
 		'visibility', 'hidden'
 	);

@@ -20,21 +20,41 @@
 				<path stroke-dasharray="20, 10"  id="svgPath" d="M533.5 0.5C285.5 99.0579 333 633 436.5 750.5C540 868 693.5 993 744 993C794.5 993 812 993 812 993V1095L918 1036V1095L1025.5 1036V1267.5H963.5V1167H897V1267.5H744C744 1267.5 744 1151 744 1095C744 1039 675 1027.5 606 1095C537 1162.5 76 1681 139.5 1726.5C203 1772 178.423 1852.33 140 1885.5C183.282 1838.25 209.902 1817.42 281 1820.5C274.563 1847.35 259.083 1883.5 230 1903.5C200.917 1923.5 142.072 1961.27 140 1964C141.5 1961 212.355 1901.86 281 1905.5C261.791 1979.72 200 2007 139.5 2009C79 2011 19.6433 1976.08 1 1905.5C59.1383 1906.43 89.2601 1920.32 139.5 1964C106.243 1930.49 66.5 1920 48.5 1903.5C30.5 1887 4.90072 1856.53 1 1820.5C60.9226 1817.25 92.571 1829.12 139.5 1885.5C79.6608 1829.7 99.4139 1740.09 139.5 1725.5C179.586 1710.91 447.5 1808.5 359.5 2009C271.5 2209.5 822.5 2514 762.5 2556.5C702.5 2599 648.5 2661 648.5 2661L647.5 2547.5L708 2606C756.331 2659.76 788.258 2673.55 852.5 2676.5V2534.5C908.319 2540.19 936.8 2555.23 982 2605.5C948.719 2643.74 935.5 2652.5 870.5 2674C805.5 2695.5 580 2984 580 2984"/>
 				</svg>
 		</div>
-		
+			<!--navigation bar-->
+			
 		<!--first page-->
 		<section class="sectionText">
-		
-			<!--navigation bar-->
 			<div class="topnav">
-				<a class="active" href="index.html">Home</a>
-				<a id = mapNav href="#MapNav">Map</a>
-				<a href="about.html">About</a>
-				<div class="containerLanguage">
-					<span class="en">English</span>
-					<input type="checkbox" class="check">
-					<span class="de">Deutsch</span>
-				</div>
+				<a class="active" id="navText" href="index.html">
+					<span>Home</span>
+				</a>
+				<a id = mapNav href="#MapNav">
+					<span>Map</span>
+				</a>
+				<a href="about.html">
+					<span>About</span>
+				</a>
+				<div class="dropdown">
+					<button class="dropbtn">Options
+						<i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+						<div class="container Language">
+							<span class="dropDownOptions">Language Options</span>
+							<span class="en">English</span>
+							<input type="checkbox" class="check" id="checkLanguage">
+							<span class="de">Deutsch</span>
+						</div>
+						<div class="container Scroll">
+							<span class="dropDownOptions">Scroll Behavior</span>
+							<span class="snapScroll">Snap</span>
+							<input type="checkbox" class="check" id="checkScroll">
+							<span class="normalScroll">Normal</span>
+						</div>
+					</div>
 			</div>
+			</div>
+		
 			<!--design-->
 		<div class="circleBase circle1"></div>
 		<div class="circleBase circle2"></div>
@@ -229,7 +249,7 @@
 				<div class="hovertext"></div>
 					<!--searchbar-->
 					<div class="box">
-						<div class="container">
+						<div class="containerSearch">
 							<a href="" target="_blank" hidden></a>
 							<span class="icon"><i class="fa fa-search"></i></span>
 							<input type="search" id="searchbar" placeholder="Search..." onkeyup="search()" onfocus="this.value=''"/>
@@ -422,7 +442,7 @@
 			<!--chart-->
 			<div id="dialogBox" hidden="hidden">
 				<div id="shiny">
-					<button class="button">Compare</button>
+					<button class="buttonCompare">Compare</button>
 				</div>
 				<div id="tabs">
 					<ul>

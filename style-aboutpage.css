@@ -30,30 +30,42 @@ body, html {
   overflow: hidden;
   width: 100%;
   z-index: 10;
+  align-items: center;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color: white;
+  color: rgb(186, 186, 186);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 20px;
-  z-index: 2;
+  font-size: 1.5vw;
+  transform: skewX(-20deg);
 }
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: rgb(186, 186, 186);
+  background: -webkit-linear-gradient(45deg, rgb(186,186,186),rgb(56, 56, 56));
+  background: linear-gradient(45deg, rgb(186,186,186),rgb(56, 56, 56));
   color: rgb(4, 86, 4);
+}
+
+.topnav a span {
+  display: block;
+  transform: skewX(20deg);
+}
+
+#navText {
+  margin-left: 0.7%;
 }
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: rgb(4, 86, 4);
-  color: black;
-  font-size: 20px;
+  background: -webkit-linear-gradient(45deg, rgb(4,86,4),rgb(56, 56, 56));
+  background: linear-gradient(45deg, rgb(4,86,4),rgb(56, 56, 56));
+  color: rgb(186, 186, 186);
+  font-size: 1.5vw;
 }
 
 .circleBase {
