@@ -418,7 +418,8 @@ function drawLine() {
   const draw = length * scrollPercentage;
   // Reverse the drawing when scroll upwards
   svg_line.style.strokeDashoffset = length - draw;
-	if(scrollPercentage < 0.05) foodChart=0;
+	if(checkScroll==true && !foodChart && scrollPercentage > 0.5) chartFood();
+	if(scrollPercentage < 0.05) foodChart=false;
 }
 
 /**

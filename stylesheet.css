@@ -160,18 +160,28 @@ First Section
   top: 10%;
   width: 30%;
 }
+.economy #e_1.contentGerman {
+  top: 5%;
+}
 
 .economy #e_2 {
   top: 35%;
-  left: 69%;
-  width: 30%;
+  left: 45%;
+  width: 50%;
   float: left;
+}
+
+.economy #e_2.contentGerman {
+  top: 35%;
 }
 .economy #e_3 {
   top: 69%;
   left: 45%;
   width: 50%;
   float: left;
+}
+.economy #e_3.contentGerman {
+  top: 65%;
 }
 
 .food #watermark {
@@ -210,6 +220,10 @@ First Section
   padding-top: 10px;
 }
 
+.food ul.contentGerman {
+  top: 25%
+}
+
 #data_food {
   position: absolute;  
   top: 20%;
@@ -227,14 +241,14 @@ First Section
 .ocean #o_1 {
   position: absolute;
   left: 5%;
-  top: 10%;
+  top: 5%;
   width: 35%;
 }
 
 .ocean #o_2 {
   position: absolute;
-  top: 10%;
-  left: 65%;
+  top: 5%;
+  left: 60%;
   width: 35%;
 }
 
@@ -1148,7 +1162,12 @@ Mobil options
 
   .economy #e_2 {
     top: 55%;
-    left: 40%;
+    left: 30%;
+    width: 60%;
+  }
+  .economy #e_2.contentGerman {
+    top: 50%;
+    left: 30%;
     width: 60%;
   }
   .economy #e_3 {
@@ -1202,6 +1221,7 @@ Mobil options
   }
 
   .food  ul {
+    top: 50%;
     left: -5%;
     font-size: 3vw;
     width: 30%;
@@ -1215,9 +1235,9 @@ Mobil options
   #data_food {
     position: absolute;  
     top: 20%;
-    left: 35%;
-    height: 20%;
-    width: 60%;
+    left: 0%;
+    height: 25%;
+    width: 100%;
     overflow: visible;
     z-index: 0;
   }
