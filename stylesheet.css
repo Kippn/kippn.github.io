@@ -747,7 +747,7 @@ Navigation Bar
 Second Section
 Scroll Magic
 */
-.reveal {
+#reveal {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -772,7 +772,7 @@ Scroll Magic
        -o-transition: all 2s ease-in-out;
           transition: all 2s ease-in-out;
 }
-.reveal.visible {
+#reveal.visible {
   opacity: 1;
   -webkit-transform: none;
      -moz-transform: none;

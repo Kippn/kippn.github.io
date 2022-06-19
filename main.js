@@ -1,4 +1,4 @@
-// variables
+// ************ variables ************** //
 let titleCountry = "";
 var titleCountry2 = "";
 let	active = d3.select(null);
@@ -7,8 +7,8 @@ let hString = '100%';
 let wString = '80%';
 var language =  document.querySelector('#checkLanguage').checked;
 var checkScroll =  document.querySelector('#checkScroll').checked;
-
 let foodChart = false;
+let foodChartTitle;
 // diagram objects
 var options1 = {
 	backgroundColor: "rgba(186, 186, 186, 0.1)",
@@ -188,7 +188,11 @@ let foodChartFontData = 20;
 let lineHeight = ($(document).height() - $(window).height())*0.68;
 let lineWidth = $(document).width()*0.68;
 
-//check if mobile
+
+
+
+
+// ************ mobile *************** //
 var documentClick;
 const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
@@ -201,6 +205,31 @@ if(isMobile) {
 	checkScroll = true;
 	document.querySelector('#checkScroll').checked = true;
 }
+
+
+
+
+
+//************ on load functions ************** //
+
+// load country names from map
+$(document).ready(function() {
+	changeLanguage(language);
+	changeScroll(checkScroll);
+	drawLine();
+	let t = document.getElementById('svg_1').getElementsByTagName('path');
+	for(let i = 0; i < t.length; i++) {
+		countryList.push($(t[i]).attr('title'));
+	}
+});
+
+
+
+
+
+
+
+// ************ Buttons ************ //
 
 /**
  * language change button
@@ -219,8 +248,9 @@ $('#checkScroll').on('click', function() {
  * change the language
  * @param {c} language 
  */
-function changeLanguage(language) {
+ function changeLanguage(language) {
 	if(language) {
+		foodChartTitle ='Treibhausgasemissionen';
 		$('.de').css({
 			color: 'rgb(4, 86, 4)'
 		})
@@ -234,6 +264,7 @@ function changeLanguage(language) {
 			display: 'none'
 		})
 	} else {
+		foodChartTitle ='Greenhouse Gas Emissions';
 		$('.en').css({
 			color: 'rgb(4, 86, 4)'
 		})
@@ -267,16 +298,73 @@ function changeScroll(scroll) {
 }
 }
 
+// scroll down button
+$(".scroll-down").click(function() {
+	scroll();
+});
+
+// navigation map button
+$('#mapNav').click(function() {
+	scroll();
+});
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var dropdown = document.querySelector(".dropdown-content");
+    if (dropdown.classList.contains('show')) {
+      dropdown.classList.remove('show');
+    }
+  }
+};
+
+// compare button
+$(".buttonCompare").click(function() {
+	compare = 1;
+	titleCountry2 = titleCountry;
+	$("#dialogBox").dialog('close');
+	reset(svg,zoom);
+});
+
+// scroll to top
+function topFunction() {
+	window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+
+
+
+
+
+
+
+
+
+// *********** Event Listener ***************** //
+
+
 /**
  * change map size if window resized
  */
-window.addEventListener('resize', function() {
+ window.addEventListener('resize', function() {
 	w = document.querySelector("#svg_1").clientWidth;
 	h = document.querySelector("#svg_1").clientHeight;
 	lineHeight = $(document).height() - $(window).height();
 	lineWidth = $(document).width();
 })
 
+
+
+
+
+
+
+
+
+
+
+
+// ************* Countdown Functions ***********//
 /**
  * set offset of countdown
  * @param {percentage} amt 
@@ -345,59 +433,19 @@ fillTime();
 fillImage(out);
 
 
-/**
- * show chart in food section
- */
-function chartFood () {
-	foodChart = true;
-	CanvasJS.addColorSet("greenShades",
-                [
-                "#008080",
-                "#2E8B57",
-                "#3CB371",
-                "#90EE90",
-								"#539d53",
-								"#219521",
-								"#0b420b",
-								"#2F4F4F",
-                ]);
 
-	var chart = new CanvasJS.Chart("data_food", {
-		animationEnabled: true,
-		animationDuration: 1500,
-		backgroundColor: "transparent",
-		minwidth: '20%',
-		colorSet: "greenShades",
-		title:{
-			text: "Greenhouse Gas Emissions",
-			horizontalAlign: "center",
-			fontSize: foodChartFontTitle,
-			fontFamily: 'sans-serif',
-			fontWeight: "bold",
-		},
-		legend: {
-			cursor:"pointer",
-			itemclick: explodePie
-		},
-		data: [{
-			type: "doughnut",
-			startAngle: 60,
-			indexLabelLineThickness: 5,
-			//innerRadius: 60,
-			indexLabelFontSize: foodChartFontData,
-			indexLabel: "{label}  #percent%",
-			toolTipContent: "<b>{label}:</b> {y} Gt (#percent%)",
-			dataPoints: [
-				{ y: 37636, label: "Energy" },
-				{ y: 3055, label: "Industrial Processes" },
-				{ y: 5794, label: "Agriculture", exploded: true},
-				{ y: 1629, label: "Waste"},
-				{ y: 1641, label: "Land-Use Change and Forestry"},
-			]
-		}]
-	});
-	chart.render();
-	}
+
+
+
+
+
+
+
+
+
+
+// ************ Scroll Behavior *********** //
+
 // set height of the svg path as constant
 const svg_line = document.getElementById("svgPath");
 const length = svg_line.getTotalLength()*1.02;
@@ -480,7 +528,15 @@ $(document).scroll(function() {
 
 
 
-// scroll animation
+
+
+
+
+
+
+
+
+// ********** Scroll Animation ********* //
 var controller = new ScrollMagic.Controller();
 
 new ScrollMagic.Scene({
@@ -489,55 +545,27 @@ new ScrollMagic.Scene({
 	//duration: '150%', // hide 10% before exiting view (80% + 10% from bottom)
 	offset: 50 // move trigger to center of element
 })
-.setClassToggle(".reveal", "visible") // add class to reveal
+.setClassToggle("#reveal", "visible") // add class to reveal
 .addTo(controller);
 
 function scroll() {
-	document.querySelector(".reveal").scrollIntoView({behavior: 'smooth', block:'end'});
+	document.querySelector("#reveal").scrollIntoView({behavior: 'smooth', block:'end'});
 	setTimeout(function() {
 		window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })},2000);
 }
 
-// scroll down button
-$(".scroll-down").click(function() {
-	scroll();
-});
-
-// navigation map button
-$('#mapNav').click(function() {
-	scroll();
-});
 
 
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(e) {
-  if (!e.target.matches('.dropbtn')) {
-  var dropdown = document.querySelector(".dropdown-content");
-    if (dropdown.classList.contains('show')) {
-      dropdown.classList.remove('show');
-    }
-  }
-};
-
-// compare button
-$(".buttonCompare").click(function() {
-	compare = 1;
-	titleCountry2 = titleCountry;
-	$("#dialogBox").dialog('close');
-	reset(svg,zoom);
-});
 
 
-// load country names from map
-$(document).ready(function() {
-	changeLanguage(language);
-	changeScroll(checkScroll);
-	drawLine();
-	let t = document.getElementById('svg_1').getElementsByTagName('path');
-	for(let i = 0; i < t.length; i++) {
-		countryList.push($(t[i]).attr('title'));
-	}
-});
+
+
+
+
+
+
+
+// ******* Searchbar ******* //
 
 // delete all item from list2 if not also in list1
 function comp(list1, list2) {
@@ -549,8 +577,6 @@ function comp(list1, list2) {
 	}
 	return newList;
 }
-
-// search functions
 function findPos(obj) {
 	var curtop = 0;
 	if (obj.offsetParent) {
@@ -659,6 +685,38 @@ document.addEventListener('keydown',function(event) {
 });
 
 /**
+ * hide suggestion list when leave
+ */
+ $(".containerSearch").mouseleave(function(e) {
+	searchWrapper.classList.remove("active");
+})
+
+/**
+ * show suggestion list if not empty on hover
+ */
+$(".containerSearch").mouseenter(function(e) {
+	$('.alert').css(
+		'visibility', 'hidden'
+	);
+	if(e.target.value != null && e.target.value != "") {
+		searchWrapper.classList.add("active");
+	}
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// ******* Map Functions ******** //
+
+/**
  * tipTool when hover over country if not mobile
  */
 if(!isMobile) {
@@ -705,30 +763,6 @@ $('body').on('tap', function(e) {
 });
 }
 
-
-/**
- * hide suggestion list when leave
- */
-$(".containerSearch").mouseleave(function(e) {
-	searchWrapper.classList.remove("active");
-})
-
-/**
- * show suggestion list if not empty on hover
- */
-$(".containerSearch").mouseenter(function(e) {
-	$('.alert').css(
-		'visibility', 'hidden'
-	);
-	if(e.target.value != null && e.target.value != "") {
-		searchWrapper.classList.add("active");
-	}
-})
-
-// scroll to top
-function topFunction() {
-	window.scrollTo({top: 0, behavior: 'smooth'});
-}
 /**
  * get country name if clicked on
  */
@@ -769,10 +803,12 @@ $('path').on('click touchend',function(e) {
 	}
 });
 
+// zoom when clicked
 const zoom = d3.zoom()
 .scaleExtent([1, 8])
 .on("zoom", zoomed);
 
+// free zoom
 let zoom1 = d3.zoom()
   .scaleExtent([1, 5])
   .translateExtent([[0, 0], [w,h]])
@@ -829,6 +865,18 @@ function zoomToClick(i) {
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+// ******* Load Data *********** //
 /**
  * get data from json file
  */
@@ -1039,6 +1087,66 @@ function removeDuplicateObjectFromArray(array, key) {
   return array.filter(obj => !check.has(obj[key]) && check.add(obj[key]));
 }
 
+
+
+
+// ************ Charts *********** //
+
+
+/**
+ * show chart in food section
+ */
+ function chartFood () {
+	foodChart = true;
+	CanvasJS.addColorSet("greenShades",
+                [
+                "#008080",
+                "#2E8B57",
+                "#3CB371",
+                "#90EE90",
+								"#539d53",
+								"#219521",
+								"#0b420b",
+								"#2F4F4F",
+                ]);
+
+	var chart = new CanvasJS.Chart("data_food", {
+		animationEnabled: true,
+		animationDuration: 1500,
+		backgroundColor: "transparent",
+		minwidth: '20%',
+		colorSet: "greenShades",
+		title:{
+			text: foodChartTitle,
+			horizontalAlign: "center",
+			fontSize: foodChartFontTitle,
+			fontFamily: 'sans-serif',
+			fontWeight: "bold",
+		},
+		legend: {
+			cursor:"pointer",
+			itemclick: explodePie
+		},
+		data: [{
+			type: "doughnut",
+			startAngle: 60,
+			indexLabelLineThickness: 5,
+			//innerRadius: 60,
+			indexLabelFontSize: foodChartFontData,
+			indexLabel: "{label}  #percent%",
+			toolTipContent: "<b>{label}:</b> {y} Gt (#percent%)",
+			dataPoints: [
+				{ y: 37636, label: "Energy" },
+				{ y: 3055, label: "Industrial Processes" },
+				{ y: 5794, label: "Agriculture", exploded: true},
+				{ y: 1629, label: "Waste"},
+				{ y: 1641, label: "Land-Use Change and Forestry"},
+			]
+		}]
+	});
+	chart.render();
+	}
+
 /**
  * initilize charts and tabs
  */
@@ -1119,9 +1227,9 @@ function removeDuplicateObjectFromArray(array, key) {
 			closeOnEscape: true,
 			draggable: false,
 			resizable: true,
-			width: $(".reveal").width()*dialogWidth,
+			width: $("#reveal").width()*dialogWidth,
 			//minHeight: 300,
-			height: $(".reveal").height()*size,
+			height: $("#reveal").height()*size,
 			modal: true,
 			clickOut: true,
 			responsive: true,
