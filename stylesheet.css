@@ -157,7 +157,7 @@ First Section
 .economy #e_1 {
   position: absolute;
   left: 5%;
-  top: 10%;
+  top: 15%;
   width: 30%;
 }
 .economy #e_1.contentGerman {
@@ -241,13 +241,13 @@ First Section
 .ocean #o_1 {
   position: absolute;
   left: 5%;
-  top: 5%;
+  top: 8%;
   width: 35%;
 }
 
 .ocean #o_2 {
   position: absolute;
-  top: 5%;
+  top:8%;
   left: 60%;
   width: 35%;
 }
@@ -277,9 +277,8 @@ p {
   font-size: 2vw;
   width: 30%;
   left: 5%;
-  top: 40%;
+  top: 35%;
   height: 100%;
-  border-radius: 50%;
 }
 
 .co2Infos {
