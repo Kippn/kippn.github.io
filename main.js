@@ -198,8 +198,9 @@ const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
 
 if(isMobile) {
 	wString = '100%';
+	w *= 2;
 	size = 0.7;
-	dialogWidth = 1;
+	dialogWidth = 0.95;
 	foodChartFontData = 10;
 	foodChartFontTitle = 15;
 	checkScroll = true;
@@ -589,6 +590,13 @@ function findPos(obj) {
 /**
  * search function with prediction
  */
+ $(function() {
+	if(isMobile) {
+	var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+	var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	$("html, body").css({"width":w,"height":h});
+	}
+});
 function search() {
 	let input = document.getElementById('searchbar').value;
 	if(input) {
@@ -663,6 +671,8 @@ function showSuggestions(list){
 /**
  * navigation for suggestion box
  */
+
+
 document.addEventListener('keydown',function(event) {
 	switch(event.keyCode){
 		case 38: // Up arrow    
@@ -678,6 +688,7 @@ document.addEventListener('keydown',function(event) {
 			allList[currentLI].className = 'highlight';       // Highlight the new element
 			break;
 		case 13: // Enter
+			searchWrapper.classList.remove("active");
 			allList[currentLI].click();
 			//select(allList[currentLI]);
 	}
@@ -719,49 +730,54 @@ $(".containerSearch").mouseenter(function(e) {
 /**
  * tipTool when hover over country if not mobile
  */
-if(!isMobile) {
+
 $("#svg_1").children('g').children('path').mouseenter(function(e) {
+	if(!isMobile) {
 	initZoom();
   $(".hovertext").text($(this).attr('title'));
   $(".hovertext").css({
     'top': e.pageY - 20,
     'left': e.pageX
   }).fadeIn('fast');
+}
 });
 
 /**
  * hide tipTool when leave
  */
  $("#svg_1").children('g').children('path').mouseleave(function() {
+	if(!isMobile) {
 	stopZoom();
 	//$('.hovertext').text("");
   $(".hovertext").hide();
-  $(".hovertext").css({
-  })
+  $(".hovertext").css({});
+	}
 });
-} else {
 /**
  * tipTool with mobile on click
  */
 var clickedCountry = "";
 $("#svg_1").children('g').children('path').on('tap',function(e) {
+	if(isMobile) {
 	clickedCountry = $(this).attr('title');
 	$(".hovertext").text(clickedCountry);
   $(".hovertext").css({
     'top': e.pageY -60,
     'left': e.pageX
   }).fadeIn('fast');
+}
 });
 
-$('body').on('tap', function(e) {
+$('body').on('tap', function() {
+	if(isMobile) {
 	$(".hovertext").hide();
   $(".hovertext").css({
   })
 	$('path').on('tap',function(e) {
 		e.stopPropagation();
-	})
-});
+	});
 }
+});
 
 /**
  * get country name if clicked on
@@ -778,12 +794,6 @@ $('body').on('tap', function(e) {
 		d3.zoomIdentity);
 }
 
-function zoomed() {
-	var g = d3.select(".map_g");
-	g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
-	g.attr("transform", d3.event.transform);
-}
-
 function stopped() {
 	if (d3.event.defaultPrevented) d3.event.stopPropagation();
 }
@@ -798,21 +808,27 @@ $('path').on('click touchend',function(e) {
 	if(e.type == 'click') {
 		documentClick = true;
 	}
-	if(documentClick&&clickedCountry==$(this).attr('title') || documentClick&&!isMobile) {
+	if(documentClick && clickedCountry==$(this).attr('title') || documentClick && !isMobile) {
 		zoomToClick(this);
 	}
 });
 
 // zoom when clicked
 const zoom = d3.zoom()
-.scaleExtent([1, 8])
-.on("zoom", zoomed);
+	.scaleExtent([1, 8])
+	.on("zoom", zoomed);
 
 // free zoom
-let zoom1 = d3.zoom()
-  .scaleExtent([1, 5])
+const zoom1 = d3.zoom()
+  .scaleExtent([1, 4])
   .translateExtent([[0, 0], [w,h]])
 	.on('zoom', handleZoom);
+
+function zoomed() {
+	var g = d3.select(".map_g");
+	g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
+	g.attr("transform", d3.event.transform);
+}
 
 function handleZoom() {
   d3.select('.map_g')
@@ -1159,7 +1175,7 @@ function removeDuplicateObjectFromArray(array, key) {
 		colorSet: "greenShades",
 		title: {
 			text: titleCountry + " Energy Mix",
-			fontSize: 40,
+			//fontSize: 40,
 			fontColor: "rgb(186, 186, 186)",
 		},
 		legend:{
@@ -1171,7 +1187,7 @@ function removeDuplicateObjectFromArray(array, key) {
 			type: "pie",
 			showInLegend: true,
 			radius: 200,
-			indexLabelFontSize: 20,	
+			indexLabelFontSize: 15,	
 			indexLabelLineThickness: 4,
 			indexLabelFontColor: 'rgb(186, 186, 186)',
 			toolTipContent: "{name}: <strong>{y} tWh</strong>",
