@@ -198,7 +198,7 @@ const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
 
 if(isMobile) {
 	wString = '100%';
-	w *= 2;
+	//w *= 2;
 	size = 0.7;
 	dialogWidth = 0.95;
 	foodChartFontData = 10;
@@ -821,7 +821,7 @@ const zoom = d3.zoom()
 // free zoom
 const zoom1 = d3.zoom()
   .scaleExtent([1, 4])
-  .translateExtent([[0, 0], [w,h]])
+  .translateExtent([[0, 0], [1009,651]])
 	.on('zoom', handleZoom);
 
 function zoomed() {
@@ -940,6 +940,9 @@ function getUniqueListBy(arr, key) {
  * get data per country name for charts
  */
  function getData(title) {
+	$('.loading').css(
+		'visibility', 'visible'
+	);
 	readCSV(csvPath,title,()=>{
 	readTextFile(jsonPath, function(text){
 		var data = JSON.parse(text);
@@ -1090,7 +1093,6 @@ function getUniqueListBy(arr, key) {
 		$('.alert').css(
 			'visibility', 'visible'
 		);
-
 		reset(svg,zoom);
 	}
 	});
@@ -1107,24 +1109,24 @@ function removeDuplicateObjectFromArray(array, key) {
 
 
 // ************ Charts *********** //
-
+CanvasJS.addColorSet("greenShades",
+                [
+								"#228B22",
+								"#8FBC8F",
+								"#3CB371",
+								"#9ACD32",
+								"#20B2AA",
+								"#808000",
+								"#6B8E23",
+								"#32CD32",
+                ]);
 
 /**
  * show chart in food section
  */
  function chartFood () {
 	foodChart = true;
-	CanvasJS.addColorSet("greenShades",
-                [
-                "#008080",
-                "#2E8B57",
-                "#3CB371",
-                "#90EE90",
-								"#539d53",
-								"#219521",
-								"#0b420b",
-								"#2F4F4F",
-                ]);
+
 
 	var chart = new CanvasJS.Chart("data_food", {
 		animationEnabled: true,
@@ -1167,6 +1169,9 @@ function removeDuplicateObjectFromArray(array, key) {
  * initilize charts and tabs
  */
  function chart () {
+	$('.loading').css(
+		'visibility', 'hidden'
+	);
 
 	var options5 = {
 		backgroundColor: "rgba(186, 186, 186, 0.1)",

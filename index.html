@@ -130,7 +130,7 @@
 			<h2 class="contentEnglish">Interactive World Map with enviromental data</h2>
 			<p class="contentEnglish">Get infos about three important sectors and how they influence and get influenced by the climate change.<br />
 			<br />
-			To get detailed numbers and charts for each country simply click or search directly for one in the map at the bottom of the website.
+			If you want to know some details about three important sectors of our climate and economy you can read throw the following pages, if not you can go straight to the map.
 		</p>
 		<h2 class="contentGerman">Interaktive Weltkarte mit Daten zur Klimakrise</h2>
 		<p class="contentGerman">Auf dieser Website werden einige Informationen zu drei wichtigen Gebieten unserer Zivilisation aufbereitet und in Zusammenhang mit der Klimakatastrophe gebracht.<br />
@@ -281,6 +281,17 @@
 			<div class="alert">
 				<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 				No data available for this country.
+			</div>
+			<div class="loading">
+				<svg viewBox="0 0 100 100">
+					<defs>
+						<filter id="shadow">
+							<feDropShadow dx="0" dy="0" stdDeviation="1.5" 
+								flood-color="rgb(56, 56, 56)"/>
+						</filter>
+					</defs>
+					<circle id="spinner" cx="50" cy="50" r="45"/>
+			</svg>
 			</div>
 			<div class="mapdiv">
 			<!--hover tiptool-->

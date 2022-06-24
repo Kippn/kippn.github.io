@@ -266,7 +266,7 @@ h2 {
   font-weight: bolder;
   position: absolute;
   font-size: 2.5vw;
-  top: 15%;
+  top: 10%;
   width: 50%;
   left: 5%;
 }
@@ -277,7 +277,7 @@ p {
   font-size: 2vw;
   width: 30%;
   left: 5%;
-  top: 35%;
+  top: 30%;
   height: 100%;
 }
 
@@ -751,7 +751,7 @@ Scroll Magic
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 1;
   background-color: rgb(186, 186, 186);;
   height: 100%;
   width: 100%;
@@ -784,7 +784,7 @@ Scroll Magic
 /* The alert message box */
 .alert {
   visibility: hidden;
-  position: absolute;
+  position: fixed;
   text-align: center;
   vertical-align: middle;
   z-index: 10;
@@ -812,6 +812,48 @@ Scroll Magic
   color: black;
 }
 
+/* Loading animation */
+.loading {
+  position: fixed;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10%;
+  height: 10%;
+  z-index: 50;
+  white-space: pre-line;
+}
+
+@keyframes animation {
+  0% {
+    stroke-dasharray: 1 98;
+    stroke-dashoffset: -105;
+  }
+  50% {
+    stroke-dasharray: 80 10;
+    stroke-dashoffset: -160;
+  }
+  100% {
+    stroke-dasharray: 1 98;
+    stroke-dashoffset: -300;
+  }
+}
+
+#spinner {
+  transform-origin: center;
+  animation-name: animation;
+  animation-duration: 1.2s;
+  animation-timing-function: cubic-bezier;
+  animation-iteration-count: infinite;
+  white-space: pre-line;
+  fill: transparent;
+  stroke: rgb(4, 86, 4);
+  stroke-width: 7px;
+  stroke-linecap: round;
+  filter:url(#shadow);
+}
+
 
 /*
 map fields
@@ -837,13 +879,15 @@ map fields
   fill: rgb(4, 86, 4);
 }
 
+
+
 #svg_1 {
   height: 100%;
   width: 100%;
   margin: 0 auto;
   padding: 0;
   display: block;
-  z-index: 10;
+  z-index: 0;
   background-color: rgb(186, 186, 186);;
   color: #0b420b;
 }
@@ -861,8 +905,7 @@ map fields
 .mapdiv path:hover {
   fill: rgb(186, 186, 186);
   opacity: 1;
-  transition: fill 0.2s
-  ease;
+  transition: fill 0.2s ease;
 }
 
 .hovertext {
@@ -1073,7 +1116,7 @@ Diolog Box Tabs
   z-index:99; 
   cursor:pointer; 
   border-radius:100px; 
-  transition:all .5s; 
+  transition: all .5s; 
   color: rgba(56, 56, 56, 1);
   background:rgba(4, 86, 4,1) 
   url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z' fill='rgba(56, 56, 56, 1)'/%3E%3C/svg%3E") no-repeat center center;}
@@ -1390,6 +1433,11 @@ p2 {
 /*
 Compare Button
 */
+
+.loading {
+  width: 20%;
+  height: 20%;
+}
 
 #dialogBox {
   text-align: center;
