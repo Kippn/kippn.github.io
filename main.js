@@ -199,8 +199,8 @@ const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
 if(isMobile) {
 	wString = '100%';
 	//w *= 2;
-	size = 0.7;
-	dialogWidth = 0.95;
+	size = 0.71;
+	dialogWidth = 0.99;
 	foodChartFontData = 10;
 	foodChartFontTitle = 15;
 	checkScroll = true;
