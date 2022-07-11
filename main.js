@@ -355,12 +355,23 @@ function changeWelcomeText(e=null, clicked = false) {
 			index += 1;
 		}
 		dots[index].classList.add('active');
-		$(texts[index]).css('display','flex');
+		if(index==1 && language && isMobile) {
+			$(texts[index]).css({
+				fontSize: '1vh',
+				display: 'flex'
+			});
+		} else {
+			$(texts[index]).css('display','flex');
+		}
 	}
 	if(clicked && e != null){
 		e.target.classList.add('active');
 		number = Number(e.target.classList[1].replace(/\D+/g, ""));
 		$(texts[number]).css('display','flex');
+		if(number == 1 && language && isMobile) {
+			console.log('test');
+			$(texts[number]).css('font-size','1vh');
+		}
 	} 
 }
 
