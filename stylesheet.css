@@ -37,14 +37,14 @@ body, html {
   position: absolute;
   stroke-width: 0.5%;
   width: 28vw;
-  stroke: rgba(56, 56, 56, 1);
+  stroke:  rgba(56, 56, 56, 1);
   left: 50%;
   text-align: center;
   overflow: visible
 }
 
 #stop1 {
-  stop-color:rgba(56, 56, 56, 1);
+  stop-color: rgb(82, 0, 0);
 }
 
 #stop2 {
@@ -69,6 +69,41 @@ body, html {
   background-color: transparent;
 }
 
+
+.circle_navigation {
+  position: absolute;
+  left: 5%;
+  height: 20%;
+  width: 20%;
+  z-index: 5;
+  margin-top: 1%;
+  background-color: transparent;
+}
+
+.dot {
+  position: flex;
+  height: 10%;
+  width: 10%;
+  background-color: rgba(56, 56, 56, 1);
+  border-radius: 50%;
+  display: inline-block;
+  padding-top: 5%;
+  margin-top: 10%;
+}
+
+.dot:hover {
+  background-color: rgb(4, 86, 4);
+  transition: 200ms;
+}
+
+.dot.active {
+  background-color: rgb(4, 86, 4);
+  transition: 200ms;
+}
+
+
+
+
 /*
 Main Div First Page
 */
@@ -85,6 +120,7 @@ section {
   align-items: center;
   width: 100%;
   height: 100%;
+  color: rgb(56, 56, 56);
 }
 /*
 First Section
@@ -120,7 +156,7 @@ First Section
   align-items: center;
   justify-content: center;
   z-index: 1;
-  font-size: 1.5vw;
+  font-size: 2vw;
   overflow: hidden;
 }
 
@@ -140,7 +176,7 @@ First Section
 #watermark {
   position: absolute;
   z-index: -10;
-  color: rgba(241,241,241,0.5);
+  color: rgba(241,241,241,0.7);
   white-space: nowrap;
   font-size: 10vw;
 }
@@ -165,10 +201,10 @@ First Section
 }
 
 .economy #e_2 {
+  position: absolute;
   top: 35%;
   left: 45%;
   width: 50%;
-  float: left;
 }
 
 .economy #e_2.contentGerman {
@@ -187,6 +223,10 @@ First Section
 .food #watermark {
   top: 50%;
   left: 60%;
+}
+
+.food #watermark.contentGerman {
+  left: 20%;
 }
 
 .food #f_1 {
@@ -255,51 +295,68 @@ First Section
 
 /* Text */
 .welcomeText {
-  width: 100%;
+  position: absolute;
+  width: 60%;
   height: 100%;
+  left: 0;
   background-color: transparent;
   z-index: 3;
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.text1 {
+  display: flex;
 }
 
 h2 {
+  position: relative;
   color: rgb(4, 86, 4);
   font-weight: bolder;
   position: absolute;
-  font-size: 2.5vw;
-  top: 10%;
-  width: 50%;
+  font-size: 3.5vw;
+  top: 5%;
+  width: 100%;
   left: 5%;
 }
-p {
+
+.welcomeTextAlign {
+  position: absolute;
+  display: flex;
+  left: 15%;
+  top: 25%;
+  width: 60%;
+  height: 70%;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomeTextAlign p {
+  margin: 0;
   color: rgba(56, 56, 56, 1);
-  position:absolute;
   font-weight: bold;
-  font-size: 2vw;
-  width: 30%;
-  left: 5%;
-  top: 30%;
-  height: 100%;
+  font-size: 2.0vw;
 }
 
 .co2Infos {
   position: absolute;
   display: grid;
-  grid-template-columns: 80% 20%;
-  grid-template-rows: repeat(8,1fr);
   justify-content: center;
-  height: 100%;
+  height: 90%;
   width: 20%;
-  left: 82%;
-  top: 6%;
+  left: 81%;
+  top: 10%;
 }
 
 h3 {
-  font-size: 2.5vw;
+  font-size: 2vw;
   font-weight: bold;
   text-transform: uppercase;
   color: rgb(186, 186, 186);
   grid-row: 1;
-  grid-column: 1/2;
+  margin: 0;
 }
 
 .info {
@@ -309,8 +366,9 @@ h3 {
   font-size: 2vw;
   font-weight: bold;
   color: rgb(186, 186, 186);
-  grid-column-start: 1;
-  grid-column-end: 2;
+  grid-row: 1;
+  width: 80%;
+  margin: 0;
 }
 
 .years {
@@ -1147,7 +1205,7 @@ Mobil options
     z-index: 1;
     opacity: 0.2;
     overflow: visible;
-  }
+  } 
   
   .line-container {
     position: absolute;
@@ -1157,26 +1215,31 @@ Mobil options
     background-color: transparent;
   }
   
+
+  .circle_navigation {
+    top: 23%;
+    width: 40%;
+    height: 10%;
+  }
+
+
   h2 {
     color: rgb(4, 86, 4);
     font-weight: bolder;
-    position: absolute;
-    font-size: 2.5vh;
-    width: 60%;
-    top: 8%;
+    font-size: 3vh;
+    top: 5%;
     left: 10%;
+    width: 120%;
   }
 
-  p {
-    color: rgba(56, 56, 56, 1);
-    position:absolute;
-    font-weight: bold;
+  .welcomeTextAlign {
+    top: 0;
+    left: 20%;
+    width: 110%;
+  }
+
+  .welcomeTextAlign p {
     font-size: 2vh;
-    width: 55%;
-    left: 10%;
-    top: 17%;
-    height: 100%;
-    border-radius: 50%;
   }
 
   .alert {

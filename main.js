@@ -181,7 +181,7 @@ let csvPath = 'energy-consumption-by-source-and-region.csv';
 const svg = d3.select('#svg_1');
 let w = document.querySelector("#svg_1").clientWidth;
 let h = document.querySelector("#svg_1").clientHeight;
-let size = 0.6;
+let size = 0.61;
 let dialogWidth = 0.8;
 let foodChartFontTitle = 30;
 let foodChartFontData = 20;
@@ -332,7 +332,50 @@ function topFunction() {
 	window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
+function changeWelcomeText(e=null, clicked = false) {
+	let dots = document.querySelectorAll('.dot');
+	let texts = document.querySelectorAll('.welcomeText');
+	let index = 0;
+	for(let i = 0; i < dots.length; i++) {
+		if(dots[i].classList.contains('active')) {
+			dots[i].classList.remove('active');
+			$(texts[i]).css('display','none');
+			index = i;
+			break;
+		}
+		if(i == dots.length-1) {
+			$(texts[0]).css('display','flex');
+			dots[0].classList.add('active');
+		}
+	}
+	if(!clicked) {
+		if(index == dots.length-1) {
+			index = 0;
+		} else {
+			index += 1;
+		}
+		dots[index].classList.add('active');
+		$(texts[index]).css('display','flex');
+	}
+	if(clicked && e != null){
+		e.target.classList.add('active');
+		number = Number(e.target.classList[1].replace(/\D+/g, ""));
+		$(texts[number]).css('display','flex');
+	} 
+}
 
+
+let timeTextChange =	setInterval(changeWelcomeText,15000); 
+
+
+setTimeout(timeTextChange,15000);
+
+
+$('.dot').click(function(e) {
+	changeWelcomeText(e, true);
+	clearInterval(timeTextChange);
+	timeTextChange =	setInterval(changeWelcomeText,15000); 
+});
 
 
 
@@ -371,10 +414,10 @@ function topFunction() {
  * @param {percentage} amt 
 */
 function setProgress(amt) {
-	earthPercentage.innerText = (100 -(amt*100)).toFixed(2) + ' %';
+	earthPercentage.innerText = ((amt*100)).toFixed(2) + ' %';
   amt = (amt < 0) ? 0 : (amt > 1) ? 1 : amt;
-  document.getElementById("stop1").setAttribute("offset", 1-amt);
-  document.getElementById("stop2").setAttribute("offset", 1-amt);
+  document.getElementById("stop1").setAttribute("offset", amt);
+  document.getElementById("stop2").setAttribute("offset", amt);
 } 
 
 var maxCO2 = 400000000000;
@@ -402,7 +445,7 @@ times.push(seconds);
 var fillTime =  async() => {while(true) {
 	const currTime = new Date();
 	var seconds = Math.floor((currTime - timeStart) / 1000);
-	out = ((maxCO2 - seconds*co2PerSecond)/maxCO2);
+	out = 1-((maxCO2 - seconds*co2PerSecond)/maxCO2);
 	var secondsLeft = Math.round((maxCO2 - seconds*co2PerSecond)/co2PerSecond);
 
 	for(var i = 0; i < p2.length; i++) {
@@ -411,7 +454,9 @@ var fillTime =  async() => {while(true) {
 			temp += 1;
 			secondsLeft -= times[i];
 		}
-		p2[i].innerText = temp;
+		tempString = temp.toString();
+		if (tempString.length != 2) tempString = '0' + tempString;
+		p2[i].innerText = tempString;
 	}
 
 	if(!first) {
@@ -423,7 +468,7 @@ var fillTime =  async() => {while(true) {
 }};
 
 var fillImage = async(out) => {while(first) {
-		for(let i = 0; i <= out; i+=0.001) {
+		for(let i = 0; i <= out; i+=0.0005) {
 			setProgress(i);
 			await new Promise(resolve => setTimeout(resolve,i*30));
 		}
@@ -1111,14 +1156,14 @@ function removeDuplicateObjectFromArray(array, key) {
 // ************ Charts *********** //
 CanvasJS.addColorSet("greenShades",
                 [
-								"#228B22",
-								"#8FBC8F",
-								"#3CB371",
-								"#9ACD32",
-								"#20B2AA",
-								"#808000",
-								"#6B8E23",
-								"#32CD32",
+								"#631010",
+								"#364c78",
+								"#008a17",
+								"#7c7d2e",
+								"#611c53",
+								"#227355",
+								"#443366",
+								"#96562b",
                 ]);
 
 /**
