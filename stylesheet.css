@@ -101,7 +101,7 @@ body, html {
   transition: 200ms;
 }
 
-sup {
+sub {
   line-height: 0;
 }
 
