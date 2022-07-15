@@ -33,7 +33,6 @@ body, html {
   align-items: center;
 }
 
-/* Style the links inside the navigation bar */
 .topnav a {
   float: left;
   color: rgb(186, 186, 186);
@@ -44,7 +43,6 @@ body, html {
   transform: skewX(-20deg);
 }
 
-/* Change the color of links on hover */
 .topnav a:hover {
   background: -webkit-linear-gradient(45deg, rgb(186,186,186),rgb(56, 56, 56));
   background: linear-gradient(45deg, rgb(186,186,186),rgb(56, 56, 56));
@@ -60,7 +58,6 @@ body, html {
   margin-left: 0.7%;
 }
 
-/* Add a color to the active/current link */
 .topnav a.active {
   background: -webkit-linear-gradient(45deg, rgb(4,86,4),rgb(56, 56, 56));
   background: linear-gradient(45deg, rgb(4,86,4),rgb(56, 56, 56));
@@ -166,48 +163,26 @@ ul li {
     font-size: 4vw;
   }
   
-  /* Add a color to the active/current link */
   .topnav a.active {
     font-size: 4vw;
   }
   
 h1 {
-  color: rgb(4, 86, 4);
-  font-weight: bold;
-  position: absolute;
   font-size: 3.5vh;
-  right: 10%;
-  top: 5%;
 }
 
 h2 {
-  color: rgb(4, 86, 4);
-  font-weight: bold;
-  position: absolute;
-  text-decoration: underline;
   font-size: 2.5vh;
-  right: 10%;
   top: 10%;
 }
 
 .text1 {
-  color: rgba(56, 56, 56, 1);
-  position:absolute;
-  font-weight: bold;
   font-size: 2vh;
-  right: 10%;
-  width: 70%;
   top: 15%;
-  height: 100%;
 }
 
 h3 {
-  color: rgb(4, 86, 4);
-  font-weight: bold;
-  display: block;
-  text-decoration: underline;
   font-size: 2.5vh;
-  right: 10%;
   top: 72%;
 }
 ul {
