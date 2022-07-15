@@ -112,7 +112,7 @@ h2 {
   font-weight: bold;
   position: absolute;
   text-decoration: underline;
-  font-size: 3vw;
+  font-size: 2vw;
   right: 10%;
   top: 15%;
 }
@@ -124,7 +124,7 @@ h2 {
   font-size: 1.5vw;
   right: 10%;
   width: 70%;
-  top: 25%;
+  top: 21%;
   height: 100%;
 }
 
@@ -135,7 +135,7 @@ h3 {
   text-decoration: underline;
   font-size: 2vw;
   right: 10%;
-  top: 65%;
+  top: 60%;
 }
 
 ul {
@@ -145,7 +145,7 @@ ul {
   font-weight: bold;
   right: 10%;
   width: 40%;
-  top: 72%;
+  top: 67%;
   height: 100%;
   list-style-type: none;
   padding-left: 40px;
