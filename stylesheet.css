@@ -1269,7 +1269,7 @@ Mobil options
     width: 50vw;
     stroke: rgba(56, 56, 56, 1);
     left: 15%;
-    top: 52%;
+    top: 55%;
   }
 
   .percentage {
@@ -1296,6 +1296,7 @@ Mobil options
     left: 30%;
     width: 60%;
   }
+
   .economy #e_2.contentGerman {
     top: 50%;
     left: 30%;
@@ -1308,13 +1309,13 @@ Mobil options
 
   .economy #watermark {
     font-size: 13vw;
-    top: 0%;
-    left: 35%;
+    top: 42%;
+    left: 30%;
   }
   .economy #watermark.contentGerman {
     font-size: 10vw;
-    top: 10%;
-    left: 35%;
+    top: 40%;
+    left: 30%;
   }
 
   .ocean #watermark {
@@ -1324,7 +1325,13 @@ Mobil options
 
   .food #watermark {
     left: 50%;
-    top: 35%;
+    top: 37%;
+  }
+
+  .food #watermark.contentGerman {
+    font-size: 10vw;
+    top: 15%;
+    left: 20%;
   }
 
   .food {
@@ -1376,6 +1383,10 @@ Mobil options
     top: 50%;
     width: 70%;
     left: 25%;
+  }
+
+  .ocean #watermark {
+    top: 36%;
   }
 
   .co2Infos {
